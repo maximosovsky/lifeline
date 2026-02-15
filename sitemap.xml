@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://osovsky.com/lifeline/</loc>
+    <loc>https://lifeline.osovsky.com/</loc>
     <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://osovsky.com/lifeline/" />
-    <xhtml:link rel="alternate" hreflang="ru" href="https://osovsky.com/lifeline/?lang=ru" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lifeline.osovsky.com/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://lifeline.osovsky.com/?lang=ru" />
   </url>
 </urlset>

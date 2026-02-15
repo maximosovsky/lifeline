@@ -20,23 +20,11 @@
   ],
   "rewrites": [
     {
-      "source": "/lifeline",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/lifeline/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/lifeline/:path*",
-      "destination": "/:path*"
-    },
-    {
       "source": "/for-kirill-specially-ru",
       "destination": "/for-kirill-specially-ru/index.html"
     },
     {
-      "source": "/((?!lifeline|for-kirill-specially-ru).*)",
+      "source": "/((?!for-kirill-specially-ru).*)",
       "destination": "/index.html"
     }
   ]

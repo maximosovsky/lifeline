@@ -1,26 +1,26 @@
 User-agent: *
-Allow: /lifeline/
+Allow: /
 
 # AI Crawlers — explicitly allowed
 User-agent: GPTBot
-Allow: /lifeline/
+Allow: /
 
 User-agent: ChatGPT-User
-Allow: /lifeline/
+Allow: /
 
 User-agent: ClaudeBot
-Allow: /lifeline/
+Allow: /
 
 User-agent: Claude-Web
-Allow: /lifeline/
+Allow: /
 
 User-agent: PerplexityBot
-Allow: /lifeline/
+Allow: /
 
 User-agent: Googlebot
-Allow: /lifeline/
+Allow: /
 
 User-agent: Bingbot
-Allow: /lifeline/
+Allow: /
 
-Sitemap: https://osovsky.com/lifeline/sitemap.xml
+Sitemap: https://lifeline.osovsky.com/sitemap.xml
