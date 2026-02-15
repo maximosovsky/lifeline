@@ -1124,7 +1124,6 @@ function mobSetPaper(key) {
 }
 
 // ─── Scroll wheels ───
-let _wheelYr = 1, _wheelMo = 0;
 let _wheelTimer;
 
 function _initMobWheels() {
@@ -1132,23 +1131,25 @@ function _initMobWheels() {
 	const moEl = document.getElementById('mob-wheel-mo');
 	if (!yrEl || !moEl) return;
 
-	_buildWheel(yrEl, 0, 20, _wheelYr);
-	_buildWheel(moEl, 0, 11, _wheelMo);
+	const pastVal = parseInt(document.getElementById('tb-val-yr').textContent) || 35;
+	const futureVal = parseInt(document.getElementById('tb-val-mo').textContent) || 25;
+
+	_buildWheel(yrEl, 1, 99, pastVal);
+	_buildWheel(moEl, 1, 99, futureVal);
 
 	// Scroll to initial values after layout
 	requestAnimationFrame(() => {
-		_scrollWheelTo(yrEl, _wheelYr, false);
-		_scrollWheelTo(moEl, _wheelMo, false);
+		_scrollWheelTo(yrEl, pastVal, false);
+		_scrollWheelTo(moEl, futureVal, false);
 	});
 
-	// Scroll listeners (remove old first)
+	// Scroll listeners
 	yrEl.onscroll = () => _onWheelScroll(yrEl, 'yr');
 	moEl.onscroll = () => _onWheelScroll(moEl, 'mo');
 }
 
 function _buildWheel(el, min, max, activeVal) {
 	el.innerHTML = '';
-	// Top pad — so first item can reach center
 	const padTop = document.createElement('div');
 	padTop.className = 'mob-wheel-pad';
 	el.appendChild(padTop);
@@ -1162,7 +1163,6 @@ function _buildWheel(el, min, max, activeVal) {
 		el.appendChild(d);
 	}
 
-	// Bottom pad — so last item can reach center
 	const padBot = document.createElement('div');
 	padBot.className = 'mob-wheel-pad';
 	el.appendChild(padBot);
@@ -1172,17 +1172,14 @@ function _scrollWheelTo(el, val, smooth = true) {
 	const items = el.querySelectorAll('.mob-wheel-item');
 	const target = Array.from(items).find(d => parseInt(d.dataset.v) === val);
 	if (!target) return;
-	// Item offsetTop is relative to el (position: relative), center in 120px viewport = 40px from top
 	el.scrollTo({ top: target.offsetTop - 40, behavior: smooth ? 'smooth' : 'auto' });
 }
 
 function _onWheelScroll(el, type) {
 	const items = el.querySelectorAll('.mob-wheel-item');
-	// Center of 120px viewport
 	const viewCenter = el.scrollTop + 60;
 	let closest = null, closestDist = Infinity;
 	items.forEach(d => {
-		// Item center = offsetTop + 20 (half of 40px), already relative to el
 		const itemCenter = d.offsetTop + 20;
 		const dist = Math.abs(itemCenter - viewCenter);
 		if (dist < closestDist) { closestDist = dist; closest = d; }
@@ -1190,25 +1187,23 @@ function _onWheelScroll(el, type) {
 	if (!closest) return;
 	const val = parseInt(closest.dataset.v);
 
-	// Highlight active
 	items.forEach(d => d.classList.toggle('active', d === closest));
 
-	if (type === 'yr') _wheelYr = val;
-	else _wheelMo = val;
+	if (type === 'yr') {
+		document.getElementById('tb-val-yr').textContent = val;
+	} else {
+		document.getElementById('tb-val-mo').textContent = val;
+	}
 
 	// Debounce update
 	clearTimeout(_wheelTimer);
-	_wheelTimer = setTimeout(_applyWheelDuration, 150);
-}
-
-function _applyWheelDuration() {
-	const totalMonths = _wheelYr * 12 + _wheelMo;
-	if (totalMonths < 1) return; // min 1 month
-	document.getElementById('months-input').value = totalMonths;
-	_syncDialsFromTotal(totalMonths);
-	_updateMobMonthsLabel(totalMonths);
-	updateCalendar();
-	setTimeout(_updateMobRollLen, 200);
+	_wheelTimer = setTimeout(() => {
+		const past = parseInt(document.getElementById('tb-val-yr').textContent) || 35;
+		const future = parseInt(document.getElementById('tb-val-mo').textContent) || 25;
+		document.getElementById('mob-months').textContent = past;
+		document.getElementById('mob-rows').textContent = future;
+		updateCalendar();
+	}, 150);
 }
 
 // ─── Rows chips ───

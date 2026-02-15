@@ -231,13 +231,13 @@
 	<div id="mob-bar" class="mob-bar">
 		<div class="mob-bar-left">
 			<button class="mob-val" onclick="toggleMobSheet()">
-				<span id="mob-months">12</span>
-				<span class="mob-label" id="mob-months-label">mo</span>
+				<span id="mob-months">35</span>
+				<span class="mob-label" id="mob-months-label">past</span>
 			</button>
 			<div class="mob-sep"></div>
 			<button class="mob-val" onclick="toggleMobSheet()">
-				<span id="mob-rows">10</span>
-				<span class="mob-label">rows</span>
+				<span id="mob-rows">25</span>
+				<span class="mob-label">future</span>
 			</button>
 		</div>
 		<button class="mob-chip" id="mob-format" onclick="toggleMobSheet()">A4</button>
@@ -278,18 +278,16 @@
 	<div id="mob-sheet" class="mob-sheet">
 		<div class="mob-sheet-handle"></div>
 		<div class="mob-sheet-section">
-			<div class="mob-sheet-label" id="mob-label-hindsight">Hindsight</div>
-			<div class="mob-wheels">
-				<div class="mob-wheel-col">
+			<div class="mob-wheels" style="display:flex; gap:16px;">
+				<div class="mob-wheel-col" style="flex:1;">
+					<div class="mob-sheet-label" id="mob-label-hindsight" style="text-align:center; margin-bottom:4px;">
+						Hindsight</div>
 					<div class="mob-wheel" id="mob-wheel-yr"></div>
 					<div class="mob-wheel-unit">yr</div>
 				</div>
-			</div>
-		</div>
-		<div class="mob-sheet-section">
-			<div class="mob-sheet-label" id="mob-label-foresight">Foresight</div>
-			<div class="mob-wheels">
-				<div class="mob-wheel-col">
+				<div class="mob-wheel-col" style="flex:1;">
+					<div class="mob-sheet-label" id="mob-label-foresight" style="text-align:center; margin-bottom:4px;">
+						Foresight</div>
 					<div class="mob-wheel" id="mob-wheel-mo"></div>
 					<div class="mob-wheel-unit">yr</div>
 				</div>
