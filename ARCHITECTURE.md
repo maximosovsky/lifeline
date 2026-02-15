@@ -2,7 +2,7 @@
 
 ## Overview
 
-LifeLine is a **client-side only** life timeline visualization tool. It renders multi-page SVG calendars spanning decades (past and future), with a Gantt-style row grid for personal events. No server, no database — everything runs in the browser.
+LifeLine is a **client-side only** life timeline visualization tool. It renders multi-page SVG calendars spanning decades (past and future), with a Gantt-style row grid for personal events. No server, no database — everything runs in the browser. Fully responsive with dedicated mobile UI.
 
 ## Tech Stack
 
@@ -11,7 +11,7 @@ LifeLine is a **client-side only** life timeline visualization tool. It renders 
 | Rendering | Pure SVG (DOM API, no libraries) |
 | Layout | CSS + JS viewport management |
 | PDF Export | jsPDF + svg2pdf.js (lazy-loaded CDN) |
-| Fonts | IBM Plex Sans (Google Fonts + local TTF for PDF) |
+| Fonts | IBM Plex Sans (local TTF, preloaded for key weights) |
 | Persistence | localStorage (private per browser) |
 | Hosting | Static files (Vercel / any HTTP server) |
 
@@ -20,12 +20,13 @@ LifeLine is a **client-side only** life timeline visualization tool. It renders 
 ```
 lifeline/
 ├── index.html          # Single page: toolbar, modals, canvas, mobile UI
-├── calendar.js         # Core engine (~1700 lines): SVG renderer, viewport, i18n
-├── style.css           # All styling: toolbar, modals, rulers, responsive
+├── calendar.js         # Core engine (~1770 lines): SVG renderer, viewport, i18n
+├── style.css           # All styling: toolbar, modals, rulers, responsive, mobile
 ├── fonts/
 │   └── IBMPlexSans/    # TTF files for PDF embedding (200–700 weights)
 ├── ARCHITECTURE.md     # This file
 ├── README.md           # User-facing documentation
+├── PERFORMANCE.md      # Performance review and optimization notes
 ├── vercel.json         # Vercel deployment config
 ├── manifest.json       # PWA manifest
 ├── robots.txt          # Search engine directives
@@ -40,6 +41,7 @@ lifeline/
 Renders one page of the timeline as an SVG element:
 
 - **Year columns**: 10mm for past years, 20mm for current year onward
+- **Roll paper override**: All 914mm formats use 10mm for past, 20mm for future
 - **Decade labels**: Large italic text (40px), centered on the decade's midpoint
 - **Year labels**: Displayed at top, middle, and bottom of each column
 - **Gantt grid**: Horizontal rows with configurable count (10 or 14)
@@ -51,14 +53,30 @@ Renders one page of the timeline as an SVG element:
 Splits the full year range across multiple pages:
 
 ```
-Past pages ← [right-aligned, 10mm cols] | [future pages → left-aligned, 20mm cols]
+Sheet paper (A4):
+  Past pages ← [right-aligned, 10mm cols] | [future pages → left-aligned, 20mm cols]
+
+Roll paper (914mm, 914×2, 914×4):
+  Single continuous page — all years on one unbroken SVG
 ```
 
-- Past: fills pages from right to left, leftmost page gets the legend zone
-- Future: fills pages from left to right
+- **Sheet paper**: Past fills from right to left, leftmost gets legend; future fills left to right
+- **Roll paper**: One page spanning full year range, SVG height = printable height (calendarScale = 1)
+- **914×4**: 4 copies stacked vertically on a single 914mm roll
 - Each page is an independent SVG element
 
-### 3. Viewport System (`applyViewport`)
+### 3. Paper Formats
+
+| Format | Width | Height | Copies | Year width |
+|--------|-------|--------|--------|------------|
+| A4 | 297mm | 210mm | 1 | 10mm past / 20mm future |
+| ×4 (914×4) | roll | 914mm | 4 | 10mm past / 20mm future |
+
+- Paper selection via toolbar chips (A4, ×4)
+- Tooltip shows page count / roll length
+- `setPaperSize()` → `updateCalendar()` → `autoFitViewport()`
+
+### 4. Viewport System (`applyViewport`)
 
 Manages pan/zoom of the multi-page canvas:
 
@@ -66,8 +84,9 @@ Manages pan/zoom of the multi-page canvas:
 - Paper sheets rendered as background dividers
 - Guides show printable area boundaries
 - Mouse wheel = zoom, drag = pan
+- Touch: one finger = pan, pinch = zoom
 
-### 4. i18n System
+### 5. i18n System
 
 ```javascript
 I18N.RU / I18N.EN → t('key') → localized string
@@ -76,8 +95,9 @@ I18N.RU / I18N.EN → t('key') → localized string
 - Decade names, tooltips, modal text, sticky note, mobile UI
 - `toggleLang()` switches language and re-renders everything
 - Language state stored in `_currentLang`
+- Synced across desktop and mobile buttons
 
-### 5. Custom Entries
+### 6. Custom Entries
 
 ```javascript
 { row: 3, text: "Product launch", year: 2018, yearly: false }
@@ -88,10 +108,36 @@ I18N.RU / I18N.EN → t('key') → localized string
 - `yearly: true` → renders on every year from `year` onward
 - Input format: `"3, Product launch"` + `"2018"`
 
+### 7. Sticky Note
+
+- Draggable category cheatsheet positioned left of first page
+- `position: fixed` on `document.body`
+- Supports both mouse and touch drag
+- Content translates with language switch
+- Remembers drag position until page reload
+
+## Mobile UI
+
+### Bottom Bar (`mob-bar`)
+- Shows past/future year counts
+- Paper format chip (A4 / ×4)
+- Entry button (T), download (SVG/PDF), language toggle, settings
+
+### Bottom Sheet (`mob-sheet`)
+- **Hindsight/Foresight wheels**: Side-by-side scroll pickers (1–99 years)
+- **Paper format chips**: A4, ×4
+- **Gantt rows chips**: 10, 14
+- Overlay dismissal on tap outside
+
+### Touch Gestures
+- One finger = pan
+- Two fingers = pinch-to-zoom
+- Sticky note drag via `touchstart/touchmove/touchend`
+
 ## Data Flow
 
 ```
-User Input (dials/modal)
+User Input (dials/wheels/modal)
     ↓
 updateCalendar()
     ↓
@@ -109,12 +155,20 @@ printPDF()
     ↓
 _ensurePDFLibs()     → lazy-load jsPDF + svg2pdf.js
     ↓
-_loadPDFFonts(doc)   → fetch TTF files, encode base64, register in jsPDF
+_loadPDFFonts(doc)   → fetch TTF files in parallel (Promise.all), encode base64
     ↓
 svg2pdf(svg, doc)    → convert each SVG page to PDF page
     ↓
 doc.save(filename)   → browser download
 ```
+
+## Performance
+
+- **Font preload**: 3 key weights (300/400/700) preloaded via `<link rel="preload">`
+- **Parallel font loading**: All 7 PDF font weights fetched simultaneously
+- **DOM pooling**: `_getPooledDiv` / `_hidePoolFrom` for paper sheet elements
+- **Debounced updates**: Mobile wheel scroll, resize events
+- **Lazy PDF libs**: ~500KB loaded only when user exports
 
 ## Design Decisions
 
@@ -123,4 +177,6 @@ doc.save(filename)   → browser download
 3. **localStorage for entries** — Zero-config persistence, complete privacy
 4. **Lazy PDF libs** — ~500KB loaded only when user exports
 5. **Fixed positioning for pages** — Enables smooth pan/zoom without DOM reflow
-6. **Variable column widths** — Past years are narrow (10mm), future years wide (20mm) for annotation space
+6. **Variable column widths** — Past years narrow (10mm), future years wide (20mm) for annotation space
+7. **Mobile-first responsive** — Dedicated touch UI with bottom bar/sheet pattern
+8. **Roll paper = single page** — Continuous timeline without breaks for large-format printing
