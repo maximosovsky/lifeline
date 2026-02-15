@@ -15,6 +15,7 @@ LifeLine is part of the broader **#линии_жизни** (#lifelines) and **#�
 - [Family Connections](https://t.me/maximosowski/394) · [13 Generations](https://t.me/maximosowski/397)
 - [Academic Genealogies](https://t.me/maximosowski/399) · [Netmaps](https://t.me/maximosowski/402) · [Org Structures](https://t.me/maximosowski/403)
 - [How to Draw a Vision of the Future](https://t.me/maximosowski/411) · [Expanding Planning Horizons](https://osowski.medium.com/calendar-392272c97af3) · [Timeline Calendar](https://t.me/maximosowski/174)
+- [Шаблон «Линии жизни»](https://osovsky.medium.com/%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD-%D0%BB%D0%B8%D0%BD%D0%B8%D0%B8-%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8-1a2e5c978e22) (Medium)
 
 **📹 Lectures & Seminars:**
 - [Lifeline. Schematization](https://t.me/maximosowski/216) (Cheboksary, 2019)
