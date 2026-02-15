@@ -57,4 +57,4 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for technical details.
 
 ## 📄 License
 
-© 2026 Anton Sokolnikov, Maxim Osovsky
+© 2014–2026 Maxim Osovsky. This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
