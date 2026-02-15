@@ -12,6 +12,9 @@
 		gtag('config', 'G-NW8NPGK3DY');
 	</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Light.ttf" as="font" type="font/ttf" crossorigin>
+	<link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
+	<link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Bold.ttf" as="font" type="font/ttf" crossorigin>
 	<title>LifeLine — Life Timeline Visualization</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,14 +140,11 @@
 		<input type="hidden" id="months-input" value="40">
 		<span id="months-label" style="display:none">mo</span>
 		<div class="tb-sep"></div>
-		<div class="paper-chips" id="paper-chips-group" style="display:none">
+		<div class="paper-chips" id="paper-chips-group">
 			<div class="tb-btn active" data-size="a4" onclick="setPaperSize('a4')">A4</div>
-			<div class="tb-btn" data-size="a3" onclick="setPaperSize('a3')">A3</div>
-			<div class="tb-btn" data-size="914mm" onclick="setPaperSize('914mm')">914</div>
-			<div class="tb-btn" data-size="914x2" onclick="setPaperSize('914x2')">914×2</div>
-			<div class="tb-btn" data-size="914x4" onclick="setPaperSize('914x4')">914×4</div>
+			<div class="tb-btn" data-size="914x4" onclick="setPaperSize('914x4')">×4</div>
 		</div>
-		<span id="page-info" style="display:none"></span>
+		<span id="page-info"></span>
 		<div class="tb-sep"></div>
 		<div class="tb-btn" onclick="confirmAction('Download SVG?', downloadSVG)" data-tooltip="Download SVG">
 			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -260,6 +260,8 @@
 					<button class="mob-dl-opt" onclick="printPDF(); toggleMobDL()">PDF</button>
 				</div>
 			</div>
+			<button class="mob-icon" id="mob-lang-btn" onclick="toggleLang()" title="Language"
+				style="font-size:13px; font-weight:600;">RU</button>
 			<button class="mob-icon" onclick="toggleMobSheet()" title="Settings">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 					stroke-linecap="round" stroke-linejoin="round">
@@ -292,6 +294,7 @@
 			<div class="mob-sheet-label">Paper format</div>
 			<div class="mob-chips" id="mob-paper-chips">
 				<button class="mob-chip-opt active" data-size="a4" onclick="mobSetPaper('a4')">A4</button>
+				<button class="mob-chip-opt" data-size="914x4" onclick="mobSetPaper('914x4')">×4</button>
 			</div>
 		</div>
 		<div class="mob-sheet-section">

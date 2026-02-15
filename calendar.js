@@ -132,7 +132,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	const numYears = endYear - startYear + 1;
 	const MM = 96 / 25.4;
 	const mW = 10 * MM;    // 10mm past years
-	const mW2 = 20 * MM;   // 20mm current year onwards
+	const mW2 = 20 * MM;   // 20mm future years (from currentYear+1 onward)
 	const legendW = L.spacerW;
 	const currentYear = new Date().getFullYear();
 
@@ -183,13 +183,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	let pathGray = '';
 
 	// ── Decade names ──
-	const DECADE_NAMES = {
-		1920: 'TWENTIES', 1930: 'THIRTIES', 1940: 'FORTIES',
-		1950: 'FIFTIES', 1960: 'SIXTIES', 1970: 'SEVENTIES',
-		1980: 'EIGHTIES', 1990: 'NINETIES', 2000: 'NOUGHTIES',
-		2010: 'TWENTY-TENS', 2020: 'TWENTIES', 2030: 'THIRTIES',
-		2040: 'FORTIES', 2050: 'FIFTIES',
-	};
+
 
 	// ── Render year columns ──
 	let xCursor = xYearsStart;
@@ -316,23 +310,38 @@ function buildPages() {
 	const MARGIN_MM = 7;
 	const MM = 96 / 25.4;
 	const PAST_W_MM = 10;
+	// 914×4 → all years 10mm; otherwise future = 20mm
 	const FUTURE_W_MM = 20;
 
-	// Years per page for past (10mm) and future (20mm)
+	// Years per page for past (10mm) and future (FUTURE_W_MM)
 	let yppPast, yppFuture;
 	if (currentPaper.w !== null) {
 		const printW_mm = currentPaper.w - 2 * MARGIN_MM;
 		yppPast = Math.floor(printW_mm / PAST_W_MM);
 		yppFuture = Math.floor(printW_mm / FUTURE_W_MM);
 	} else {
+		// Roll paper: everything on one page
 		yppPast = 999;
 		yppFuture = 999;
 	}
 	yppPast = Math.max(1, yppPast);
 	yppFuture = Math.max(1, yppFuture);
 
-	// Page width = past page width (largest count × smallest column)
-	const pageW = yppPast * PAST_W_MM * MM;
+	const pastYears = currentYear - startYear + 1;
+	const futureCount = endYear - currentYear;
+
+	// Compute total width of all years for this page size
+	const allYearsW_MM = pastYears * PAST_W_MM + futureCount * FUTURE_W_MM;
+
+	// Page width
+	let pageW;
+	if (currentPaper.w !== null) {
+		pageW = yppPast * PAST_W_MM * MM;
+	} else {
+		// Roll: single continuous page, width = all years
+		pageW = allYearsW_MM * MM;
+	}
+
 	let totalH;
 	if (currentPaper.w !== null) {
 		const copies = currentPaper.copies || 1;
@@ -341,11 +350,12 @@ function buildPages() {
 		const printW_mm = currentPaper.w - 2 * MARGIN_MM;
 		totalH = pageW * printH_mm / printW_mm;
 	} else {
-		totalH = 46 + clampedRows * LAYOUT.cellH;
+		// Roll: SVG height = printable height so calendarScale = 1 → year = 10mm
+		const copies = currentPaper.copies || 1;
+		const copyH_mm = currentPaper.h / copies;
+		const printH_mm = copyH_mm - 2 * MARGIN_MM;
+		totalH = printH_mm * MM;
 	}
-
-	const pastYears = currentYear - startYear + 1;
-	const futureCount = endYear - currentYear;
 
 	const cal = document.getElementById('calendar');
 	cal.style.position = 'relative';
@@ -353,43 +363,49 @@ function buildPages() {
 
 	const pageRanges = [];
 
-	// Past pages: all 10mm, fill from right, leftmost page gets legend
-	if (pastYears > 0) {
-		const pastPages = [];
-		let remaining = pastYears;
-		let cursor = currentYear;
+	if (currentPaper.w === null) {
+		// Roll paper: single continuous page
+		pageRanges.push({
+			start: startYear, end: endYear,
+			alignRight: false, hasLegend: true,
+		});
+	} else {
+		// Past pages: all 10mm, fill from right, leftmost page gets legend
+		if (pastYears > 0) {
+			const pastPages = [];
+			let remaining = pastYears;
+			let cursor = currentYear;
 
-		// Take full yppPast pages from the right
-		while (remaining > yppPast) {
+			while (remaining > yppPast) {
+				pastPages.unshift({
+					start: cursor - yppPast + 1, end: cursor,
+					alignRight: true, hasLegend: false,
+				});
+				cursor -= yppPast;
+				remaining -= yppPast;
+			}
+
 			pastPages.unshift({
-				start: cursor - yppPast + 1, end: cursor,
-				alignRight: true, hasLegend: false,
+				start: cursor - remaining + 1, end: cursor,
+				alignRight: true, hasLegend: true,
 			});
-			cursor -= yppPast;
-			remaining -= yppPast;
+
+			pageRanges.push(...pastPages);
 		}
 
-		// Leftmost page: remaining years + legend
-		pastPages.unshift({
-			start: cursor - remaining + 1, end: cursor,
-			alignRight: true, hasLegend: true,
-		});
-
-		pageRanges.push(...pastPages);
-	}
-
-	// Future pages: left-aligned, 20mm columns
-	if (futureCount > 0) {
-		let cursor = currentYear + 1;
-		let rem = futureCount;
-		while (rem > 0) {
-			const count = Math.min(yppFuture, rem);
-			pageRanges.push({
-				start: cursor, end: cursor + count - 1,
-				alignRight: false, hasLegend: false,
-			});
-			cursor += count;
-			rem -= count;
+		// Future pages: left-aligned
+		if (futureCount > 0) {
+			let cursor = currentYear + 1;
+			let rem = futureCount;
+			while (rem > 0) {
+				const count = Math.min(yppFuture, rem);
+				pageRanges.push({
+					start: cursor, end: cursor + count - 1,
+					alignRight: false, hasLegend: false,
+				});
+				cursor += count;
+				rem -= count;
+			}
 		}
 	}
 
@@ -443,24 +459,29 @@ function _ensureStickyNote() {
 			borderBottom: '3px solid #f0e68c',
 			cursor: 'grab', userSelect: 'none',
 		});
-		// Drag
+		// Drag (mouse + touch)
 		let dragging = false, dx, dy;
-		note.addEventListener('mousedown', e => {
-			e.preventDefault(); e.stopPropagation();
+		function startDrag(cx, cy) {
 			dragging = true;
-			dx = e.clientX - note.offsetLeft;
-			dy = e.clientY - note.offsetTop;
+			dx = cx - note.offsetLeft;
+			dy = cy - note.offsetTop;
 			note.style.cursor = 'grabbing';
-		});
-		document.addEventListener('mousemove', e => {
+		}
+		function moveDrag(cx, cy) {
 			if (!dragging) return;
-			note.style.left = (e.clientX - dx) + 'px';
-			note.style.top = (e.clientY - dy) + 'px';
+			note.style.left = (cx - dx) + 'px';
+			note.style.top = (cy - dy) + 'px';
 			note._dragged = true;
-		});
-		document.addEventListener('mouseup', () => {
+		}
+		function endDrag() {
 			if (dragging) { dragging = false; note.style.cursor = 'grab'; }
-		});
+		}
+		note.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); startDrag(e.clientX, e.clientY); });
+		document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+		document.addEventListener('mouseup', endDrag);
+		note.addEventListener('touchstart', e => { e.stopPropagation(); const t = e.touches[0]; startDrag(t.clientX, t.clientY); }, { passive: true });
+		document.addEventListener('touchmove', e => { if (!dragging) return; const t = e.touches[0]; moveDrag(t.clientX, t.clientY); }, { passive: true });
+		document.addEventListener('touchend', endDrag);
 		document.body.appendChild(note);
 	}
 	// Update content (language may have changed)
@@ -481,6 +502,8 @@ function toggleLang() {
 	_currentLang = _currentLang === 'RU' ? 'EN' : 'RU';
 	const btn = document.getElementById('lang-toggle');
 	if (btn) btn.textContent = _currentLang;
+	const mobBtn = document.getElementById('mob-lang-btn');
+	if (mobBtn) mobBtn.textContent = _currentLang;
 	_applyTranslations();
 	updateCalendar();
 }
@@ -687,12 +710,7 @@ function updatePageInfo() {
 		b.setAttribute('data-tooltip', tip);
 	});
 
-	if (el) {
-		const paper = currentPaper;
-		if (paper.w === null) el.textContent = _rollLen(paper);
-		else if (totalPages > 1) el.textContent = totalPages + ' pages';
-		else el.textContent = '';
-	}
+	if (el) el.textContent = '';
 }
 
 function setPaperSize(key) {
@@ -1310,21 +1328,23 @@ async function _loadPDFFonts(doc) {
 			{ file: 'IBMPlexSans-Bold.ttf', style: 'normal', weight: 700 },
 			{ file: 'IBMPlexSans-BoldItalic.ttf', style: 'italic', weight: 700 },
 		];
-		for (const w of weights) {
+		const results = await Promise.all(weights.map(async w => {
 			try {
 				const resp = await fetch('fonts/IBMPlexSans/' + w.file);
 				const buf = await resp.arrayBuffer();
-				_fontCache.push({
-					id: 'IBMPlexSans-' + w.weight + '.ttf',
+				return {
+					id: 'IBMPlexSans-' + w.weight + (w.style === 'italic' ? 'i' : '') + '.ttf',
 					b64: _arrayBufferToBase64(buf),
 					name: fontName,
 					style: w.style,
 					weight: w.weight,
-				});
+				};
 			} catch (e) {
 				console.warn('Font load failed:', w.file, e);
+				return null;
 			}
-		}
+		}));
+		_fontCache.push(...results.filter(Boolean));
 		_fontsFetched = true;
 	}
 
