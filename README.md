@@ -51,7 +51,7 @@ npx -y serve -l 3456
 http://localhost:3456
 ```
 
-Or visit the live version: [lifeline-phi.vercel.app](https://lifeline-phi.vercel.app)
+Or visit the live version: [osovsky.com/lifeline](https://osovsky.com/lifeline)
 
 ## 🎛️ Controls
 
