@@ -1,4 +1,4 @@
-// ─── WallPlan Calendar — SVG Renderer ───
+// ─── Lifeline Calendar — SVG Renderer ───
 
 // ─── i18n ───
 let _currentLang = 'RU';
@@ -1395,9 +1395,10 @@ async function printPDF() {
 	}
 
 	const copies = currentPaper.copies || 1;
-	const months = parseInt(document.getElementById('months-input').value) || 12;
-	const rows = parseInt(document.getElementById('rows-slider').value) || 10;
-	const fileName = `wallplan_${currentPaperKey}_${months}mo_${rows}rows_${_exportDate()}.pdf`;
+	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
+	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const curYear = new Date().getFullYear();
+	const fileName = `Lifeline_${currentPaperKey}_${curYear - past}-${curYear + future}.pdf`;
 
 	// Group pages by index
 	const pageMap = {};
@@ -1498,9 +1499,10 @@ function _downloadBlob(svgNode, filename) {
 
 function downloadSVG() {
 	const copies = currentPaper.copies || 1;
-	const months = parseInt(document.getElementById('months-input').value) || 12;
-	const rows = parseInt(document.getElementById('rows-slider').value) || 10;
-	const baseName = `wallplan_${currentPaperKey}_${months}mo_${rows}rows_${_exportDate()}`;
+	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
+	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const curYear = new Date().getFullYear();
+	const baseName = `Lifeline_${currentPaperKey}_${curYear - past}-${curYear + future}`;
 
 	// Group pages by page index
 	const pageMap = {};
