@@ -1,0 +1,31 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/for-kirill-specially-ru",
+      "destination": "/for-kirill-specially-ru/index.html"
+    },
+    {
+      "source": "/((?!for-kirill-specially-ru).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

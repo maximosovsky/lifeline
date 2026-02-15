@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<!-- Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-NW8NPGK3DY"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'G-NW8NPGK3DY');
+	</script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>LifeLine — Life Timeline Visualization</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap"
+		rel="stylesheet">
+	<meta name="description"
+		content="Free online multi-year wall calendar generator with Gantt charts for strategic planning. Export to SVG & PDF. Print on A4, A3, or 914mm engineering roll paper. From 1 month to 20 years.">
+	<meta name="keywords"
+		content="calendar generator, wall calendar maker, multi-year calendar, Gantt chart calendar, Gantt calendar, printable calendar, SVG calendar, PDF calendar, strategic planning tool, long-term planner, engineering paper calendar, custom calendar maker, timeline generator, project planning calendar, free calendar tool, wall planner, year planner, multi-year planner, calendar print, A3 calendar, roll paper calendar, large wall calendar, 2 year calendar, 3 year calendar, planning calendar, Maxim Osovsky">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="WallPlan — Calendar Generator for Long-Term Planning">
+	<meta property="og:description"
+		content="Generate multi-year wall calendars with Gantt charts for strategic planning. SVG & PDF export.">
+	<meta property="og:image" content="https://osovsky.com/wallplan/og-image.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:url" content="https://osovsky.com/wallplan/">
+	<meta property="og:site_name" content="WallPlan">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="WallPlan — Calendar Generator">
+	<meta name="twitter:description" content="Multi-year wall calendars with Gantt charts. SVG & PDF export.">
+	<meta name="twitter:image" content="https://osovsky.com/wallplan/og-image.png">
+
+	<!-- SEO -->
+	<link rel="canonical" href="https://osovsky.com/wallplan/">
+	<link rel="alternate" hreflang="en" href="https://osovsky.com/wallplan/">
+	<link rel="alternate" hreflang="ru" href="https://osovsky.com/wallplan/for-kirill-specially-ru/">
+	<link rel="alternate" hreflang="x-default" href="https://osovsky.com/wallplan/">
+	<link rel="icon" type="image/svg+xml"
+		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
+	<link rel="apple-touch-icon"
+		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
+	<link rel="manifest" href="manifest.json">
+
+	<!-- Structured Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		"name": "WallPlan",
+		"description": "Generate multi-year wall calendars with Gantt charts for strategic planning. SVG & PDF export. From 1 month to 20 years.",
+		"url": "https://osovsky.com/wallplan/",
+		"applicationCategory": "Productivity",
+		"operatingSystem": "Web",
+		"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+		"image": "https://osovsky.com/wallplan/og-image.png",
+		"author": {
+			"@type": "Person",
+			"name": "Maxim Osovsky",
+			"sameAs": "https://www.wikidata.org/wiki/Q107189449"
+		}
+	}
+	</script>
+
+	<meta name="theme-color" content="#F5F0E8">
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<noscript>
+		<h1>WallPlan — Calendar Generator for Long-Term Planning</h1>
+		<p>WallPlan requires JavaScript to generate calendars. Please enable JavaScript in your browser settings.</p>
+	</noscript>
+	<!-- SEO: hidden content for crawlers (canvas/SVG is invisible to search engines) -->
+	<div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+		<h1>WallPlan — Calendar Generator for Long-Term Planning</h1>
+		<p>Every year we publish a new version of a multi-year calendar. The publishing industry mostly makes calendars
+			for just the next year, limiting our ability to plan in detail many years ahead. WallPlan is a free online
+			tool that generates multi-year wall calendars with Gantt charts for strategic planning.</p>
+
+		<h2>Features</h2>
+		<p>SVG Renderer: Pure SVG output with three calendar types — Vertical (classic days list), Gantt (horizontal
+			planning grid), and Box (traditional mini month grid).</p>
+		<p>Duration from 1 month to 20 years. Mobile scroll-wheel picker for years and months, desktop number input.</p>
+		<p>Hide Days Mode: Toggle to hide day-level details from Vertical and Gantt views. Gantt rows redistribute to
+			fill full height — ideal for long-term strategic planning. Persisted via URL parameter.</p>
+		<p>Paper Sizes: A4, A3, 914mm single roll, 914mm ×2 dual copies, 914mm ×4 quad copies. Precision layout
+			automatically fits 7–8 months per page.</p>
+		<p>Format-Specific Tuning: Each roll format has optimized cell widths — 4mm single, 2.7mm dual, 1.7mm quad — and
+			font scaling for readability at each physical size.</p>
+		<p>Export: Download as vector SVG or PDF with embedded IBM Plex Sans fonts. Free, no login required.</p>
+		<p>Customizable: Week start Monday or Sunday, US Federal Holidays, adjustable Gantt rows 6, 8, 10, or 12.</p>
+		<p>Custom Entries: Add session-only annotations via the T button. Supports DD.MM date input with
+			auto-formatting, yearly repeat option. Entries render alongside holidays and export to SVG and PDF.</p>
+		<p>WallPlan Day: January 11 — marked annually in Copper Penny DTP font with wine-colored accent.</p>
+		<p>Social Preview: Open Graph and Twitter Card meta tags with app screenshot for rich link previews in Telegram,
+			Facebook, Twitter.</p>
+
+		<h2>Printing</h2>
+		<p>Long multi-year calendars can be printed at copy centers on engineering paper up to 1 meter wide with
+			virtually infinite length. Ideal for working on strategies. Print optimized — what you see is what you get.
+		</p>
+
+		<h2>Mobile</h2>
+		<p>Touch pan and pinch-to-zoom. iOS-like bottom toolbar with frosted glass effect shows current duration, rows
+			count, and paper format. Tap to open settings sheet with scroll-wheel duration picker, paper format selector
+			with roll length display, Gantt rows chips, and week start toggle. Download icon opens SVG and PDF popup. T
+			button for custom entries. Hide Days toggle.</p>
+
+		<h2>Technical</h2>
+		<p>Rulers and guides with cm/m labels, vertical guides marking printable area. Batch SVG path rendering, holiday
+			caching, requestAnimationFrame-based viewport updates. Russian edition available with Russian holidays.
+			Google Analytics GA4 tracking.</p>
+
+		<h2>Credits</h2>
+		<p>2014–2026 Michael Kvrivishvili, Maxim Osovsky. Licensed under Creative Commons Attribution-ShareAlike 4.0
+			International License CC BY-SA 4.0.</p>
+	</div>
+	<div class="controls top-bar" id="top-bar">
+		<div class="tb-dial" id="tb-dial-yr" data-tooltip="Hindsight">
+			<div class="tb-dial-value" id="tb-val-yr">30</div>
+			<div class="tb-dial-label">yr</div>
+		</div>
+		<div class="tb-dial" id="tb-dial-mo" data-tooltip="Foresight">
+			<div class="tb-dial-value" id="tb-val-mo">10</div>
+			<div class="tb-dial-label">yr</div>
+		</div>
+		<input type="hidden" id="months-input" value="40">
+		<span id="months-label" style="display:none">mo</span>
+		<div class="tb-sep"></div>
+		<div class="paper-chips" id="paper-chips-group" style="display:none">
+			<div class="tb-btn active" data-size="a4" onclick="setPaperSize('a4')">A4</div>
+		</div>
+		<span id="page-info" style="display:none"></span>
+		<div class="tb-sep"></div>
+		<div class="tb-btn" onclick="confirmAction('Download SVG?', downloadSVG)" data-tooltip="Download SVG">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+				stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+				<polyline points="7 10 12 15 17 10" />
+				<line x1="12" y1="15" x2="12" y2="3" />
+			</svg>
+		</div>
+		<div class="tb-btn" onclick="confirmAction('Download PDF?', printPDF)" data-tooltip="Download PDF">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+				stroke-linecap="round" stroke-linejoin="round">
+				<path d="M6 9V2h12v7" />
+				<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+				<rect x="6" y="14" width="12" height="8" />
+			</svg>
+		</div>
+		<div class="tb-btn" id="lang-toggle" onclick="toggleLang()" data-tooltip="Language"
+			style="font-size:12px; font-weight:600; letter-spacing:1px;">RU</div>
+	</div>
+	<!-- Custom confirm modal -->
+	<div id="confirm-overlay" class="confirm-overlay" style="display:none">
+		<div class="confirm-box">
+			<div class="confirm-msg" id="confirm-msg">Download?</div>
+			<div class="confirm-btns">
+				<button class="confirm-btn confirm-yes" id="confirm-yes">Yes</button>
+				<button class="confirm-btn confirm-cancel" id="confirm-cancel">Cancel</button>
+			</div>
+		</div>
+	</div>
+	<!-- Entry modal -->
+	<div id="entry-overlay" class="confirm-overlay" style="display:none">
+		<div class="confirm-box entry-box">
+			<div class="confirm-msg">Add Entry</div>
+			<div class="entry-form">
+				<div class="entry-row entry-inline">
+					<input type="text" id="entry-text" placeholder="3, Product launch" maxlength="44" autocomplete="off"
+						style="flex:1;">
+					<input type="text" id="entry-year" placeholder="2018" maxlength="4" autocomplete="off"
+						style="width:60px; text-align:center;">
+				</div>
+			</div>
+			<div class="entry-form">
+				<div class="entry-row entry-check-row">
+					<label>
+						<input type="checkbox" id="entry-yearly">
+						Repeat every year
+					</label>
+				</div>
+			</div>
+			<div class="confirm-btns">
+				<button class="confirm-btn confirm-yes" onclick="addCustomEntry()">Add</button>
+				<button class="confirm-btn confirm-cancel" onclick="closeEntryModal()">Cancel</button>
+			</div>
+		</div>
+	</div>
+	<div class="controls gantt-panel" id="gantt-panel">
+		<button id="entry-btn" data-tooltip="Add entry" onclick="openEntryModal()">
+			<span style="font-family:'Copper Penny DTP',serif; font-size:20px; line-height:1;">T</span>
+		</button>
+
+		<input type="hidden" id="rows-slider" value="10">
+		<span id="rows-value" style="display:none">10</span>
+		<div class="rows-chips" data-tooltip="Gantt rows">
+			<button class="rows-chip active" data-rows="10" onclick="setRows(10)">10</button>
+			<button class="rows-chip" data-rows="14" onclick="setRows(14)">14</button>
+		</div>
+	</div>
+	<canvas id="ruler-left" class="ruler ruler-left"></canvas>
+	<canvas id="ruler-bottom" class="ruler ruler-bottom"></canvas>
+	<div class="ruler-corner"></div>
+	<div id="paper-sheet"></div>
+	<div id="guide-h" class="guide guide-h"></div>
+	<div id="guide-v" class="guide guide-v"></div>
+	<div id="guide-h-a4" class="guide guide-h"></div>
+	<div id="guide-v-a4" class="guide guide-v"></div>
+	<div id="guide-margin-bottom" class="guide guide-h guide-margin"></div>
+	<div id="guide-margin-top" class="guide guide-h guide-margin"></div>
+	<div id="guide-margin-left" class="guide guide-v guide-margin"></div>
+	<div id="guide-margin-right" class="guide guide-v guide-margin"></div>
+	<div id="calendar"></div>
+
+	<!-- Mobile bottom toolbar -->
+	<div id="mob-bar" class="mob-bar">
+		<div class="mob-bar-left">
+			<button class="mob-val" onclick="toggleMobSheet()">
+				<span id="mob-months">12</span>
+				<span class="mob-label" id="mob-months-label">mo</span>
+			</button>
+			<div class="mob-sep"></div>
+			<button class="mob-val" onclick="toggleMobSheet()">
+				<span id="mob-rows">10</span>
+				<span class="mob-label">rows</span>
+			</button>
+		</div>
+		<button class="mob-chip" id="mob-format" onclick="toggleMobSheet()">A4</button>
+		<div class="mob-bar-right">
+			<button class="mob-icon" onclick="openEntryModal()" title="Add entry">
+				<span style="font-family:'Copper Penny DTP',serif; font-size:18px; line-height:1;">T</span>
+			</button>
+
+			<div class="mob-dl-group">
+				<button class="mob-icon" onclick="toggleMobDL()" title="Download">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round">
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+						<polyline points="7 10 12 15 17 10" />
+						<line x1="12" y1="15" x2="12" y2="3" />
+					</svg>
+				</button>
+				<div id="mob-dl-popup" class="mob-dl-popup" style="display:none">
+					<button class="mob-dl-opt" onclick="downloadSVG(); toggleMobDL()">SVG</button>
+					<button class="mob-dl-opt" onclick="printPDF(); toggleMobDL()">PDF</button>
+				</div>
+			</div>
+			<button class="mob-icon" onclick="toggleMobSheet()" title="Settings">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+					stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="3" />
+					<path
+						d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+				</svg>
+			</button>
+		</div>
+	</div>
+
+	<!-- Mobile bottom sheet -->
+	<div id="mob-overlay" class="mob-overlay" onclick="toggleMobSheet()"></div>
+	<div id="mob-sheet" class="mob-sheet">
+		<div class="mob-sheet-handle"></div>
+		<div class="mob-sheet-section">
+			<div class="mob-sheet-label">Duration</div>
+			<div class="mob-wheels">
+				<div class="mob-wheel-col">
+					<div class="mob-wheel" id="mob-wheel-yr"></div>
+					<div class="mob-wheel-unit">yr</div>
+				</div>
+				<div class="mob-wheel-col">
+					<div class="mob-wheel" id="mob-wheel-mo"></div>
+					<div class="mob-wheel-unit">mo</div>
+				</div>
+			</div>
+		</div>
+		<div class="mob-sheet-section">
+			<div class="mob-sheet-label">Paper format</div>
+			<div class="mob-chips" id="mob-paper-chips">
+				<button class="mob-chip-opt active" data-size="a4" onclick="mobSetPaper('a4')">A4</button>
+			</div>
+		</div>
+		<div class="mob-sheet-section">
+			<div class="mob-sheet-label">Gantt rows</div>
+			<div class="mob-chips">
+				<button class="mob-chip-opt active" data-rows="10" onclick="mobSetRows(10)">10</button>
+				<button class="mob-chip-opt" data-rows="14" onclick="mobSetRows(14)">14</button>
+			</div>
+		</div>
+
+	</div>
+	<script src="calendar.js"></script>
+</body>
+
+</html>
