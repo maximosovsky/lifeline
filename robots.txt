@@ -23,4 +23,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://osovsky.com/wallplan/sitemap.xml
+Sitemap: https://lifeline-phi.vercel.app/sitemap.xml

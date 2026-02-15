@@ -1643,20 +1643,48 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	// Ctrl + wheel to zoom
+	// Ctrl + wheel to zoom (smooth animated)
+	let _zoomTarget = null;
+	let _zoomAnimId = 0;
+
+	function _animateZoom() {
+		if (!_zoomTarget) return;
+		const t = _zoomTarget;
+		const ease = 0.25;
+		viewport.zoom += (t.zoom - viewport.zoom) * ease;
+		viewport.left += (t.left - viewport.left) * ease;
+		viewport.top += (t.top - viewport.top) * ease;
+		applyViewport();
+		if (Math.abs(viewport.zoom - t.zoom) > 0.0001) {
+			_zoomAnimId = requestAnimationFrame(_animateZoom);
+		} else {
+			viewport.zoom = t.zoom;
+			viewport.left = t.left;
+			viewport.top = t.top;
+			applyViewport();
+			_zoomAnimId = 0;
+			_zoomTarget = null;
+		}
+	}
+
 	document.addEventListener('wheel', (e) => {
 		if (!e.ctrlKey) return;
 		e.preventDefault();
 		const factor = e.deltaY < 0 ? 1.08 : 1 / 1.08;
-		const newZoom = Math.max(0.05, Math.min(10, viewport.zoom * factor));
+		const curZoom = _zoomTarget ? _zoomTarget.zoom : viewport.zoom;
+		const curLeft = _zoomTarget ? _zoomTarget.left : viewport.left;
+		const curTop = _zoomTarget ? _zoomTarget.top : viewport.top;
+		const newZoom = Math.max(0.05, Math.min(10, curZoom * factor));
 		const mouseX = e.clientX;
 		const mouseY = e.clientY;
-		const worldPxX = (mouseX - viewport.left) / viewport.zoom;
-		const worldPxY = (mouseY - viewport.top) / viewport.zoom;
-		viewport.zoom = newZoom;
-		viewport.left = mouseX - worldPxX * newZoom;
-		viewport.top = mouseY - worldPxY * newZoom;
-		if (!_rafId) _rafId = requestAnimationFrame(() => { applyViewport(); _rafId = 0; });
+		const worldPxX = (mouseX - curLeft) / curZoom;
+		const worldPxY = (mouseY - curTop) / curZoom;
+		_zoomTarget = {
+			zoom: newZoom,
+			left: mouseX - worldPxX * newZoom,
+			top: mouseY - worldPxY * newZoom,
+		};
+		if (!_zoomAnimId) _zoomAnimId = requestAnimationFrame(_animateZoom);
 	}, { passive: false });
 
 	// ─── Touch: pan + pinch-to-zoom ───

@@ -22,32 +22,33 @@
 		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap"
 		rel="stylesheet">
 	<meta name="description"
-		content="Free online multi-year wall calendar generator with Gantt charts for strategic planning. Export to SVG & PDF. Print on A4, A3, or 914mm engineering roll paper. From 1 month to 20 years.">
+		content="LifeLine — free online life timeline visualization tool. See your entire life on paper, from birth to horizon. Gantt-style grid for personal events, SVG & PDF export, print on A4 or 914mm roll. RU/EN.">
 	<meta name="keywords"
-		content="calendar generator, wall calendar maker, multi-year calendar, Gantt chart calendar, Gantt calendar, printable calendar, SVG calendar, PDF calendar, strategic planning tool, long-term planner, engineering paper calendar, custom calendar maker, timeline generator, project planning calendar, free calendar tool, wall planner, year planner, multi-year planner, calendar print, A3 calendar, roll paper calendar, large wall calendar, 2 year calendar, 3 year calendar, planning calendar, Maxim Osovsky">
+		content="lifeline, life timeline, timeline visualization, life calendar, life planner, Gantt chart life, personal timeline, life mapping, life planning tool, SVG timeline, PDF timeline, wall calendar, long-term planner, strategic planning, decade planner, life schematization, линии жизни, визуализация жизни, лайфлайн, Maxim Osovsky">
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website">
-	<meta property="og:title" content="WallPlan — Calendar Generator for Long-Term Planning">
+	<meta property="og:title" content="LifeLine — Life Timeline Visualization">
 	<meta property="og:description"
-		content="Generate multi-year wall calendars with Gantt charts for strategic planning. SVG & PDF export.">
-	<meta property="og:image" content="https://osovsky.com/wallplan/og-image.png">
+		content="See your entire life on paper. Multi-decade timeline with Gantt grid, SVG & PDF export.">
+	<meta property="og:image" content="https://lifeline-phi.vercel.app/og-image.png">
 	<meta property="og:image:width" content="1200">
 	<meta property="og:image:height" content="630">
-	<meta property="og:url" content="https://osovsky.com/wallplan/">
-	<meta property="og:site_name" content="WallPlan">
+	<meta property="og:url" content="https://lifeline-phi.vercel.app/">
+	<meta property="og:site_name" content="LifeLine">
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="WallPlan — Calendar Generator">
-	<meta name="twitter:description" content="Multi-year wall calendars with Gantt charts. SVG & PDF export.">
-	<meta name="twitter:image" content="https://osovsky.com/wallplan/og-image.png">
+	<meta name="twitter:title" content="LifeLine — Life Timeline Visualization">
+	<meta name="twitter:description"
+		content="See your entire life on paper. Decades at a glance, Gantt grid, SVG & PDF export.">
+	<meta name="twitter:image" content="https://lifeline-phi.vercel.app/og-image.png">
 
 	<!-- SEO -->
-	<link rel="canonical" href="https://osovsky.com/wallplan/">
-	<link rel="alternate" hreflang="en" href="https://osovsky.com/wallplan/">
-	<link rel="alternate" hreflang="ru" href="https://osovsky.com/wallplan/for-kirill-specially-ru/">
-	<link rel="alternate" hreflang="x-default" href="https://osovsky.com/wallplan/">
+	<link rel="canonical" href="https://lifeline-phi.vercel.app/">
+	<link rel="alternate" hreflang="en" href="https://lifeline-phi.vercel.app/">
+	<link rel="alternate" hreflang="ru" href="https://lifeline-phi.vercel.app/?lang=ru">
+	<link rel="alternate" hreflang="x-default" href="https://lifeline-phi.vercel.app/">
 	<link rel="icon" type="image/svg+xml"
 		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
 	<link rel="apple-touch-icon"
@@ -59,18 +60,20 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "SoftwareApplication",
-		"name": "WallPlan",
-		"description": "Generate multi-year wall calendars with Gantt charts for strategic planning. SVG & PDF export. From 1 month to 20 years.",
-		"url": "https://osovsky.com/wallplan/",
+		"name": "LifeLine",
+		"alternateName": "Life Timeline Visualization",
+		"description": "Free online life timeline visualization tool. See your entire life on paper — past and future decades with a Gantt-style grid for personal events. Export to SVG & PDF.",
+		"url": "https://lifeline-phi.vercel.app/",
 		"applicationCategory": "Productivity",
 		"operatingSystem": "Web",
 		"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-		"image": "https://osovsky.com/wallplan/og-image.png",
+		"image": "https://lifeline-phi.vercel.app/og-image.png",
 		"author": {
 			"@type": "Person",
 			"name": "Maxim Osovsky",
 			"sameAs": "https://www.wikidata.org/wiki/Q107189449"
-		}
+		},
+		"license": "https://creativecommons.org/licenses/by-sa/4.0/"
 	}
 	</script>
 
@@ -80,52 +83,41 @@
 
 <body>
 	<noscript>
-		<h1>WallPlan — Calendar Generator for Long-Term Planning</h1>
-		<p>WallPlan requires JavaScript to generate calendars. Please enable JavaScript in your browser settings.</p>
+		<h1>LifeLine — Life Timeline Visualization</h1>
+		<p>LifeLine requires JavaScript to generate timelines. Please enable JavaScript in your browser settings.</p>
 	</noscript>
 	<!-- SEO: hidden content for crawlers (canvas/SVG is invisible to search engines) -->
 	<div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
-		<h1>WallPlan — Calendar Generator for Long-Term Planning</h1>
-		<p>Every year we publish a new version of a multi-year calendar. The publishing industry mostly makes calendars
-			for just the next year, limiting our ability to plan in detail many years ahead. WallPlan is a free online
-			tool that generates multi-year wall calendars with Gantt charts for strategic planning.</p>
+		<h1>LifeLine — Life Timeline Visualization</h1>
+		<p>Lines and structures are a language for making sense of your life — just as a blueprint is the language of
+			an engineer, a map is the language of a geographer, a Gantt chart is the language of a manager,
+			and a timeline is the language of a historian.</p>
+		<p>LifeLine is a free browser-based tool that generates multi-decade life timelines with a Gantt-style grid
+			for personal events. See your entire life on paper, from birth to horizon.</p>
 
 		<h2>Features</h2>
-		<p>SVG Renderer: Pure SVG output with three calendar types — Vertical (classic days list), Gantt (horizontal
-			planning grid), and Box (traditional mini month grid).</p>
-		<p>Duration from 1 month to 20 years. Mobile scroll-wheel picker for years and months, desktop number input.</p>
-		<p>Hide Days Mode: Toggle to hide day-level details from Vertical and Gantt views. Gantt rows redistribute to
-			fill full height — ideal for long-term strategic planning. Persisted via URL parameter.</p>
-		<p>Paper Sizes: A4, A3, 914mm single roll, 914mm ×2 dual copies, 914mm ×4 quad copies. Precision layout
-			automatically fits 7–8 months per page.</p>
-		<p>Format-Specific Tuning: Each roll format has optimized cell widths — 4mm single, 2.7mm dual, 1.7mm quad — and
-			font scaling for readability at each physical size.</p>
+		<p>SVG Renderer: Pure SVG output with decade columns, year labels, and configurable Gantt rows (10 or 14).
+			Past years use 10mm columns, future years use 20mm for more annotation space.</p>
+		<p>Duration: Customizable hindsight (past years) and foresight (future years), from 1 to 99 years each.
+			Desktop dials and mobile scroll-wheel pickers.</p>
+		<p>Paper Sizes: A4 multi-page and 914mm×4 roll paper (4 copies). Roll paper renders as one continuous
+			page without breaks — ideal for large-format wall printing.</p>
+		<p>Custom Entries: Add personal events at specific years and Gantt rows. Support for yearly repeating events.
+			Stored in browser localStorage — completely private.</p>
 		<p>Export: Download as vector SVG or PDF with embedded IBM Plex Sans fonts. Free, no login required.</p>
-		<p>Customizable: Week start Monday or Sunday, US Federal Holidays, adjustable Gantt rows 6, 8, 10, or 12.</p>
-		<p>Custom Entries: Add session-only annotations via the T button. Supports DD.MM date input with
-			auto-formatting, yearly repeat option. Entries render alongside holidays and export to SVG and PDF.</p>
-		<p>WallPlan Day: January 11 — marked annually in Copper Penny DTP font with wine-colored accent.</p>
-		<p>Social Preview: Open Graph and Twitter Card meta tags with app screenshot for rich link previews in Telegram,
-			Facebook, Twitter.</p>
-
-		<h2>Printing</h2>
-		<p>Long multi-year calendars can be printed at copy centers on engineering paper up to 1 meter wide with
-			virtually infinite length. Ideal for working on strategies. Print optimized — what you see is what you get.
-		</p>
+		<p>i18n: Full Russian/English interface toggle. All labels, tooltips, modals, and the sticky note translate.</p>
 
 		<h2>Mobile</h2>
-		<p>Touch pan and pinch-to-zoom. iOS-like bottom toolbar with frosted glass effect shows current duration, rows
-			count, and paper format. Tap to open settings sheet with scroll-wheel duration picker, paper format selector
-			with roll length display, Gantt rows chips, and week start toggle. Download icon opens SVG and PDF popup. T
-			button for custom entries. Hide Days toggle.</p>
+		<p>Touch pan and pinch-to-zoom. Bottom toolbar with past/future year counts, paper format chip, entry button,
+			download popup (SVG/PDF), language toggle. Settings bottom sheet with side-by-side scroll-wheel pickers
+			for hindsight/foresight (1–99 years), paper format and Gantt rows chips.</p>
 
-		<h2>Technical</h2>
-		<p>Rulers and guides with cm/m labels, vertical guides marking printable area. Batch SVG path rendering, holiday
-			caching, requestAnimationFrame-based viewport updates. Russian edition available with Russian holidays.
-			Google Analytics GA4 tracking.</p>
+		<h2>Printing</h2>
+		<p>Life timelines can be printed at copy centers on engineering paper up to 1 meter wide with virtually
+			infinite length. Ideal for life planning workshops and coaching sessions.</p>
 
 		<h2>Credits</h2>
-		<p>2014–2026 Michael Kvrivishvili, Maxim Osovsky. Licensed under Creative Commons Attribution-ShareAlike 4.0
+		<p>© 2014–2026 Maxim Osovsky. Licensed under Creative Commons Attribution-ShareAlike 4.0
 			International License CC BY-SA 4.0.</p>
 	</div>
 	<div class="controls top-bar" id="top-bar">
