@@ -525,8 +525,8 @@ function _applyTranslations() {
 // ─── Init ───
 function init() {
 	const params = new URLSearchParams(window.location.search);
-	const past = parseInt(params.get('p')) || 30;
-	const future = parseInt(params.get('f')) || 10;
+	const past = parseInt(params.get('p')) || 35;
+	const future = parseInt(params.get('f')) || 25;
 	let emptyRows = parseInt(params.get('g')) || 10;
 
 	if (emptyRows < 5 || emptyRows > 15) emptyRows = 10;
