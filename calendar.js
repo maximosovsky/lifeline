@@ -540,7 +540,11 @@ function _applyTranslations() {
 	if (confirmYes) confirmYes.textContent = t('yes');
 
 	// Mobile UI
-	const mobLabels = document.querySelectorAll('.mob-sheet-label');
+	const mobHind = document.getElementById('mob-label-hindsight');
+	const mobFore = document.getElementById('mob-label-foresight');
+	if (mobHind) mobHind.textContent = t('hindsight');
+	if (mobFore) mobFore.textContent = t('foresight');
+	const mobLabels = document.querySelectorAll('.mob-sheet-label:not(#mob-label-hindsight):not(#mob-label-foresight)');
 	if (mobLabels[0]) mobLabels[0].textContent = t('paperFormat');
 	if (mobLabels[1]) mobLabels[1].textContent = t('ganttRows');
 }
