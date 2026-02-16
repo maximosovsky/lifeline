@@ -8,6 +8,20 @@ A browser-based tool that generates multi-page SVG timelines with a Gantt-style 
 
 > Lines and structures are a language for making sense of your life — just as a blueprint is the language of an engineer, a map is the language of a geographer, a Gantt chart and org chart are the language of a manager, BPMN is the language of IT, and a timeline is the language of a historian.
 
+### Purpose
+
+- **Life Tracking** — visualize and track key events across decades (e.g. 1971–2070). Rows cover: Happiness, Relationships, Children, Education, Career, Income, Travel, Hobbies, Sport, Health, Loss, Conflicts
+- **Self-reflection** — see your entire life from a bird's-eye view, discover patterns, assess achievements across all life domains
+- **Goal setting** — plan the future by marking desired events and milestones on upcoming years
+- **Decorative** — aesthetic templates for bullet journals, planners, and scrapbooks that turn planning into a creative process
+
+### Target Audience
+
+- **Self-developers & planners** — people into personal growth, time management, and visual life tools
+- **Journal & planner enthusiasts** — users who love beautiful templates for bullet journals and scrapbooking
+- **Coaches & psychologists** — professionals who use life timelines with clients for resource analysis and long-term goal setting
+- **Mid-life & senior adults** — people with significant life experience who benefit most from retrospective analysis
+
 LifeLine is part of the broader **#линии_жизни** (#lifelines) and **#структуры_жизни** (#life_structures) methodology:
 
 **Publications:**
@@ -29,13 +43,14 @@ LifeLine is part of the broader **#линии_жизни** (#lifelines) and **#�
 
 - **Decades at a glance** — past and future years on a scrollable multi-page canvas
 - **Paper formats** — A4 (multi-page) and ×4 (914mm roll, 4 copies, continuous)
+- **Column width** — 1cm, 1.5cm, or 2cm per year column
 - **Gantt rows** — 10 or 14 rows for categories (career, education, travel, etc.)
 - **Custom entries** — add events like `3, Product launch` at year `2018`
 - **Repeat every year** — mark recurring events
 - **PDF & SVG export** — with embedded IBM Plex Sans fonts, parallel font loading
 - **RU/EN interface** — full localization toggle
-- **Draggable sticky note** — category cheatsheet on screen (mouse + touch)
-- **Mobile-first** — dedicated bottom bar/sheet UI with scroll wheel pickers
+- **Draggable sticky note** — 12-category cheatsheet on screen (mouse + touch)
+- **Mobile-first** — dedicated bottom bar with year range, paper toggle; bottom sheet for full settings
 - **Touch gestures** — one finger pan, pinch-to-zoom, touch-drag for sticky note
 - **Moleskine-style highlight** — current year stands out
 - **Private** — all data stored in your browser's localStorage, invisible to others
@@ -59,8 +74,9 @@ Or visit the live version: [lifeline.osovsky.com](https://lifeline.osovsky.com)
 
 | Control | Action |
 |---------|--------|
-| **Hindsight dial** | Years into the past (drag up/down) |
-| **Foresight dial** | Years into the future (drag up/down) |
+| **Hindsight input** | Start year (type or scroll wheel) |
+| **Foresight input** | End year (type or scroll wheel) |
+| **1 / 1.5 / 2 buttons** | Column width (cm) |
 | **A4 / ×4 chips** | Paper format selection |
 | **10 / 14 chips** | Number of Gantt rows |
 | **T button** | Add entry modal |
@@ -74,13 +90,14 @@ Or visit the live version: [lifeline.osovsky.com](https://lifeline.osovsky.com)
 
 | Control | Action |
 |---------|--------|
-| **35 past / 25 future** | Tap to open settings sheet |
-| **A4 chip** | Paper format (tap to open sheet) |
+| **1991–2051** | Year range (read-only) |
+| **A4 / ×4 chip** | Direct paper format toggle |
 | **T** | Add entry |
 | **⬇** | Download SVG/PDF popup |
 | **RU/EN** | Language toggle |
 | **⚙** | Settings bottom sheet |
-| **Scroll wheels** | Hindsight/Foresight (1–99 years) |
+| **Year inputs** | Hindsight/Foresight (in settings sheet) |
+| **Column width** | 1 cm / 1.5 cm / 2 cm (in settings sheet) |
 
 ## 📝 Adding Entries
 

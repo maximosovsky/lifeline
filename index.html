@@ -3,6 +3,8 @@
 
 <head>
 	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="favicon.png?v=2">
+	<link rel="apple-touch-icon" href="favicon.png?v=2">
 	<!-- Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-NW8NPGK3DY"></script>
 	<script>
@@ -121,16 +123,16 @@
 			International License CC BY-SA 4.0.</p>
 	</div>
 	<div class="controls top-bar" id="top-bar">
-		<div class="tb-dial" id="tb-dial-yr" data-tooltip="Hindsight">
-			<div class="tb-dial-value" id="tb-val-yr">30</div>
-			<div class="tb-dial-label">yr</div>
-		</div>
-		<div class="tb-dial" id="tb-dial-mo" data-tooltip="Foresight">
-			<div class="tb-dial-value" id="tb-val-mo">10</div>
-			<div class="tb-dial-label">yr</div>
-		</div>
+		<input type="number" class="tb-year-input" id="tb-val-yr" value="1996" min="1900" max="2099"
+			data-tooltip="Hindsight">
+		<input type="number" class="tb-year-input" id="tb-val-mo" value="2036" min="1900" max="2099"
+			data-tooltip="Foresight">
 		<input type="hidden" id="months-input" value="40">
-		<span id="months-label" style="display:none">mo</span>
+		<div class="col-w-group">
+			<div class="col-w-btn active" data-colw="10" data-tooltip="1 cm" onclick="setColWidth(10)">1</div>
+			<div class="col-w-btn" data-colw="15" data-tooltip="1.5 cm" onclick="setColWidth(15)">1.5</div>
+			<div class="col-w-btn" data-colw="20" data-tooltip="2 cm" onclick="setColWidth(20)">2</div>
+		</div>
 		<div class="tb-sep"></div>
 		<div class="paper-chips" id="paper-chips-group">
 			<div class="tb-btn active" data-size="a4" onclick="setPaperSize('a4')">A4</div>
@@ -222,17 +224,9 @@
 	<!-- Mobile bottom toolbar -->
 	<div id="mob-bar" class="mob-bar">
 		<div class="mob-bar-left">
-			<button class="mob-val" onclick="toggleMobSheet()">
-				<span id="mob-months">35</span>
-				<span class="mob-label" id="mob-months-label">past</span>
-			</button>
-			<div class="mob-sep"></div>
-			<button class="mob-val" onclick="toggleMobSheet()">
-				<span id="mob-rows">25</span>
-				<span class="mob-label">future</span>
-			</button>
+			<span id="mob-year-range" class="mob-year-range">1991–2051</span>
 		</div>
-		<button class="mob-chip" id="mob-format" onclick="toggleMobSheet()">A4</button>
+		<button class="mob-chip" id="mob-format" onclick="toggleMobPaper()">A4</button>
 		<div class="mob-bar-right">
 			<button class="mob-icon" onclick="openEntryModal()" title="Add entry">
 				<span style="font-family:'Copper Penny DTP',serif; font-size:18px; line-height:1;">T</span>
@@ -270,18 +264,18 @@
 	<div id="mob-sheet" class="mob-sheet">
 		<div class="mob-sheet-handle"></div>
 		<div class="mob-sheet-section">
-			<div class="mob-wheels" style="display:flex; gap:16px;">
-				<div class="mob-wheel-col" style="flex:1;">
+			<div style="display:flex; gap:16px;">
+				<div style="flex:1;">
 					<div class="mob-sheet-label" id="mob-label-hindsight" style="text-align:center; margin-bottom:4px;">
 						Hindsight</div>
-					<div class="mob-wheel" id="mob-wheel-yr"></div>
-					<div class="mob-wheel-unit">yr</div>
+					<input type="number" class="mob-year-input mob-year-input-sheet" id="mob-sheet-yr" value="1991"
+						min="1900" max="2099">
 				</div>
-				<div class="mob-wheel-col" style="flex:1;">
+				<div style="flex:1;">
 					<div class="mob-sheet-label" id="mob-label-foresight" style="text-align:center; margin-bottom:4px;">
 						Foresight</div>
-					<div class="mob-wheel" id="mob-wheel-mo"></div>
-					<div class="mob-wheel-unit">yr</div>
+					<input type="number" class="mob-year-input mob-year-input-sheet" id="mob-sheet-mo" value="2051"
+						min="1900" max="2099">
 				</div>
 			</div>
 		</div>
@@ -297,6 +291,14 @@
 			<div class="mob-chips">
 				<button class="mob-chip-opt active" data-rows="10" onclick="mobSetRows(10)">10</button>
 				<button class="mob-chip-opt" data-rows="14" onclick="mobSetRows(14)">14</button>
+			</div>
+		</div>
+		<div class="mob-sheet-section">
+			<div class="mob-sheet-label">Column width</div>
+			<div class="mob-chips">
+				<button class="mob-chip-opt col-w-btn active" data-colw="10" onclick="setColWidth(10)">1 cm</button>
+				<button class="mob-chip-opt col-w-btn" data-colw="15" onclick="setColWidth(15)">1.5 cm</button>
+				<button class="mob-chip-opt col-w-btn" data-colw="20" onclick="setColWidth(20)">2 cm</button>
 			</div>
 		</div>
 

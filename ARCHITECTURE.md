@@ -20,10 +20,11 @@ LifeLine is a **client-side only** life timeline visualization tool. It renders 
 ```
 lifeline/
 ├── index.html          # Single page: toolbar, modals, canvas, mobile UI
-├── calendar.js         # Core engine (~1770 lines): SVG renderer, viewport, i18n
+├── calendar.js         # Core engine (~1760 lines): SVG renderer, viewport, i18n
 ├── style.css           # All styling: toolbar, modals, rulers, responsive, mobile
 ├── fonts/
 │   └── IBMPlexSans/    # TTF files for PDF embedding (200–700 weights)
+├── favicon.png         # LIF cube favicon
 ├── ARCHITECTURE.md     # This file
 ├── README.md           # User-facing documentation
 ├── PERFORMANCE.md      # Performance review and optimization notes
@@ -40,8 +41,8 @@ lifeline/
 
 Renders one page of the timeline as an SVG element:
 
-- **Year columns**: 10mm for past years, 20mm for current year onward
-- **Roll paper override**: All 914mm formats use 10mm for past, 20mm for future
+- **Year columns**: configurable width (10/15/20mm) via `currentColW_MM`, future years min 20mm
+- **Column width buttons**: 1cm / 1.5cm / 2cm on desktop toolbar + mobile settings
 - **Decade labels**: Large italic text (40px), centered on the decade's midpoint
 - **Year labels**: Displayed at top, middle, and bottom of each column
 - **Gantt grid**: Horizontal rows with configurable count (10 or 14)
@@ -54,7 +55,7 @@ Splits the full year range across multiple pages:
 
 ```
 Sheet paper (A4):
-  Past pages ← [right-aligned, 10mm cols] | [future pages → left-aligned, 20mm cols]
+  Past pages ← [right-aligned, colW cols] | [future pages → left-aligned, max(colW,20mm) cols]
 
 Roll paper (914mm, 914×2, 914×4):
   Single continuous page — all years on one unbroken SVG
@@ -69,8 +70,8 @@ Roll paper (914mm, 914×2, 914×4):
 
 | Format | Width | Height | Copies | Year width |
 |--------|-------|--------|--------|------------|
-| A4 | 297mm | 210mm | 1 | 10mm past / 20mm future |
-| ×4 (914×4) | roll | 914mm | 4 | 10mm past / 20mm future |
+| A4 | 297mm | 210mm | 1 | configurable (1/1.5/2 cm) |
+| ×4 (914×4) | roll | 914mm | 4 | configurable (1/1.5/2 cm) |
 
 - Paper selection via toolbar chips (A4, ×4)
 - Tooltip shows page count / roll length
@@ -111,6 +112,7 @@ I18N.RU / I18N.EN → t('key') → localized string
 ### 7. Sticky Note
 
 - Draggable category cheatsheet positioned left of first page
+- 12 categories: 😊 Happiness, 💜 Relationships, 👶 Children, 🎓 Education, 🏢 Career, 💰 Income, ⛺ Travel, ✏ Hobbies, 🏃 Sport, 🏥 Health, 💀 Loss, ⚡ Conflicts
 - `position: fixed` on `document.body`
 - Supports both mouse and touch drag
 - Content translates with language switch
@@ -119,14 +121,15 @@ I18N.RU / I18N.EN → t('key') → localized string
 ## Mobile UI
 
 ### Bottom Bar (`mob-bar`)
-- Shows past/future year counts
-- Paper format chip (A4 / ×4)
+- Year range display (e.g. "1991–\n2051") — read-only text
+- Paper format chip (A4 / ×4) — direct toggle, no sheet
 - Entry button (T), download (SVG/PDF), language toggle, settings
 
 ### Bottom Sheet (`mob-sheet`)
-- **Hindsight/Foresight wheels**: Side-by-side scroll pickers (1–99 years)
+- **Hindsight/Foresight inputs**: Absolute year number inputs
 - **Paper format chips**: A4, ×4
 - **Gantt rows chips**: 10, 14
+- **Column width chips**: 1 cm, 1.5 cm, 2 cm
 - Overlay dismissal on tap outside
 
 ### Touch Gestures
@@ -137,7 +140,7 @@ I18N.RU / I18N.EN → t('key') → localized string
 ## Data Flow
 
 ```
-User Input (dials/wheels/modal)
+User Input (year inputs / column width / paper chips / modal)
     ↓
 updateCalendar()
     ↓
@@ -177,6 +180,6 @@ doc.save(filename)   → browser download
 3. **localStorage for entries** — Zero-config persistence, complete privacy
 4. **Lazy PDF libs** — ~500KB loaded only when user exports
 5. **Fixed positioning for pages** — Enables smooth pan/zoom without DOM reflow
-6. **Variable column widths** — Past years narrow (10mm), future years wide (20mm) for annotation space
+6. **Configurable column widths** — User selects 1cm, 1.5cm, or 2cm; future years min 20mm
 7. **Mobile-first responsive** — Dedicated touch UI with bottom bar/sheet pattern
 8. **Roll paper = single page** — Continuous timeline without breaks for large-format printing

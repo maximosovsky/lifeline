@@ -6,7 +6,7 @@ let _currentLang = 'RU';
 const I18N = {
 	RU: {
 		decades: { 1900: 'ДЕВЯТИСОТЫЕ', 1910: 'ДЕСЯТЫЕ', 1920: 'ДВАДЦАТЫЕ', 1930: 'ТРИДЦАТЫЕ', 1940: 'СОРОКОВЫЕ', 1950: 'ПЯТИДЕСЯТЫЕ', 1960: 'ШЕСТИДЕСЯТЫЕ', 1970: 'СЕМИДЕСЯТЫЕ', 1980: 'ВОСЬМИДЕСЯТЫЕ', 1990: 'ДЕВЯНОСТЫЕ', 2000: 'ДВУХТЫСЯЧНЫЕ', 2010: 'ДЕСЯТЫЕ', 2020: 'ДВАДЦАТЫЕ', 2030: 'ТРИДЦАТЫЕ', 2040: 'СОРОКОВЫЕ', 2050: 'ПЯТИДЕСЯТЫЕ', 2060: 'ШЕСТИДЕСЯТЫЕ', 2070: 'СЕМИДЕСЯТЫЕ', 2080: 'ВОСЬМИДЕСЯТЫЕ', 2090: 'ДЕВЯНОСТЫЕ' },
-		sticky: ['😊 Счастье', '♡ Личные отношения', '👶 Дети', '🎓 Образование', '🏢 Работа', '💰 Доходы', '⛺ Путешествия', '✏ Хобби', '🏃 Спорт', '🏥 Здоровье', '💀 Смерть близких, конфликты'],
+		sticky: ['😊 Счастье', '💜 Личные отношения', '👶 Дети', '🎓 Образование', '🏢 Работа', '💰 Доходы', '⛺ Путешествия', '✏ Хобби', '🏃 Спорт', '🏥 Здоровье', '💀 Смерть близких', '⚡ Конфликты'],
 		addEntry: 'Добавить запись',
 		add: 'Добавить',
 		cancel: 'Отмена',
@@ -25,7 +25,7 @@ const I18N = {
 	},
 	EN: {
 		decades: { 1900: 'NINETEEN-HUNDREDS', 1910: 'TENS', 1920: 'TWENTIES', 1930: 'THIRTIES', 1940: 'FORTIES', 1950: 'FIFTIES', 1960: 'SIXTIES', 1970: 'SEVENTIES', 1980: 'EIGHTIES', 1990: 'NINETIES', 2000: 'TWO-THOUSANDS', 2010: 'TWENTY-TENS', 2020: 'TWENTY-TWENTIES', 2030: 'TWENTY-THIRTIES', 2040: 'TWENTY-FORTIES', 2050: 'TWENTY-FIFTIES', 2060: 'TWENTY-SIXTIES', 2070: 'TWENTY-SEVENTIES', 2080: 'TWENTY-EIGHTIES', 2090: 'TWENTY-NINETIES' },
-		sticky: ['😊 Happiness', '♡ Relationships', '👶 Children', '🎓 Education', '🏢 Career', '💰 Income', '⛺ Travel', '✏ Hobbies', '🏃 Sport', '🏥 Health', '💀 Loss & Conflicts'],
+		sticky: ['😊 Happiness', '💜 Relationships', '👶 Children', '🎓 Education', '🏢 Career', '💰 Income', '⛺ Travel', '✏ Hobbies', '🏃 Sport', '🏥 Health', '💀 Loss', '⚡ Conflicts'],
 		addEntry: 'Add Entry',
 		add: 'Add',
 		cancel: 'Cancel',
@@ -131,8 +131,8 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	const L = LAYOUT;
 	const numYears = endYear - startYear + 1;
 	const MM = 96 / 25.4;
-	const mW = 10 * MM;    // 10mm past years
-	const mW2 = 20 * MM;   // 20mm future years (from currentYear+1 onward)
+	const mW = currentColW_MM * MM;    // configurable column width
+	const mW2 = Math.max(currentColW_MM, 20) * MM;   // future years: at least 20mm
 	const legendW = L.spacerW;
 	const currentYear = new Date().getFullYear();
 
@@ -281,17 +281,19 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 
 // ─── Duration helpers ───
 function _syncDialsFromTotal() {
-	const yrEl = document.getElementById('tb-val-yr');
-	const moEl = document.getElementById('tb-val-mo');
-	const past = parseInt(yrEl.textContent) || 30;
-	const future = parseInt(moEl.textContent) || 10;
+	const curYear = new Date().getFullYear();
+	const startYear = parseInt(document.getElementById('tb-val-yr').value) || (curYear - 30);
+	const endYear = parseInt(document.getElementById('tb-val-mo').value) || (curYear + 10);
+	const past = curYear - startYear;
+	const future = endYear - curYear;
 	document.getElementById('months-input').value = past + future;
 }
 
 function _totalFromDials() {
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 0;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 0;
-	return past + future;
+	const curYear = new Date().getFullYear();
+	const startYear = parseInt(document.getElementById('tb-val-yr').value) || (curYear - 30);
+	const endYear = parseInt(document.getElementById('tb-val-mo').value) || (curYear + 10);
+	return (curYear - startYear) + (endYear - curYear);
 }
 
 // ─── Page building (year-based) ───
@@ -301,17 +303,19 @@ function buildPages() {
 	const rows = parseInt(document.getElementById('rows-slider').value) || 10;
 	const clampedRows = Math.max(6, Math.min(14, rows));
 
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const curYearNow = new Date().getFullYear();
+	const startYearVal = parseInt(document.getElementById('tb-val-yr').value) || (curYearNow - 30);
+	const endYearVal = parseInt(document.getElementById('tb-val-mo').value) || (curYearNow + 10);
+	const past = curYearNow - startYearVal;
+	const future = endYearVal - curYearNow;
 	const currentYear = new Date().getFullYear();
 	const startYear = currentYear - past;
 	const endYear = currentYear + future;
 
 	const MARGIN_MM = 7;
 	const MM = 96 / 25.4;
-	const PAST_W_MM = 10;
-	// 914×4 → all years 10mm; otherwise future = 20mm
-	const FUTURE_W_MM = 20;
+	const PAST_W_MM = currentColW_MM;
+	const FUTURE_W_MM = Math.max(currentColW_MM, 20);
 
 	// Years per page for past (10mm) and future (FUTURE_W_MM)
 	let yppPast, yppFuture;
@@ -558,14 +562,16 @@ function init() {
 
 	if (emptyRows < 5 || emptyRows > 15) emptyRows = 10;
 
+	const curYear = new Date().getFullYear();
 	const yrEl = document.getElementById('tb-val-yr');
 	const moEl = document.getElementById('tb-val-mo');
 	const rowsSlider = document.getElementById('rows-slider');
 	const rowsValue = document.getElementById('rows-value');
 
-	if (yrEl) yrEl.textContent = past;
-	if (moEl) moEl.textContent = future;
+	if (yrEl) yrEl.value = curYear - past;
+	if (moEl) moEl.value = curYear + future;
 	document.getElementById('months-input').value = past + future;
+	_syncYearDisplay();
 
 	if (rowsSlider) rowsSlider.value = emptyRows;
 	if (rowsValue) rowsValue.textContent = emptyRows;
@@ -581,8 +587,11 @@ function init() {
 }
 
 function updateCalendar() {
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const curYear = new Date().getFullYear();
+	const startYear = parseInt(document.getElementById('tb-val-yr').value) || (curYear - 30);
+	const endYear = parseInt(document.getElementById('tb-val-mo').value) || (curYear + 10);
+	const past = curYear - startYear;
+	const future = endYear - curYear;
 	const url = new URL(window.location);
 	url.searchParams.set('p', past);
 	url.searchParams.set('f', future);
@@ -641,6 +650,7 @@ let currentPaper = PAPER_SIZES.a4;
 let currentPaperKey = 'a4';
 let totalPages = 1;
 let calendarScale = 1;
+let currentColW_MM = 10; // 10mm = 1cm default column width
 
 // ─── Cached UI element references (fix: avoid repeated querySelectorAll) ───
 const _ui = {
@@ -673,18 +683,24 @@ function _hidePoolFrom(pool, startIndex) {
 
 function updatePageInfo() {
 	const el = document.getElementById('page-info');
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
-	const totalYears = past + future + 1;
+	const curYear = new Date().getFullYear();
+	const startYear = parseInt(document.getElementById('tb-val-yr').value) || (curYear - 30);
+	const endYear = parseInt(document.getElementById('tb-val-mo').value) || (curYear + 10);
+	const pastYears = curYear - startYear + 1;
+	const futureYears = endYear - curYear;
 
 	const MARGIN_MM = 7;
-	const YEAR_WIDTH_MM = 10;
+	const PAST_W = currentColW_MM;
+	const FUTURE_W = Math.max(currentColW_MM, 20);
 
 	function _pagesFor(paper) {
 		if (paper.w === null) return 1;
 		const printW_mm = paper.w - 2 * MARGIN_MM;
-		const ypp = Math.max(1, Math.floor(printW_mm / YEAR_WIDTH_MM));
-		return Math.max(1, Math.ceil(totalYears / ypp));
+		const yppPast = Math.max(1, Math.floor(printW_mm / PAST_W));
+		const yppFuture = Math.max(1, Math.floor(printW_mm / FUTURE_W));
+		const pastPages = Math.max(0, Math.ceil(pastYears / yppPast));
+		const futurePages = Math.max(0, Math.ceil(futureYears / yppFuture));
+		return Math.max(1, pastPages + futurePages);
 	}
 
 	function _rollLen(paper) {
@@ -727,11 +743,24 @@ function setPaperSize(key) {
 	// Sync mobile UI
 	const mobFmt = document.getElementById('mob-format');
 	if (mobFmt) {
-		const labels = { a4: 'A4', a3: 'A3', '914mm': '914', '914x2': '914×2', '914x4': '914×4' };
+		const labels = { a4: 'A4', a3: 'A3', '914mm': '914', '914x2': '×2', '914x4': '×4' };
 		mobFmt.textContent = labels[key] || key;
 	}
 	_ui.mobSizeChips.forEach(b => {
 		b.classList.toggle('active', b.dataset.size === key);
+	});
+	updateCalendar();
+}
+
+function toggleMobPaper() {
+	const next = currentPaperKey === 'a4' ? '914x4' : 'a4';
+	setPaperSize(next);
+}
+
+function setColWidth(mm) {
+	currentColW_MM = mm;
+	document.querySelectorAll('.col-w-btn').forEach(b => {
+		b.classList.toggle('active', parseInt(b.dataset.colw) === mm);
 	});
 	updateCalendar();
 }
@@ -1123,94 +1152,10 @@ function mobSetPaper(key) {
 	setTimeout(_updateMobRollLen, 200);
 }
 
-// ─── Scroll wheels ───
-let _wheelTimer;
-
-function _initMobWheels() {
-	const yrEl = document.getElementById('mob-wheel-yr');
-	const moEl = document.getElementById('mob-wheel-mo');
-	if (!yrEl || !moEl) return;
-
-	const pastVal = parseInt(document.getElementById('tb-val-yr').textContent) || 35;
-	const futureVal = parseInt(document.getElementById('tb-val-mo').textContent) || 25;
-
-	_buildWheel(yrEl, 1, 99, pastVal);
-	_buildWheel(moEl, 1, 99, futureVal);
-
-	// Scroll to initial values after layout
-	requestAnimationFrame(() => {
-		_scrollWheelTo(yrEl, pastVal, false);
-		_scrollWheelTo(moEl, futureVal, false);
-	});
-
-	// Scroll listeners
-	yrEl.onscroll = () => _onWheelScroll(yrEl, 'yr');
-	moEl.onscroll = () => _onWheelScroll(moEl, 'mo');
-}
-
-function _buildWheel(el, min, max, activeVal) {
-	el.innerHTML = '';
-	const padTop = document.createElement('div');
-	padTop.className = 'mob-wheel-pad';
-	el.appendChild(padTop);
-
-	for (let i = min; i <= max; i++) {
-		const d = document.createElement('div');
-		d.className = 'mob-wheel-item' + (i === activeVal ? ' active' : '');
-		d.textContent = i;
-		d.dataset.v = i;
-		d.addEventListener('click', () => _scrollWheelTo(el, i));
-		el.appendChild(d);
-	}
-
-	const padBot = document.createElement('div');
-	padBot.className = 'mob-wheel-pad';
-	el.appendChild(padBot);
-}
-
-function _scrollWheelTo(el, val, smooth = true) {
-	const items = el.querySelectorAll('.mob-wheel-item');
-	const target = Array.from(items).find(d => parseInt(d.dataset.v) === val);
-	if (!target) return;
-	el.scrollTo({ top: target.offsetTop - 40, behavior: smooth ? 'smooth' : 'auto' });
-}
-
-function _onWheelScroll(el, type) {
-	const items = el.querySelectorAll('.mob-wheel-item');
-	const viewCenter = el.scrollTop + 60;
-	let closest = null, closestDist = Infinity;
-	items.forEach(d => {
-		const itemCenter = d.offsetTop + 20;
-		const dist = Math.abs(itemCenter - viewCenter);
-		if (dist < closestDist) { closestDist = dist; closest = d; }
-	});
-	if (!closest) return;
-	const val = parseInt(closest.dataset.v);
-
-	items.forEach(d => d.classList.toggle('active', d === closest));
-
-	if (type === 'yr') {
-		document.getElementById('tb-val-yr').textContent = val;
-	} else {
-		document.getElementById('tb-val-mo').textContent = val;
-	}
-
-	// Debounce update
-	clearTimeout(_wheelTimer);
-	_wheelTimer = setTimeout(() => {
-		const past = parseInt(document.getElementById('tb-val-yr').textContent) || 35;
-		const future = parseInt(document.getElementById('tb-val-mo').textContent) || 25;
-		document.getElementById('mob-months').textContent = past;
-		document.getElementById('mob-rows').textContent = future;
-		updateCalendar();
-	}, 150);
-}
-
 // ─── Rows chips ───
 function mobSetRows(val) {
 	document.getElementById('rows-slider').value = val;
 	document.getElementById('rows-value').textContent = val;
-	document.getElementById('mob-rows').textContent = val;
 	// Highlight chips (desktop + mobile)
 	_ui.rowsChips.forEach(b => {
 		b.classList.toggle('active', parseInt(b.dataset.rows) === val);
@@ -1252,44 +1197,29 @@ function _updateMobRollLen() {
 	}
 }
 
-// ─── Smart toolbar label ───
-function _updateMobMonthsLabel(months) {
-	const mobMonths = document.getElementById('mob-months');
-	const mobLabel = document.getElementById('mob-months-label');
-	if (!mobMonths || !mobLabel) return;
-	if (months >= 12 && months % 12 === 0) {
-		mobMonths.textContent = months / 12;
-		mobLabel.textContent = 'yr';
-	} else {
-		mobMonths.textContent = months;
-		mobLabel.textContent = 'mo';
-	}
+// ─── Sync year display ───
+function _syncYearDisplay() {
+	const yr = document.getElementById('tb-val-yr').value;
+	const mo = document.getElementById('tb-val-mo').value;
+	const label = yr + '\u2013' + '<br>' + mo;
+	const tbRange = document.getElementById('tb-year-range');
+	const mobRange = document.getElementById('mob-year-range');
+	if (tbRange) tbRange.innerHTML = label;
+	if (mobRange) mobRange.innerHTML = label;
+	// Sync sheet inputs
+	const sheetYr = document.getElementById('mob-sheet-yr');
+	const sheetMo = document.getElementById('mob-sheet-mo');
+	if (sheetYr) sheetYr.value = yr;
+	if (sheetMo) sheetMo.value = mo;
 }
 
-let _wheelsInit = false;
 function _syncMobileUI() {
-	const months = parseInt(document.getElementById('months-input').value) || 12;
-	_updateMobMonthsLabel(months);
+	_syncYearDisplay();
+	// Rows chips
 	const rows = parseInt(document.getElementById('rows-slider').value) || 10;
-	const mobRows = document.getElementById('mob-rows');
-	if (mobRows) mobRows.textContent = rows;
-	// Highlight active rows chips (desktop + mobile)
 	_ui.rowsChips.forEach(b => {
 		b.classList.toggle('active', parseInt(b.dataset.rows) === rows);
 	});
-	// Set wheel values
-	_wheelYr = Math.floor(months / 12);
-	_wheelMo = months % 12;
-	if (!_wheelsInit) {
-		_initMobWheels();
-		_wheelsInit = true;
-	} else {
-		// Just scroll to correct position
-		const yrEl = document.getElementById('mob-wheel-yr');
-		const moEl = document.getElementById('mob-wheel-mo');
-		if (yrEl) _scrollWheelTo(yrEl, _wheelYr, false);
-		if (moEl) _scrollWheelTo(moEl, _wheelMo, false);
-	}
 	setTimeout(_updateMobRollLen, 300);
 }
 
@@ -1395,8 +1325,9 @@ async function printPDF() {
 	}
 
 	const copies = currentPaper.copies || 1;
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const _cy = new Date().getFullYear();
+	const past = _cy - (parseInt(document.getElementById('tb-val-yr').value) || (_cy - 30));
+	const future = (parseInt(document.getElementById('tb-val-mo').value) || (_cy + 10)) - _cy;
 	const curYear = new Date().getFullYear();
 	const fileName = `Lifeline_${currentPaperKey}_${curYear - past}-${curYear + future}.pdf`;
 
@@ -1499,8 +1430,9 @@ function _downloadBlob(svgNode, filename) {
 
 function downloadSVG() {
 	const copies = currentPaper.copies || 1;
-	const past = parseInt(document.getElementById('tb-val-yr').textContent) || 30;
-	const future = parseInt(document.getElementById('tb-val-mo').textContent) || 10;
+	const _cy = new Date().getFullYear();
+	const past = _cy - (parseInt(document.getElementById('tb-val-yr').value) || (_cy - 30));
+	const future = (parseInt(document.getElementById('tb-val-mo').value) || (_cy + 10)) - _cy;
 	const curYear = new Date().getFullYear();
 	const baseName = `Lifeline_${currentPaperKey}_${curYear - past}-${curYear + future}`;
 
@@ -1579,34 +1511,62 @@ function confirmAction(message, onYes) {
 document.addEventListener('DOMContentLoaded', () => {
 	init();
 
-	// ── Dual dial wheel handlers ──
-	const dialYr = document.getElementById('tb-dial-yr');
-	const dialMo = document.getElementById('tb-dial-mo');
+	// ── Year input handlers ──
 	const valYr = document.getElementById('tb-val-yr');
 	const valMo = document.getElementById('tb-val-mo');
 	const hiddenInput = document.getElementById('months-input');
 	let _dialTimer;
 
-	function _onDialWheel(e, valEl, min, max) {
-		e.preventDefault();
-		const step = e.deltaY < 0 ? 1 : -1;
-		let cur = parseInt(valEl.textContent) || 0;
-		cur = Math.max(min, Math.min(max, cur + step));
-		valEl.textContent = cur;
-		// Sync total
+	function _onYearInputChange() {
 		const total = Math.max(1, _totalFromDials());
 		hiddenInput.value = total;
-		clearTimeout(_dialTimer);
-		_dialTimer = setTimeout(updateCalendar, 120);
+		_syncYearDisplay();
+		updateCalendar();
 	}
 
-	if (dialYr) {
-		dialYr.addEventListener('wheel', (e) => _onDialWheel(e, valYr, 1, 100), { passive: false });
-	}
-	if (dialMo) {
-		dialMo.addEventListener('wheel', (e) => _onDialWheel(e, valMo, 1, 50), { passive: false });
+	function _onYearKeydown(e) {
+		if (e.key === 'Enter') {
+			e.target.blur();
+		}
 	}
 
+	// Desktop year input listeners
+	function _onYearWheel(e, inputEl, direction) {
+		e.preventDefault();
+		const step = direction * (e.deltaY < 0 ? 1 : -1);
+		let cur = parseInt(inputEl.value) || new Date().getFullYear();
+		cur = Math.max(1900, Math.min(2099, cur + step));
+		inputEl.value = cur;
+		_onYearInputChange();
+	}
+
+	if (valYr) {
+		valYr.addEventListener('change', _onYearInputChange);
+		valYr.addEventListener('keydown', _onYearKeydown);
+		valYr.addEventListener('wheel', (e) => _onYearWheel(e, valYr, -1), { passive: false });
+	}
+	if (valMo) {
+		valMo.addEventListener('change', _onYearInputChange);
+		valMo.addEventListener('keydown', _onYearKeydown);
+		valMo.addEventListener('wheel', (e) => _onYearWheel(e, valMo, 1), { passive: false });
+	}
+
+	// ── Sheet year input handlers ──
+	function _onSheetYearChange(sheetEl, hiddenId) {
+		document.getElementById(hiddenId).value = sheetEl.value;
+		_onYearInputChange();
+	}
+
+	const sheetYr = document.getElementById('mob-sheet-yr');
+	const sheetMo = document.getElementById('mob-sheet-mo');
+	if (sheetYr) {
+		sheetYr.addEventListener('change', () => _onSheetYearChange(sheetYr, 'tb-val-yr'));
+		sheetYr.addEventListener('keydown', _onYearKeydown);
+	}
+	if (sheetMo) {
+		sheetMo.addEventListener('change', () => _onSheetYearChange(sheetMo, 'tb-val-mo'));
+		sheetMo.addEventListener('keydown', _onYearKeydown);
+	}
 	// Click corner to reset viewport
 	document.querySelector('.ruler-corner').addEventListener('click', () => {
 		const dp = document.getElementById('gantt-panel');
@@ -1619,7 +1579,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let _rafId = 0;
 
 	document.addEventListener('mousedown', (e) => {
-		if (e.target.closest('.controls') || e.target.closest('.ruler') || e.target.closest('.ruler-corner') || e.target.closest('.confirm-overlay')) return;
+		if (e.target.closest('.controls') || e.target.closest('.ruler') || e.target.closest('.ruler-corner') || e.target.closest('.confirm-overlay') || e.target.closest('.mob-bar') || e.target.closest('.mob-sheet') || e.target.closest('.entry-overlay')) return;
 		isPanning = true;
 		panStartX = e.clientX;
 		panStartY = e.clientY;

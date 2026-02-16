@@ -164,40 +164,68 @@ body {
 	font-size: 14px;
 }
 
-.tb-dial {
-	position: relative;
-	display: flex;
-	align-items: center;
-	gap: 2px;
-	height: 35px;
-	padding: 0 6px;
+.tb-year-input {
+	width: 60px;
+	height: auto;
+	padding: 8px 10px;
+	border: 1px solid var(--mol-border-light);
 	border-radius: 8px;
-	cursor: ns-resize;
-	transition: background .15s;
-	user-select: none;
+	background: var(--mol-cream);
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: var(--mol-ink);
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+	user-select: text;
+	transition: border-color .15s;
+	appearance: textfield;
+	-moz-appearance: textfield;
 }
 
-.tb-dial:hover {
+.tb-year-input::-webkit-inner-spin-button,
+.tb-year-input::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.tb-year-input:hover {
+	border-color: var(--mol-border);
+}
+
+.tb-year-input:focus {
+	border-color: var(--mol-ink-light);
+	cursor: text;
+}
+
+.col-w-group {
+	display: flex;
+	gap: 2px;
+	margin-top: 2px;
+}
+
+.col-w-btn {
+	padding: 1px 6px;
+	border: 1px solid var(--mol-border-light);
+	border-radius: 4px;
+	background: transparent;
+	font-family: 'IBM Plex Sans', sans-serif;
+	font-size: 10px;
+	color: var(--mol-ink-light);
+	cursor: pointer;
+	transition: all .15s;
+	line-height: 1.4;
+}
+
+.col-w-btn:hover {
 	background: var(--mol-border-light);
 }
 
-.tb-dial-value {
-	font-size: 22px;
-	font-weight: 500;
-	line-height: 1;
-	color: var(--mol-ink);
-	min-width: 20px;
-	text-align: center;
-}
-
-.tb-dial-label {
-	font-size: 10px;
-	font-weight: 400;
-	color: var(--mol-ink-light);
-	text-transform: lowercase;
-	line-height: 1;
-	align-self: flex-end;
-	padding-bottom: 4px;
+.col-w-btn.active {
+	background: var(--mol-ink);
+	color: var(--mol-cream);
+	border-color: var(--mol-ink);
 }
 
 .tb-sep {
@@ -843,6 +871,43 @@ body {
 		height: 24px;
 		background: var(--mol-border);
 		opacity: .5;
+	}
+
+	.mob-year-range {
+		font-family: 'IBM Plex Sans', sans-serif;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--mol-ink);
+		white-space: nowrap;
+		cursor: pointer;
+	}
+
+	.mob-year-input-sheet {
+		width: 100%;
+		padding: 8px 10px;
+		border: 1px solid var(--mol-border-light);
+		border-radius: 8px;
+		background: var(--mol-cream);
+		font-family: 'IBM Plex Sans', sans-serif;
+		font-size: 14px;
+		font-weight: 400;
+		color: var(--mol-ink);
+		text-align: center;
+		outline: none;
+		box-sizing: border-box;
+		transition: border-color .15s;
+		appearance: textfield;
+		-moz-appearance: textfield;
+	}
+
+	.mob-year-input-sheet::-webkit-inner-spin-button,
+	.mob-year-input-sheet::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	.mob-year-input-sheet:focus {
+		border-color: var(--mol-ink-light);
 	}
 
 	.mob-chip {
