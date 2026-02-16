@@ -22,9 +22,10 @@ const I18N = {
 		yes: 'Да',
 		paperFormat: 'Формат бумаги',
 		ganttRows: 'Строки',
+		columnWidth: 'Ширина колонки',
 	},
 	EN: {
-		decades: { 1900: 'NINETEEN-HUNDREDS', 1910: 'TENS', 1920: 'TWENTIES', 1930: 'THIRTIES', 1940: 'FORTIES', 1950: 'FIFTIES', 1960: 'SIXTIES', 1970: 'SEVENTIES', 1980: 'EIGHTIES', 1990: 'NINETIES', 2000: 'TWO-THOUSANDS', 2010: 'TWENTY-TENS', 2020: 'TWENTY-TWENTIES', 2030: 'TWENTY-THIRTIES', 2040: 'TWENTY-FORTIES', 2050: 'TWENTY-FIFTIES', 2060: 'TWENTY-SIXTIES', 2070: 'TWENTY-SEVENTIES', 2080: 'TWENTY-EIGHTIES', 2090: 'TWENTY-NINETIES' },
+		decades: { 1900: '1900S', 1910: 'TENS', 1920: 'TWENTIES', 1930: 'THIRTIES', 1940: 'FORTIES', 1950: 'FIFTIES', 1960: 'SIXTIES', 1970: 'SEVENTIES', 1980: 'EIGHTIES', 1990: 'NINETIES', 2000: '2000S', 2010: '2010S', 2020: '2020S', 2030: '2030S', 2040: '2040S', 2050: '2050S', 2060: '2060S', 2070: '2070S', 2080: '2080S', 2090: '2090S' },
 		sticky: ['😊 Happiness', '💜 Relationships', '👶 Children', '🎓 Education', '🏢 Career', '💰 Income', '⛺ Travel', '✏ Hobbies', '🏃 Sport', '🏥 Health', '💀 Loss', '⚡ Conflicts'],
 		addEntry: 'Add Entry',
 		add: 'Add',
@@ -41,6 +42,7 @@ const I18N = {
 		yes: 'Yes',
 		paperFormat: 'Paper format',
 		ganttRows: 'Gantt rows',
+		columnWidth: 'Column width',
 	},
 };
 
@@ -119,11 +121,11 @@ const LAYOUT = {
 
 // ─── Colors ───
 const COLORS = {
-	ink: '#2C2C2C',
-	inkLight: '#5A5A5A',
-	red: '#C41E3A',
-	border: '#C8B89A',
-	cellLine: '#999999',
+	ink: '#37352f',
+	inkLight: '#787774',
+	red: '#eb5757',
+	border: '#e3e3e1',
+	cellLine: '#d1d1cf',
 };
 
 // ─── SVG Calendar Generator (year-based) ───
@@ -177,7 +179,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	styleEl.textContent = `
 		text { font-family: ${L.fontFamily}; fill: ${COLORS.ink}; }
 		.year-num { fill: #999999; }
-		.decade-label { fill: #cccccc; font-style: italic; font-weight: 700; }
+		.decade-label { fill: #cccccc; font-family: 'IBM Plex Sans', sans-serif; font-weight: 200; letter-spacing: 6px; }
 	`;
 
 	let pathGray = '';
@@ -187,6 +189,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 
 	// ── Render year columns ──
 	let xCursor = xYearsStart;
+	const _yearLabels = []; // collect for deferred rendering (on top of grid)
 	for (let yi = 0; yi < numYears; yi++) {
 		const year = startYear + yi;
 		const colW = yearW(year);
@@ -196,7 +199,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 		if (isCurrentYear) {
 			svgEl('rect', {
 				x: xCursor, y: 0, width: colW, height: totalH,
-				fill: '#e8d2d0', opacity: '0.6',
+				fill: '#d3e5ef', opacity: '0.6',
 			}, svg);
 		}
 
@@ -209,17 +212,8 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 			'stroke-width': bw, stroke: bc,
 		}, svg);
 
-		const ya = {
-			x: xCursor + colW / 2, 'font-size': '12', 'text-anchor': 'middle',
-			'font-weight': '300', class: 'year-num',
-			fill: isCurrentYear ? COLORS.ink : undefined,
-		};
-		svgEl('text', { ...ya, y: r0H + r1H - 3 }, svg).textContent = year;
-		const midY = headerH + (totalH - headerH) / 2;
-		svgEl('text', { ...ya, y: midY + 4 }, svg).textContent = year;
-		svgEl('text', { ...ya, y: totalH - 3 }, svg).textContent = year;
+		_yearLabels.push({ x: xCursor + colW / 2, year, isCurrentYear });
 
-		pathGray += `M${xCursor} ${yGantt}V${totalH}`;
 		xCursor += colW;
 	}
 
@@ -236,7 +230,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 		const name = I18N[_currentLang].decades[d] || (d + 'S');
 		svgEl('text', {
 			x: cx, y: r0H - 4,
-			'font-size': '40', 'text-anchor': 'middle',
+			'font-size': '28', 'text-anchor': 'middle',
 			class: 'decade-label',
 		}, svg).textContent = name;
 	}
@@ -248,14 +242,28 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	}, svg);
 
 	// ── Horizontal grid lines (content start → years end) ──
+	let pathHoriz = '';
 	for (let ri = 0; ri <= emptyRows; ri++) {
 		const lineY = yGantt + ri * ganttRowH;
-		pathGray += `M${xContentStart} ${lineY}H${xYearsEnd}`;
+		pathHoriz += `M${xContentStart} ${lineY}H${xYearsEnd}`;
 	}
 
-	if (pathGray) svgEl('path', {
-		d: pathGray, fill: 'none', 'stroke-width': '0.15', stroke: COLORS.cellLine,
+	if (pathHoriz) svgEl('path', {
+		d: pathHoriz, fill: 'none', 'stroke-width': L.monthBorderW, stroke: COLORS.cellLine,
 	}, svg);
+
+	// ── Year numbers (rendered after grid lines so they appear on top) ──
+	for (const yl of _yearLabels) {
+		const ya = {
+			x: yl.x, 'font-size': '12', 'text-anchor': 'middle',
+			'font-weight': '300', class: 'year-num',
+			fill: yl.isCurrentYear ? COLORS.ink : undefined,
+		};
+		svgEl('text', { ...ya, y: r0H + r1H - 3 }, svg).textContent = yl.year;
+		const midY = headerH + (totalH - headerH) / 2;
+		svgEl('text', { ...ya, y: midY + 4 }, svg).textContent = yl.year;
+		svgEl('text', { ...ya, y: totalH - 3 }, svg).textContent = yl.year;
+	}
 
 
 
@@ -340,7 +348,7 @@ function buildPages() {
 	// Page width
 	let pageW;
 	if (currentPaper.w !== null) {
-		pageW = yppPast * PAST_W_MM * MM;
+		pageW = Math.max(yppPast * PAST_W_MM, yppFuture * FUTURE_W_MM) * MM;
 	} else {
 		// Roll: single continuous page, width = all years
 		pageW = allYearsW_MM * MM;
@@ -454,28 +462,34 @@ function _ensureStickyNote() {
 		note = document.createElement('div');
 		note.id = 'sticky-note';
 		Object.assign(note.style, {
-			position: 'fixed', zIndex: '100',
+			position: 'fixed', zIndex: '1001',
 			width: '189px', minHeight: '189px',
 			background: '#fff9b1', padding: '12px 10px 8px',
 			boxShadow: '2px 3px 8px rgba(0,0,0,0.18)',
 			fontFamily: "'IBM Plex Sans', sans-serif", fontSize: '11px',
-			lineHeight: '1.45', color: '#333',
+			lineHeight: '1.45', color: '#37352f',
 			borderBottom: '3px solid #f0e68c',
 			cursor: 'grab', userSelect: 'none',
+			transformOrigin: 'top left',
 		});
-		// Drag (mouse + touch)
+		// Paper-relative position (in mm from paper origin)
+		note._paperX = -60; // left of paper
+		note._paperY = 10;
+		// Drag (mouse + touch) — converts screen coords to paper coords
 		let dragging = false, dx, dy;
 		function startDrag(cx, cy) {
 			dragging = true;
-			dx = cx - note.offsetLeft;
-			dy = cy - note.offsetTop;
+			const step = viewport.zoom * MM_PX;
+			dx = cx - (viewport.left + note._paperX * step);
+			dy = cy - (viewport.top + note._paperY * step);
 			note.style.cursor = 'grabbing';
 		}
 		function moveDrag(cx, cy) {
 			if (!dragging) return;
-			note.style.left = (cx - dx) + 'px';
-			note.style.top = (cy - dy) + 'px';
-			note._dragged = true;
+			const step = viewport.zoom * MM_PX;
+			note._paperX = (cx - dx - viewport.left) / step;
+			note._paperY = (cy - dy - viewport.top) / step;
+			_positionStickyNote(note);
 		}
 		function endDrag() {
 			if (dragging) { dragging = false; note.style.cursor = 'grab'; }
@@ -490,16 +504,18 @@ function _ensureStickyNote() {
 	}
 	// Update content (language may have changed)
 	note.innerHTML = t('sticky').map(l => `<div>${l}</div>`).join('');
+	_positionStickyNote(note);
+}
 
-	// Position left of first page (unless user dragged it)
-	if (!note._dragged) {
-		const firstPage = document.querySelector('#calendar .cal-page');
-		if (firstPage) {
-			const r = firstPage.getBoundingClientRect();
-			note.style.left = (r.left - 200) + 'px';
-			note.style.top = r.top + 'px';
-		}
-	}
+function _positionStickyNote(note) {
+	if (!note) note = document.getElementById('sticky-note');
+	if (!note) return;
+	const step = viewport.zoom * MM_PX;
+	const sx = viewport.left + note._paperX * step;
+	const sy = viewport.top + note._paperY * step;
+	note.style.left = sx + 'px';
+	note.style.top = sy + 'px';
+	note.style.transform = `scale(${viewport.zoom})`;
 }
 
 function toggleLang() {
@@ -522,6 +538,20 @@ function _applyTranslations() {
 	if (pdfBtn) pdfBtn.setAttribute('data-tooltip', t('downloadPdf'));
 	if (entryBtn) entryBtn.setAttribute('data-tooltip', t('addEntryTip'));
 	if (langBtn) langBtn.setAttribute('data-tooltip', t('language'));
+
+	// Year inputs
+	const yrInput = document.getElementById('tb-val-yr');
+	const moInput = document.getElementById('tb-val-mo');
+	if (yrInput) yrInput.setAttribute('data-tooltip', t('hindsight'));
+	if (moInput) moInput.setAttribute('data-tooltip', t('foresight'));
+
+	// Toggles
+	const paperToggle = document.getElementById('paper-toggle');
+	const colWToggle = document.getElementById('col-w-toggle');
+	const rowsToggle = document.getElementById('rows-toggle');
+	if (paperToggle) paperToggle.setAttribute('data-tooltip', t('paperFormat'));
+	if (colWToggle) colWToggle.setAttribute('data-tooltip', t('columnWidth'));
+	if (rowsToggle) rowsToggle.setAttribute('data-tooltip', t('ganttRows'));
 
 	// Entry modal
 	const modalTitle = document.querySelector('#entry-overlay .confirm-msg');
@@ -736,6 +766,12 @@ function updatePageInfo() {
 function setPaperSize(key) {
 	currentPaper = PAPER_SIZES[key] || PAPER_SIZES.a4;
 	currentPaperKey = key;
+	// Desktop toggle button
+	const paperToggle = document.getElementById('paper-toggle');
+	if (paperToggle) {
+		const labels = { a4: 'A4', '914x4': '×4' };
+		paperToggle.textContent = labels[key] || key;
+	}
 	// Highlight desktop top-bar + dropdown
 	_ui.sizeChips.forEach(b => {
 		b.classList.toggle('active', b.dataset.size === key);
@@ -753,16 +789,57 @@ function setPaperSize(key) {
 }
 
 function toggleMobPaper() {
+	togglePaper();
+}
+
+function togglePaper() {
 	const next = currentPaperKey === 'a4' ? '914x4' : 'a4';
 	setPaperSize(next);
 }
 
+const _colWidths = [10, 15, 20];
+const _colLabels = ['1', '1.5', '2'];
+
+function cycleColWidth() {
+	const idx = _colWidths.indexOf(currentColW_MM);
+	const next = (idx + 1) % _colWidths.length;
+	currentColW_MM = _colWidths[next];
+	const btn = document.getElementById('col-w-toggle');
+	if (btn) btn.textContent = _colLabels[next];
+	// sync mobile chips if any
+	document.querySelectorAll('.mob-chip-opt[data-colw]').forEach(b => {
+		b.classList.toggle('active', parseInt(b.dataset.colw) === currentColW_MM);
+	});
+	updateCalendar();
+}
+
+// Keep for mobile chip clicks
 function setColWidth(mm) {
 	currentColW_MM = mm;
-	document.querySelectorAll('.col-w-btn').forEach(b => {
+	const idx = _colWidths.indexOf(mm);
+	const btn = document.getElementById('col-w-toggle');
+	if (btn && idx >= 0) btn.textContent = _colLabels[idx];
+	document.querySelectorAll('.col-w-btn, .mob-chip-opt[data-colw]').forEach(b => {
 		b.classList.toggle('active', parseInt(b.dataset.colw) === mm);
 	});
 	updateCalendar();
+}
+
+function toggleRows() {
+	const slider = document.getElementById('rows-slider');
+	const cur = parseInt(slider.value) || 10;
+	const next = cur === 10 ? 14 : 10;
+	slider.value = next;
+	document.getElementById('rows-value').textContent = next;
+	const toggle = document.getElementById('rows-toggle');
+	if (toggle) toggle.textContent = next;
+	const mobRows = document.getElementById('mob-rows');
+	if (mobRows) mobRows.textContent = next;
+	_ui.rowsChips.forEach(b => {
+		b.classList.toggle('active', parseInt(b.dataset.rows) === next);
+	});
+	clearTimeout(_rowsTimer);
+	_rowsTimer = setTimeout(updateCalendar, 80);
 }
 
 function togglePrintMenu() {
@@ -853,9 +930,9 @@ function applyViewport() {
 		const extra = _getPooledDiv(_paperPool, p - 1, 'paper-sheet-extra', document.body);
 		extra.style.position = 'fixed';
 		extra.style.zIndex = '1';
-		extra.style.background = '#FDF6E3';
+		extra.style.background = '#ffffff';
 		extra.style.borderRadius = '8px';
-		extra.style.boxShadow = '1px 1px 4px rgba(60,40,20,.15), 3px 3px 12px rgba(60,40,20,.1)';
+		extra.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)';
 		extra.style.pointerEvents = 'none';
 		extra.style.left = (originScreenX + p * (paperW + pageGap)) + 'px';
 		extra.style.top = paperTopY + 'px';
@@ -941,6 +1018,9 @@ function applyViewport() {
 			designPanel.style.top = midY + 'px';
 		}
 	}
+
+	// Scale and reposition sticky note with zoom
+	_positionStickyNote();
 
 	drawRulers();
 }
@@ -1274,6 +1354,9 @@ async function _loadPDFFonts(doc) {
 			}
 		}));
 		_fontCache.push(...results.filter(Boolean));
+
+
+
 		_fontsFetched = true;
 	}
 

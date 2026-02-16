@@ -79,7 +79,7 @@
 	}
 	</script>
 
-	<meta name="theme-color" content="#F5F0E8">
+	<meta name="theme-color" content="#f7f6f3">
 	<link rel="stylesheet" href="style.css">
 </head>
 
@@ -128,16 +128,13 @@
 		<input type="number" class="tb-year-input" id="tb-val-mo" value="2036" min="1900" max="2099"
 			data-tooltip="Foresight">
 		<input type="hidden" id="months-input" value="40">
-		<div class="col-w-group">
-			<div class="col-w-btn active" data-colw="10" data-tooltip="1 cm" onclick="setColWidth(10)">1</div>
-			<div class="col-w-btn" data-colw="15" data-tooltip="1.5 cm" onclick="setColWidth(15)">1.5</div>
-			<div class="col-w-btn" data-colw="20" data-tooltip="2 cm" onclick="setColWidth(20)">2</div>
-		</div>
+		<div class="tb-btn tb-btn-sm" id="col-w-toggle" data-tooltip="Column width" onclick="cycleColWidth()">1</div>
 		<div class="tb-sep"></div>
-		<div class="paper-chips" id="paper-chips-group">
-			<div class="tb-btn active" data-size="a4" onclick="setPaperSize('a4')">A4</div>
-			<div class="tb-btn" data-size="914x4" onclick="setPaperSize('914x4')">×4</div>
+		<div class="tb-btn tb-btn-sm" id="rows-toggle" data-tooltip="Gantt rows" onclick="toggleRows()">10</div>
+		<div class="tb-btn" id="entry-btn" data-tooltip="Add entry" onclick="openEntryModal()">
+			<span style="font-family:'Copper Penny DTP',serif; font-size:20px; line-height:1;">T</span>
 		</div>
+		<div class="tb-btn tb-btn-sm" id="paper-toggle" data-tooltip="Paper format" onclick="togglePaper()">A4</div>
 		<span id="page-info"></span>
 		<div class="tb-sep"></div>
 		<div class="tb-btn" onclick="confirmAction('Download SVG?', downloadSVG)" data-tooltip="Download SVG">
@@ -195,18 +192,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="controls gantt-panel" id="gantt-panel">
-		<button id="entry-btn" data-tooltip="Add entry" onclick="openEntryModal()">
-			<span style="font-family:'Copper Penny DTP',serif; font-size:20px; line-height:1;">T</span>
-		</button>
-
-		<input type="hidden" id="rows-slider" value="10">
-		<span id="rows-value" style="display:none">10</span>
-		<div class="rows-chips" data-tooltip="Gantt rows">
-			<button class="rows-chip active" data-rows="10" onclick="setRows(10)">10</button>
-			<button class="rows-chip" data-rows="14" onclick="setRows(14)">14</button>
-		</div>
-	</div>
+	<input type="hidden" id="rows-slider" value="10">
+	<span id="rows-value" style="display:none">10</span>
 	<canvas id="ruler-left" class="ruler ruler-left"></canvas>
 	<canvas id="ruler-bottom" class="ruler ruler-bottom"></canvas>
 	<div class="ruler-corner"></div>

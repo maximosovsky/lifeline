@@ -4,8 +4,8 @@
     "description": "Life Timeline Visualization — see your entire life on paper",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#F5F0E8",
-    "theme_color": "#F5F0E8",
+    "background_color": "#f7f6f3",
+    "theme_color": "#f7f6f3",
     "icons": [
         {
             "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>",

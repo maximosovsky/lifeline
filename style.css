@@ -1,3 +1,12 @@
+/* ─── Local Helvetica Neue Cyr (decade labels) ─── */
+@font-face {
+	font-family: 'Helvetica Neue Cyr';
+	src: url('fonts/Helvetica/helveticaneuecyr_thin.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 /* ─── Local IBM Plex Sans ─── */
 @font-face {
 	font-family: 'IBM Plex Sans';
@@ -63,23 +72,23 @@
 	font-display: swap;
 }
 
-/* ─── Moleskine-inspired palette ─── */
+/* ─── Notion-inspired palette ─── */
 :root {
-	--mol-cream: #FDF6E3;
-	--mol-paper: #FAF3E0;
-	--mol-ink: #2C2C2C;
-	--mol-ink-light: #5A5A5A;
-	--mol-desk: #8B7D6B;
-	--mol-desk-dark: #6B5D4B;
-	--mol-elastic: #C41E3A;
-	--mol-border: #C8B89A;
-	--mol-border-light: #D4C5A9;
-	--mol-ruler-bg: #F5ECD7;
-	--mol-ruler-tick: #8B7D6B;
-	--mol-ruler-text: #6B5D4B;
-	--mol-ctrl-bg: #F5ECD7;
-	--mol-ctrl-border: #C8B89A;
-	--mol-red: #C41E3A;
+	--mol-cream: #ffffff;
+	--mol-paper: #ffffff;
+	--mol-ink: #37352f;
+	--mol-ink-light: #787774;
+	--mol-desk: #f7f6f3;
+	--mol-desk-dark: #e8e7e4;
+	--mol-elastic: #2eaadc;
+	--mol-border: #e3e3e1;
+	--mol-border-light: #efefef;
+	--mol-ruler-bg: #fbfbfa;
+	--mol-ruler-tick: #c3c3c1;
+	--mol-ruler-text: #9b9a97;
+	--mol-ctrl-bg: #ffffff;
+	--mol-ctrl-border: #e3e3e1;
+	--mol-red: #eb5757;
 }
 
 html,
@@ -91,9 +100,6 @@ body {
 	padding: 0;
 	height: 100vh;
 	background: var(--mol-desk);
-	background-image:
-		radial-gradient(ellipse at 30% 50%, rgba(139, 125, 107, 0.3), transparent 70%),
-		linear-gradient(180deg, #7A6C5A 0%, #8B7D6B 40%, #9A8C7A 100%);
 }
 
 /* Controls — Miro-style floating panel */
@@ -105,9 +111,9 @@ body {
 	gap: 4px;
 	padding: 6px;
 	background: var(--mol-ctrl-bg);
-	border: 1px solid var(--mol-ctrl-border);
-	border-radius: 8px;
-	box-shadow: 0 1px 6px rgba(60, 40, 20, .2);
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 	color: var(--mol-ink);
 	cursor: grab;
 	user-select: none;
@@ -150,14 +156,14 @@ body {
 }
 
 .tb-btn:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 .tb-btn.active,
 .tb-btn[data-size].active {
-	background: var(--mol-ink);
-	color: var(--mol-cream);
-	font-weight: 500;
+	background: none;
+	color: var(--mol-ink);
+	font-weight: 600;
 }
 
 .tb-btn-sm {
@@ -165,11 +171,11 @@ body {
 }
 
 .tb-year-input {
-	width: 60px;
+	width: 44px;
 	height: auto;
-	padding: 8px 10px;
-	border: 1px solid var(--mol-border-light);
-	border-radius: 8px;
+	padding: 6px 4px;
+	border: 1px solid var(--mol-border);
+	border-radius: 6px;
 	background: var(--mol-cream);
 	font-family: 'IBM Plex Sans', sans-serif;
 	font-size: 14px;
@@ -207,7 +213,7 @@ body {
 
 .col-w-btn {
 	padding: 1px 6px;
-	border: 1px solid var(--mol-border-light);
+	border: none;
 	border-radius: 4px;
 	background: transparent;
 	font-family: 'IBM Plex Sans', sans-serif;
@@ -219,13 +225,13 @@ body {
 }
 
 .col-w-btn:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 .col-w-btn.active {
-	background: var(--mol-ink);
-	color: var(--mol-cream);
-	border-color: var(--mol-ink);
+	background: none;
+	color: var(--mol-ink);
+	font-weight: 600;
 }
 
 .tb-sep {
@@ -254,10 +260,10 @@ body {
 }
 
 .confirm-box {
-	background: var(--mol-ctrl-bg);
-	border: 1px solid var(--mol-ctrl-border);
+	background: #ffffff;
+	border: none;
 	border-radius: 8px;
-	box-shadow: 0 4px 20px rgba(60, 40, 20, .25);
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
 	padding: 20px 24px;
 	min-width: 200px;
 	text-align: center;
@@ -290,12 +296,12 @@ body {
 }
 
 .confirm-yes {
-	background: var(--mol-ink);
-	color: var(--mol-cream);
+	background: #2eaadc;
+	color: #ffffff;
 }
 
 .confirm-yes:hover {
-	background: #1a1a1a;
+	background: #2899c4;
 }
 
 .confirm-cancel {
@@ -304,7 +310,7 @@ body {
 }
 
 .confirm-cancel:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 .tb-info {
@@ -332,9 +338,9 @@ body {
 	transform: translateX(-50%);
 	background: #1a1a1a;
 	color: #fff;
-	font-size: .72rem;
+	font-size: 1.4rem;
 	font-weight: 400;
-	padding: .3rem .55rem;
+	padding: .6rem 1rem;
 	border-radius: 4px;
 	white-space: nowrap;
 	pointer-events: none;
@@ -384,13 +390,13 @@ body {
 }
 
 .rows-chip:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 .rows-chip.active {
-	background: var(--mol-ink);
-	color: var(--mol-cream);
-	font-weight: 500;
+	background: none;
+	color: var(--mol-ink);
+	font-weight: 600;
 }
 
 #week-start-btn {
@@ -413,7 +419,7 @@ body {
 }
 
 #week-start-btn:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 #hide-days-btn {
@@ -436,8 +442,8 @@ body {
 }
 
 #hide-days-btn.active {
-	background: var(--mol-ink);
-	color: var(--mol-cream);
+	background: none;
+	color: var(--mol-ink);
 }
 
 #entry-btn {
@@ -456,7 +462,7 @@ body {
 }
 
 #entry-btn:hover {
-	background: var(--mol-border-light);
+	background: rgba(55, 53, 47, 0.08);
 }
 
 /* Entry modal */
@@ -549,9 +555,9 @@ body {
 	transform: translateY(-50%);
 	background: #1a1a1a;
 	color: #fff;
-	font-size: .72rem;
+	font-size: 1.4rem;
 	font-weight: 400;
-	padding: .3rem .55rem;
+	padding: .6rem 1rem;
 	border-radius: 4px;
 	white-space: nowrap;
 	pointer-events: none;
@@ -585,9 +591,9 @@ body {
 	top: calc(100% + 6px);
 	right: 0;
 	background: var(--mol-ctrl-bg);
-	border: 1px solid var(--mol-ctrl-border);
-	border-radius: 4px;
-	box-shadow: 0 3px 12px rgba(60, 40, 20, .2);
+	border: none;
+	border-radius: 6px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 	padding: .3rem 0;
 	min-width: 5rem;
 	z-index: 1001;
@@ -694,15 +700,13 @@ body {
 	pointer-events: none;
 }
 
-/* Paper sheet — Moleskine cream */
+/* Paper sheet — Notion white */
 #paper-sheet {
 	position: fixed;
 	z-index: 1;
-	background: var(--mol-cream);
+	background: #ffffff;
 	border-radius: 8px;
-	box-shadow:
-		1px 1px 4px rgba(60, 40, 20, .15),
-		3px 3px 12px rgba(60, 40, 20, .1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 	pointer-events: none;
 }
 
