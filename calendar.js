@@ -485,6 +485,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 
 	// ── Custom entry labels ──
 	for (const e of customEntries) {
+		if (e.type === 'bar') continue; // bars drawn separately
 		if (e.row < 1 || e.row > emptyRows) continue;
 		for (let y = startYear; y <= endYear; y++) {
 			if (e.yearly ? y < e.year : y !== e.year) continue;
@@ -496,6 +497,36 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 				'font-weight': '400', fill: COLORS.ink,
 			}, svg).textContent = e.text;
 		}
+	}
+
+	// ── Custom bar ranges ──
+	let barIdx = 0;
+	for (const e of customEntries) {
+		if (e.type !== 'bar') continue;
+		const y1 = Math.max(e.yearStart, startYear);
+		const y2 = Math.min(e.yearEnd, endYear);
+		if (y1 > endYear || y2 < startYear) continue;
+		const x1 = xYearsStart + yearsWidth(startYear, y1 - 1);
+		const x2 = xYearsStart + yearsWidth(startYear, y2);
+		const barH = e.row ? ganttRowH - 2 : 16;
+		let barY;
+		if (e.row && e.row >= 1 && e.row <= emptyRows) {
+			barY = yGantt + (e.row - 1) * ganttRowH + 1;
+		} else {
+			barY = yGantt + emptyRows * ganttRowH + 6 + barIdx * (barH + 6);
+			barIdx++;
+		}
+		svgEl('rect', {
+			x: x1, y: barY, width: x2 - x1, height: barH,
+			rx: barH / 2, ry: barH / 2, fill: e.color, opacity: 0.6,
+		}, svg);
+		const cx = (x1 + x2) / 2;
+		svgEl('text', {
+			x: cx, y: barY + barH / 2 + 3.5,
+			'font-size': '9', 'text-anchor': 'middle',
+			'font-weight': '500',
+			style: `fill: ${COLORS.ink}`,
+		}, svg).textContent = e.text;
 	}
 
 	svg._calW = pageW;
@@ -1441,7 +1472,14 @@ function toggleHideDays() {
 function openEntryModal() {
 	const ta = document.getElementById('entry-text');
 	// Pre-fill with existing entries
-	ta.value = customEntries.map(e => `${e.row}, ${e.text}, ${e.year}`).join('\n');
+	ta.value = customEntries.map(e => {
+		if (e.type === 'bar') {
+			const rowPart = e.row ? `${e.row}, ` : '';
+			const colorPart = e.color && e.color !== 'lightblue' ? ', ' + e.color : '';
+			return `${rowPart}${e.yearStart}-${e.yearEnd}, ${e.text}${colorPart}`;
+		}
+		return `${e.row}, ${e.text}, ${e.year}`;
+	}).join('\n');
 	document.getElementById('entry-overlay').style.display = 'flex';
 	setTimeout(() => ta.focus(), 50);
 }
@@ -1463,7 +1501,22 @@ function addCustomEntry() {
 	const parsed = [];
 
 	for (const line of lines) {
-		// Format: row, text, year
+		// Bar format: [row,] YYYY-YYYY, Text [, color]
+		const barMatch = line.match(/^(?:(\d{1,2})\s*,\s*)?(\d{4})\s*-\s*(\d{4})\s*,\s*(.+)/);
+		if (barMatch) {
+			const row = barMatch[1] ? parseInt(barMatch[1]) : null;
+			const yearStart = parseInt(barMatch[2]);
+			const yearEnd = parseInt(barMatch[3]);
+			const rest = barMatch[4].split(',').map(s => s.trim());
+			const text = rest[0];
+			const color = rest[1] || 'lightblue';
+			if (yearStart && yearEnd && yearEnd >= yearStart && text) {
+				if (row && (row < 1 || row > 14)) continue;
+				parsed.push({ type: 'bar', row, yearStart, yearEnd, text, color });
+			}
+			continue;
+		}
+		// Standard format: row, text, year
 		const parts = line.split(',');
 		if (parts.length < 3) continue;
 		const row = parseInt(parts[0].trim());

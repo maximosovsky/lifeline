@@ -43,7 +43,8 @@ A browser-based tool that generates multi-decade life timelines with a Gantt-sty
 | **Paper formats** | A4 (multi-page) and ×4 (914mm roll, 4 copies) |
 | **Column width** | 1cm, 1.5cm, or 2cm per year column |
 | **Gantt rows** | 10 or 14 rows for life categories |
-| **Custom entries** | Add events like `3, Product launch, 2018` via textarea |
+| **Custom entries** | Add events like `3, Product launch, 2018` or bars `4, 1979-1990, School, blue` |
+| **Life milestones** | Eurostat avg: dual ♀/♂ lines with education bars, SVG icons, head silhouettes |
 | **PDF & SVG export** | Embedded IBM Plex Sans fonts, parallel font loading |
 | **Sticky note** | Draggable 12-category cheatsheet in Tiffany blue |
 | **Mobile-first** | Bottom bar with year range, paper toggle, settings sheet |
@@ -90,13 +91,19 @@ Or visit the live version:
 ## 📝 Adding Entries
 
 1. Click the **Life-button** (favicon icon)
-2. Type one entry per line: `row, text, year`
+2. Type one entry per line:
    ```
    3, Product launch, 2018
    5, Started MBA, 2020
-   1, Born, 1991
+   4, 1979-1990, School, lightblue
+   5, 1990-1995, University, blue
    ```
 3. Click **Add** — all entries saved at once
+
+**Formats:**
+- Point entry: `row, text, year`
+- Bar range: `[row,] YYYY-YYYY, text [, color]`
+- Colors: any CSS name (`red`, `blue`, `salmon`) or hex (`#FF6B6B`)
 
 Entries persist in `localStorage` across sessions.
 

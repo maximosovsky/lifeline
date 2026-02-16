@@ -46,7 +46,8 @@ Renders one page of the timeline as an SVG element:
 - **Decade labels**: Large italic text (40px), centered on the decade's midpoint
 - **Year labels**: Displayed at top, middle, and bottom of each column
 - **Gantt grid**: Horizontal rows with configurable count (10 or 14)
-- **Custom entries**: Text labels placed at (row, year) coordinates
+- **Custom entries**: Text labels placed at (row, year) coordinates; bar ranges spanning multiple years
+- **Life milestones**: Dual ♀/♂ lines with education bars, SVG path icons, and head silhouettes
 - **Moleskine highlight**: Current year column gets a subtle background
 
 ### 2. Page Builder (`buildPages`)
@@ -97,16 +98,34 @@ Manages pan/zoom of the multi-page canvas:
 ### 6. Custom Entries
 
 ```javascript
+// Point entry
 { row: 3, text: "Product launch", year: 2018 }
+// Bar range entry
+{ type: 'bar', row: 4, yearStart: 1979, yearEnd: 1990, text: "School", color: "lightblue" }
 ```
 
-- Multi-line **textarea** input — one entry per line: `row, text, year`
+- Multi-line **textarea** input — one entry per line:
+  - Point: `row, text, year`
+  - Bar: `[row,] YYYY-YYYY, text [, color]`
+- Bar ranges render as rounded rectangles spanning years, with centered label
+- Colors: any CSS color name or hex value (default: `lightblue`)
 - Batch add/edit/delete: textarea pre-fills with existing entries on open
 - Saving overwrites all entries with current textarea content
 - Stored in `localStorage('lifeline-entries')`
 - Private per browser — other users never see them
 
-### 7. Sticky Note
+### 7. Life Milestones
+
+- Toggle via person icon button (desktop toolbar + mobile bar)
+- **Two parallel lines**: ♀ Female (Tiffany `#81D8D0`) above, ♂ Male (Purple `#C4A8D8`) below
+- **Education bars**: School (6–17) and University (18–23) as rounded rects with labels
+- **SVG path icons**: graduation cap, briefcase, house, person, sun — PDF-compatible (no emoji)
+- **Head silhouettes**: Woman/man heads at birth year dot (drawn left of dot)
+- **Data source**: Eurostat statistical averages for EU
+- **Birth year**: Derived from start year, renders initial dot + connecting line
+- URL persistence: `&m=1` parameter
+
+### 8. Sticky Note
 
 - Draggable category cheatsheet positioned left of first page
 - 12 categories: 😊 Happiness, 💜 Relationships, 👶 Children, 🎓 Education, 🏢 Career, 💰 Income, ⛺ Travel, ✏ Hobbies, 🏃 Sport, 🏥 Health, 💀 Loss, ⚡ Conflicts
