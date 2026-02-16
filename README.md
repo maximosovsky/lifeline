@@ -5,7 +5,6 @@
 **See your entire life on paper — from birth to horizon**
 
 [![Live Demo](https://img.shields.io/badge/demo-lifeline.osovsky.com-81D8D0?style=for-the-badge)](https://lifeline.osovsky.com)
-[![Русская версия](https://img.shields.io/badge/🇷🇺_Русский-lifeline.osovsky.com/ru-81D8D0?style=for-the-badge)](https://lifeline.osovsky.com/ru/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey?style=for-the-badge)](https://creativecommons.org/licenses/by-sa/4.0/)
 
 A browser-based tool that generates multi-decade life timelines with a Gantt-style grid for personal events. Add milestones, export to PDF, print on large format paper.
@@ -46,7 +45,6 @@ A browser-based tool that generates multi-decade life timelines with a Gantt-sty
 | **Gantt rows** | 10 or 14 rows for life categories |
 | **Custom entries** | Add events like `3, Product launch, 2018` via textarea |
 | **PDF & SVG export** | Embedded IBM Plex Sans fonts, parallel font loading |
-| **RU/EN** | Separate URLs: `/` English, `/ru/` Russian |
 | **Sticky note** | Draggable 12-category cheatsheet in Tiffany blue |
 | **Mobile-first** | Bottom bar with year range, paper toggle, settings sheet |
 | **Touch gestures** | Pan, pinch-to-zoom, touch-drag for sticky note |
@@ -61,9 +59,8 @@ npx -y serve -l 3456
 ```
 
 Or visit the live version:
-- 🇬🇧 [lifeline.osovsky.com](https://lifeline.osovsky.com) — English
-- 🇷🇺 [lifeline.osovsky.com/ru/](https://lifeline.osovsky.com/ru/) — Русский
-- 🌐 [osovsky.com/lifeline](https://osovsky.com/lifeline/) — via gateway
+- [lifeline.osovsky.com](https://lifeline.osovsky.com)
+- [osovsky.com/lifeline](https://osovsky.com/lifeline/) — via gateway
 
 ## 🎛️ Controls
 
@@ -109,8 +106,7 @@ Entries persist in `localStorage` across sessions.
 |------|---------|
 | `calendar.js` | SVG renderer, viewport, pan/zoom, export, i18n |
 | `style.css` | Tiffany blue mobile theme, responsive layout |
-| `index.html` | English app shell + GA4 |
-| `ru/index.html` | Russian version (shared CSS/JS) |
+| `index.html` | App shell + GA4 |
 | `fonts/` | IBM Plex Sans (Light, Regular, Bold) |
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details.
