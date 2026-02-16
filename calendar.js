@@ -893,18 +893,38 @@ function autoFitViewport() {
 	const screenMargin = 10 * MM_PX;
 	const rulerGap = isMobile ? 0 : RULER_W + 3 * MM_PX;
 	const availableH = window.innerHeight - rulerGap;
-	const scaleScreen = (availableH - screenMargin) / (currentPaper.h * MM_PX);
-	viewport.zoom = Math.min(scaleScreen, 1);
 
-	const paperScreenH = currentPaper.h * viewport.zoom * MM_PX;
-	viewport.top = (availableH - paperScreenH) / 2;
+	if (isMobile) {
+		// Mobile: zoom to fit sticky note + paper width on screen
+		const stickyW_MM = 60; // sticky note is at paperX = -60mm
+		const contentW_MM = stickyW_MM + (currentPaper.w || 297);
+		const mobBarH = 60; // bottom bar height approx
+		const availW = window.innerWidth - 20; // 10px padding each side
+		const availH = window.innerHeight - mobBarH - 20;
+		const scaleW = availW / (contentW_MM * MM_PX);
+		const scaleH = availH / (currentPaper.h * MM_PX);
+		viewport.zoom = Math.min(scaleW, scaleH, 1);
 
-	if (currentPaper.w !== null) {
-		const paperScreenW = currentPaper.w * viewport.zoom * MM_PX;
-		const leftGap = isMobile ? 10 : RULER_W;
-		viewport.left = leftGap + (window.innerWidth - leftGap - paperScreenW) / 2;
+		const step = viewport.zoom * MM_PX;
+		// Center horizontally: content starts at -60mm (sticky note)
+		viewport.left = 10 + (availW - contentW_MM * step) / 2 + stickyW_MM * step;
+		// Center vertically in available space (above mob-bar)
+		const paperScreenH = currentPaper.h * step;
+		viewport.top = (availH - paperScreenH) / 2 + 10;
 	} else {
-		viewport.left = (isMobile ? 10 : RULER_W) + screenMargin;
+		const scaleScreen = (availableH - screenMargin) / (currentPaper.h * MM_PX);
+		viewport.zoom = Math.min(scaleScreen, 1);
+
+		const paperScreenH = currentPaper.h * viewport.zoom * MM_PX;
+		viewport.top = (availableH - paperScreenH) / 2;
+
+		if (currentPaper.w !== null) {
+			const paperScreenW = currentPaper.w * viewport.zoom * MM_PX;
+			const leftGap = RULER_W;
+			viewport.left = leftGap + (window.innerWidth - leftGap - paperScreenW) / 2;
+		} else {
+			viewport.left = RULER_W + screenMargin;
+		}
 	}
 
 	applyViewport();
