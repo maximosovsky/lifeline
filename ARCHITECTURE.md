@@ -19,8 +19,10 @@ LifeLine is a **client-side only** life timeline visualization tool. It renders 
 
 ```
 lifeline/
-├── index.html          # Single page: toolbar, modals, canvas, mobile UI
-├── calendar.js         # Core engine (~1760 lines): SVG renderer, viewport, i18n
+├── index.html          # Single page: toolbar, modals, canvas, mobile UI (EN)
+├── ru/
+│   └── index.html      # Russian version (RU) — uses <base href="../"> for shared assets
+├── calendar.js         # Core engine (~1870 lines): SVG renderer, viewport, i18n
 ├── style.css           # All styling: toolbar, modals, rulers, responsive, mobile
 ├── fonts/
 │   └── IBMPlexSans/    # TTF files for PDF embedding (200–700 weights)
@@ -93,21 +95,23 @@ Manages pan/zoom of the multi-page canvas:
 I18N.RU / I18N.EN → t('key') → localized string
 ```
 
-- Decade names, tooltips, modal text, sticky note, mobile UI
-- `toggleLang()` switches language and re-renders everything
-- Language state stored in `_currentLang`
-- Synced across desktop and mobile buttons
+- **URL-based language detection**: `/ru/` path → RU, everything else → EN
+- Separate `ru/index.html` with `<base href="../">` — shares all assets with EN version
+- No toggle button — language is determined entirely by URL
+- Decade names, tooltips, modal text, sticky note, mobile UI — all localized
+- Language state stored in `_currentLang`, auto-detected on load
 
 ### 6. Custom Entries
 
 ```javascript
-{ row: 3, text: "Product launch", year: 2018, yearly: false }
+{ row: 3, text: "Product launch", year: 2018 }
 ```
 
+- Multi-line **textarea** input — one entry per line: `row, text, year`
+- Batch add/edit/delete: textarea pre-fills with existing entries on open
+- Saving overwrites all entries with current textarea content
 - Stored in `localStorage('lifeline-entries')`
 - Private per browser — other users never see them
-- `yearly: true` → renders on every year from `year` onward
-- Input format: `"3, Product launch"` + `"2018"`
 
 ### 7. Sticky Note
 

@@ -48,8 +48,8 @@ LifeLine is part of the broader **#линии_жизни** (#lifelines) and **#�
 - **Custom entries** — add events like `3, Product launch` at year `2018`
 - **Repeat every year** — mark recurring events
 - **PDF & SVG export** — with embedded IBM Plex Sans fonts, parallel font loading
-- **RU/EN interface** — full localization toggle
-- **Draggable sticky note** — 12-category cheatsheet on screen (mouse + touch)
+- **RU/EN versions** — separate URLs: `/` for English, `/ru/` for Russian
+- **Draggable sticky note** — 12-category cheatsheet in Tiffany blue (mouse + touch)
 - **Mobile-first** — dedicated bottom bar with year range, paper toggle; bottom sheet for full settings
 - **Touch gestures** — one finger pan, pinch-to-zoom, touch-drag for sticky note
 - **Moleskine-style highlight** — current year stands out
@@ -66,7 +66,10 @@ npx -y serve -l 3456
 http://localhost:3456
 ```
 
-Or visit the live version: [lifeline.osovsky.com](https://lifeline.osovsky.com)
+Or visit the live version:
+- 🇬🇧 [lifeline.osovsky.com](https://lifeline.osovsky.com) (English)
+- 🇷🇺 [lifeline.osovsky.com/ru/](https://lifeline.osovsky.com/ru/) (Русский)
+- Also available at [osovsky.com/lifeline](https://osovsky.com/lifeline/)
 
 ## 🎛️ Controls
 
@@ -79,8 +82,7 @@ Or visit the live version: [lifeline.osovsky.com](https://lifeline.osovsky.com)
 | **1 / 1.5 / 2 buttons** | Column width (cm) |
 | **A4 / ×4 chips** | Paper format selection |
 | **10 / 14 chips** | Number of Gantt rows |
-| **T button** | Add entry modal |
-| **RU / EN** | Switch interface language |
+| **Life-button** | Add entry modal (textarea) |
 | **⬇ SVG** | Download as SVG |
 | **🖨 PDF** | Download as PDF |
 | **Mouse wheel** | Zoom in/out |
@@ -92,20 +94,24 @@ Or visit the live version: [lifeline.osovsky.com](https://lifeline.osovsky.com)
 |---------|--------|
 | **1991–2051** | Year range (read-only) |
 | **A4 / ×4 chip** | Direct paper format toggle |
-| **T** | Add entry |
+| **Life-button** | Add entry |
 | **⬇** | Download SVG/PDF popup |
-| **RU/EN** | Language toggle |
 | **⚙** | Settings bottom sheet |
 | **Year inputs** | Hindsight/Foresight (in settings sheet) |
 | **Column width** | 1 cm / 1.5 cm / 2 cm (in settings sheet) |
 
 ## 📝 Adding Entries
 
-1. Click the **T** button
-2. Type: `3, Product launch` (row number, comma, event name)
-3. Type year: `2018`
-4. Optionally check **Repeat every year**
-5. Click **Add**
+1. Click the **Life-button** (favicon icon)
+2. Type one entry per line: `row, text, year`
+   ```
+   3, Product launch, 2018
+   5, Started MBA, 2020
+   1, Born, 1991
+   ```
+3. Click **Add** — all entries are saved at once
+
+The textarea pre-fills with existing entries. Edit, delete lines, or add new ones — saving replaces all entries.
 
 Entries are saved in `localStorage` and persist across sessions.
 
