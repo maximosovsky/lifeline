@@ -1,8 +1,22 @@
+<div align="center">
+
 # ⏳ LifeLine
 
-**Life timeline visualization** — see your entire life on paper, from birth to horizon.
+**See your entire life on paper — from birth to horizon**
 
-A browser-based tool that generates multi-page SVG timelines with a Gantt-style grid. Add personal events, export to PDF, print on large format paper (A4 or 914mm roll).
+[![Live Demo](https://img.shields.io/badge/demo-lifeline.osovsky.com-81D8D0?style=for-the-badge)](https://lifeline.osovsky.com)
+[![Русская версия](https://img.shields.io/badge/🇷🇺_Русский-lifeline.osovsky.com/ru-81D8D0?style=for-the-badge)](https://lifeline.osovsky.com/ru/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey?style=for-the-badge)](https://creativecommons.org/licenses/by-sa/4.0/)
+
+A browser-based tool that generates multi-decade life timelines with a Gantt-style grid for personal events. Add milestones, export to PDF, print on large format paper.
+
+**Zero dependencies · No login · 100% private**
+
+<img src="og-image.png" alt="LifeLine Preview" width="600">
+
+</div>
+
+---
 
 ## 💡 Concept
 
@@ -10,66 +24,46 @@ A browser-based tool that generates multi-page SVG timelines with a Gantt-style 
 
 ### Purpose
 
-- **Life Tracking** — visualize and track key events across decades (e.g. 1971–2070). Rows cover: Happiness, Relationships, Children, Education, Career, Income, Travel, Hobbies, Sport, Health, Loss, Conflicts
-- **Self-reflection** — see your entire life from a bird's-eye view, discover patterns, assess achievements across all life domains
-- **Goal setting** — plan the future by marking desired events and milestones on upcoming years
-- **Decorative** — aesthetic templates for bullet journals, planners, and scrapbooks that turn planning into a creative process
+- **🔍 Life Tracking** — visualize key events across decades (1971–2070). Categories: Happiness, Relationships, Children, Education, Career, Income, Travel, Hobbies, Sport, Health, Loss, Conflicts
+- **🪞 Self-reflection** — see your entire life from a bird's-eye view, discover patterns, assess achievements
+- **🎯 Goal setting** — plan the future by marking desired milestones on upcoming years
+- **🎨 Decorative** — aesthetic templates for bullet journals, planners, and scrapbooks
 
 ### Target Audience
 
-- **Self-developers & planners** — people into personal growth, time management, and visual life tools
-- **Journal & planner enthusiasts** — users who love beautiful templates for bullet journals and scrapbooking
-- **Coaches & psychologists** — professionals who use life timelines with clients for resource analysis and long-term goal setting
-- **Mid-life & senior adults** — people with significant life experience who benefit most from retrospective analysis
-
-LifeLine is part of the broader **#линии_жизни** (#lifelines) and **#структуры_жизни** (#life_structures) methodology:
-
-**Publications:**
-- [Lifelines](https://t.me/maximosowski/382) · [Ladder of Life](https://t.me/maximosowski/383) · [Lifelines-2](https://t.me/maximosowski/384) · [Lifelines-3](https://t.me/maximosowski/385) · [Template](https://t.me/maximosowski/388)
-- [Family Connections](https://t.me/maximosowski/394) · [13 Generations](https://t.me/maximosowski/397)
-- [Academic Genealogies](https://t.me/maximosowski/399) · [Netmaps](https://t.me/maximosowski/402) · [Org Structures](https://t.me/maximosowski/403)
-- [How to Draw a Vision of the Future](https://t.me/maximosowski/411) · [Expanding Planning Horizons](https://osowski.medium.com/calendar-392272c97af3) · [Timeline Calendar](https://t.me/maximosowski/174)
-- [Шаблон «Линии жизни»](https://osovsky.medium.com/%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD-%D0%BB%D0%B8%D0%BD%D0%B8%D0%B8-%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8-1a2e5c978e22) (Medium)
-
-**📹 Lectures & Seminars:**
-- [Lifeline. Schematization](https://t.me/maximosowski/216) (Cheboksary, 2019)
-- [Career Development of a Top Manager](https://t.me/maximosowski/172) (Sochi, 2018)
-- [Lifeline. How Was It?](https://t.me/maximosowski/201) (PiR, 2018)
-- [Lifeline & Schematization in Coaching](https://t.me/maximosowski/183) (Seminar, 2018)
-- [Images of the Future & Graphic Thinking](https://t.me/maximosowski/114) (Kirov, 2017)
-- [Forum of Ideas](https://t.me/maximosowski/266) (Moscow, 2020)
+- **Self-developers & planners** — personal growth, time management, and visual life tools
+- **Journal & planner enthusiasts** — beautiful templates for bullet journals and scrapbooking
+- **Coaches & psychologists** — life timelines for resource analysis and long-term goal setting
+- **Mid-life & senior adults** — retrospective analysis and life planning
 
 ## ✨ Features
 
-- **Decades at a glance** — past and future years on a scrollable multi-page canvas
-- **Paper formats** — A4 (multi-page) and ×4 (914mm roll, 4 copies, continuous)
-- **Column width** — 1cm, 1.5cm, or 2cm per year column
-- **Gantt rows** — 10 or 14 rows for categories (career, education, travel, etc.)
-- **Custom entries** — add events like `3, Product launch` at year `2018`
-- **Repeat every year** — mark recurring events
-- **PDF & SVG export** — with embedded IBM Plex Sans fonts, parallel font loading
-- **RU/EN versions** — separate URLs: `/` for English, `/ru/` for Russian
-- **Draggable sticky note** — 12-category cheatsheet in Tiffany blue (mouse + touch)
-- **Mobile-first** — dedicated bottom bar with year range, paper toggle; bottom sheet for full settings
-- **Touch gestures** — one finger pan, pinch-to-zoom, touch-drag for sticky note
-- **Moleskine-style highlight** — current year stands out
-- **Private** — all data stored in your browser's localStorage, invisible to others
-- **Zero dependencies** — no npm, no framework, pure vanilla JS
+| Feature | Description |
+|---------|-------------|
+| **Decades at a glance** | Past and future years on a scrollable multi-page canvas |
+| **Paper formats** | A4 (multi-page) and ×4 (914mm roll, 4 copies) |
+| **Column width** | 1cm, 1.5cm, or 2cm per year column |
+| **Gantt rows** | 10 or 14 rows for life categories |
+| **Custom entries** | Add events like `3, Product launch, 2018` via textarea |
+| **PDF & SVG export** | Embedded IBM Plex Sans fonts, parallel font loading |
+| **RU/EN** | Separate URLs: `/` English, `/ru/` Russian |
+| **Sticky note** | Draggable 12-category cheatsheet in Tiffany blue |
+| **Mobile-first** | Bottom bar with year range, paper toggle, settings sheet |
+| **Touch gestures** | Pan, pinch-to-zoom, touch-drag for sticky note |
+| **Private** | All data in localStorage, never leaves your browser |
+| **Zero dependencies** | No npm, no framework, pure vanilla JS |
 
 ## 🚀 Quick Start
 
 ```bash
-# Serve locally
 npx -y serve -l 3456
-
-# Open in browser
-http://localhost:3456
+# Open http://localhost:3456
 ```
 
 Or visit the live version:
-- 🇬🇧 [lifeline.osovsky.com](https://lifeline.osovsky.com) (English)
-- 🇷🇺 [lifeline.osovsky.com/ru/](https://lifeline.osovsky.com/ru/) (Русский)
-- Also available at [osovsky.com/lifeline](https://osovsky.com/lifeline/)
+- 🇬🇧 [lifeline.osovsky.com](https://lifeline.osovsky.com) — English
+- 🇷🇺 [lifeline.osovsky.com/ru/](https://lifeline.osovsky.com/ru/) — Русский
+- 🌐 [osovsky.com/lifeline](https://osovsky.com/lifeline/) — via gateway
 
 ## 🎛️ Controls
 
@@ -77,28 +71,24 @@ Or visit the live version:
 
 | Control | Action |
 |---------|--------|
-| **Hindsight input** | Start year (type or scroll wheel) |
-| **Foresight input** | End year (type or scroll wheel) |
-| **1 / 1.5 / 2 buttons** | Column width (cm) |
-| **A4 / ×4 chips** | Paper format selection |
-| **10 / 14 chips** | Number of Gantt rows |
-| **Life-button** | Add entry modal (textarea) |
-| **⬇ SVG** | Download as SVG |
-| **🖨 PDF** | Download as PDF |
+| **Hindsight / Foresight** | Start/end year (type or scroll wheel) |
+| **1 / 1.5 / 2** | Column width (cm) |
+| **A4 / ×4** | Paper format |
+| **10 / 14** | Number of Gantt rows |
+| **Life-button** (favicon) | Add entry modal |
+| **⬇ SVG / 🖨 PDF** | Export |
 | **Mouse wheel** | Zoom in/out |
-| **Click + drag** | Pan the canvas |
+| **Click + drag** | Pan canvas |
 
 ### Mobile
 
 | Control | Action |
 |---------|--------|
-| **1991–2051** | Year range (read-only) |
-| **A4 / ×4 chip** | Direct paper format toggle |
-| **Life-button** | Add entry |
-| **⬇** | Download SVG/PDF popup |
-| **⚙** | Settings bottom sheet |
-| **Year inputs** | Hindsight/Foresight (in settings sheet) |
-| **Column width** | 1 cm / 1.5 cm / 2 cm (in settings sheet) |
+| **1991–2051** | Year range display |
+| **A4** (square button) | Paper format toggle |
+| **Favicon** (center) | Add entry |
+| **⬇** | SVG/PDF popup |
+| **⚙** | Settings sheet (years, format, rows, column width) |
 
 ## 📝 Adding Entries
 
@@ -109,16 +99,47 @@ Or visit the live version:
    5, Started MBA, 2020
    1, Born, 1991
    ```
-3. Click **Add** — all entries are saved at once
+3. Click **Add** — all entries saved at once
 
-The textarea pre-fills with existing entries. Edit, delete lines, or add new ones — saving replaces all entries.
+Entries persist in `localStorage` across sessions.
 
-Entries are saved in `localStorage` and persist across sessions.
+## 🏗️ Tech Stack
 
-## 🏗️ Architecture
+| File | Purpose |
+|------|---------|
+| `calendar.js` | SVG renderer, viewport, pan/zoom, export, i18n |
+| `style.css` | Tiffany blue mobile theme, responsive layout |
+| `index.html` | English app shell + GA4 |
+| `ru/index.html` | Russian version (shared CSS/JS) |
+| `fonts/` | IBM Plex Sans (Light, Regular, Bold) |
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for technical details.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details.
+
+## 📚 Publications & Lectures
+
+<details>
+<summary>📖 Articles about #lifelines methodology</summary>
+
+- [Lifelines](https://t.me/maximosowski/382) · [Ladder of Life](https://t.me/maximosowski/383) · [Lifelines-2](https://t.me/maximosowski/384) · [Lifelines-3](https://t.me/maximosowski/385) · [Template](https://t.me/maximosowski/388)
+- [Family Connections](https://t.me/maximosowski/394) · [13 Generations](https://t.me/maximosowski/397)
+- [Academic Genealogies](https://t.me/maximosowski/399) · [Netmaps](https://t.me/maximosowski/402) · [Org Structures](https://t.me/maximosowski/403)
+- [How to Draw a Vision of the Future](https://t.me/maximosowski/411) · [Expanding Planning Horizons](https://osowski.medium.com/calendar-392272c97af3) · [Timeline Calendar](https://t.me/maximosowski/174)
+- [Шаблон «Линии жизни»](https://osovsky.medium.com/%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD-%D0%BB%D0%B8%D0%BD%D0%B8%D0%B8-%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8-1a2e5c978e22) (Medium)
+
+</details>
+
+<details>
+<summary>📹 Lectures & Seminars</summary>
+
+- [Lifeline. Schematization](https://t.me/maximosowski/216) (Cheboksary, 2019)
+- [Career Development of a Top Manager](https://t.me/maximosowski/172) (Sochi, 2018)
+- [Lifeline. How Was It?](https://t.me/maximosowski/201) (PiR, 2018)
+- [Lifeline & Schematization in Coaching](https://t.me/maximosowski/183) (Seminar, 2018)
+- [Images of the Future & Graphic Thinking](https://t.me/maximosowski/114) (Kirov, 2017)
+- [Forum of Ideas](https://t.me/maximosowski/266) (Moscow, 2020)
+
+</details>
 
 ## 📄 License
 
-© 2014–2026 Maxim Osovsky. This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+© 2014–2026 [Maxim Osovsky](https://www.wikidata.org/wiki/Q107189449). Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
