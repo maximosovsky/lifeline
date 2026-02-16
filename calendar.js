@@ -128,6 +128,27 @@ const COLORS = {
 	cellLine: '#d1d1cf',
 };
 
+// ─── Life Milestones (Eurostat statistical averages) ───
+const MILESTONES_F = [
+	{ ageStart: 6, ageEnd: 17, type: 'bar', svgKey: 'school', en: 'School', ru: 'Школа' },
+	{ ageStart: 18, ageEnd: 23, type: 'bar', svgKey: null, en: 'University', ru: 'Университет' },
+	{ age: 23, svgKey: 'job', en: 'Start of\nfirst employment', ru: 'Первая\nработа', labelAlign: 'end' },
+	{ age: 25.1, svgKey: 'home', en: 'Leaving\nparental home', ru: 'Уход\nиз дома', labelAlign: 'start' },
+	{ age: 28.9, svgKey: 'child', en: 'First\nchild', ru: 'Первый\nребёнок' },
+	{ age: 58.8, svgKey: 'retire', en: 'Retirement', ru: 'Пенсия' },
+	{ age: 83.3, svgKey: 'life', en: 'Life\nexpectancy', ru: 'Ожидаемая\nпрод. жизни' },
+];
+const MILESTONES_M = [
+	{ ageStart: 6, ageEnd: 17, type: 'bar', svgKey: 'school', en: 'School', ru: 'Школа' },
+	{ ageStart: 18, ageEnd: 23, type: 'bar', svgKey: null, en: 'University', ru: 'Университет' },
+	{ age: 22, svgKey: 'job', en: 'Start of\nfirst employment', ru: 'Первая\nработа', labelAlign: 'end' },
+	{ age: 27.1, svgKey: 'home', en: 'Leaving\nparental home', ru: 'Уход\nиз дома', labelAlign: 'start' },
+	{ age: 59.4, svgKey: 'retire', en: 'Retirement', ru: 'Пенсия' },
+	{ age: 77.9, svgKey: 'life', en: 'Life\nexpectancy', ru: 'Ожидаемая\nпрод. жизни' },
+];
+let _showMilestones = false;
+let _globalBirthYear = 1991;
+
 // ─── SVG Calendar Generator (year-based) ───
 function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, alignRight, hasLegend) {
 	const L = LAYOUT;
@@ -267,6 +288,201 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 
 
 
+	// ── Life milestones (dual lines: ♀ purple above, ♂ blue below) ──
+	if (_showMilestones) {
+		const cmUp = 20 * MM;
+		const rowGap = 80; // vertical gap between female and male lines
+		const baseMsY = yGantt + (emptyRows - 0.5) * ganttRowH - cmUp;
+		const msYF = baseMsY - rowGap / 2; // female line (above)
+		const msYM = baseMsY + rowGap / 2; // male line (below)
+
+
+		// Render helper for one gender line (below=true → icons under line)
+		const renderLine = (milestones, msY, color, iconColor, labelColor, below, gender) => {
+			const msItems = [];
+			const barItems = [];
+			// Add birth year dot (age 0)
+			if (_globalBirthYear >= startYear && _globalBirthYear <= endYear) {
+				const bx = xYearsStart + yearsWidth(startYear, _globalBirthYear - 1) + yearW(_globalBirthYear) / 2;
+				msItems.push({ age: 0, en: '', ru: '', mYear: _globalBirthYear, mx: bx, isBirth: true });
+			}
+			for (const m of milestones) {
+				if (m.type === 'bar') {
+					// Bar: thick rounded rect from ageStart to ageEnd
+					const y1 = _globalBirthYear + m.ageStart;
+					const y2 = _globalBirthYear + m.ageEnd;
+					const bx1 = Math.max(y1, startYear);
+					const bx2 = Math.min(y2, endYear);
+					if (bx1 <= endYear && bx2 >= startYear) {
+						const x1 = xYearsStart + yearsWidth(startYear, bx1 - 1);
+						const x2 = xYearsStart + yearsWidth(startYear, bx2 - 1) + yearW(bx2);
+						barItems.push({ ...m, x1, x2 });
+					}
+					continue;
+				}
+				const mYear = _globalBirthYear + Math.round(m.age);
+				if (mYear < startYear || mYear > endYear) continue;
+				const mx = xYearsStart + yearsWidth(startYear, mYear - 1) + yearW(mYear) / 2;
+				msItems.push({ ...m, mYear, mx });
+			}
+			const hasBirthBefore = _globalBirthYear < startYear;
+			const getAge = m => m.type === 'bar' ? m.ageStart : Math.round(m.age);
+			const getAgeEnd = m => m.type === 'bar' ? m.ageEnd : Math.round(m.age);
+			const hasBeforePage = hasBirthBefore || milestones.some(m => (_globalBirthYear + getAge(m)) < startYear);
+			const hasAfterPage = milestones.some(m => (_globalBirthYear + getAgeEnd(m)) > endYear);
+			const lineX1 = msItems.length > 0 ? msItems[0].mx : (hasBeforePage ? xYearsStart : null);
+			const lineX2 = msItems.length > 0 ? msItems[msItems.length - 1].mx : (hasAfterPage ? xYearsEnd : null);
+			const extX1 = hasBeforePage ? xYearsStart : lineX1;
+			const extX2 = hasAfterPage ? xYearsEnd : lineX2;
+			if (extX1 !== null && extX2 !== null) {
+				svgEl('line', {
+					x1: extX1, y1: msY, x2: extX2, y2: msY,
+					'stroke-width': 4, stroke: color, 'stroke-linecap': 'round',
+				}, svg);
+			}
+			// Draw education bars
+			const barH = 14;
+			for (const b of barItems) {
+				svgEl('rect', {
+					x: b.x1, y: msY - barH / 2, width: b.x2 - b.x1, height: barH,
+					rx: barH / 2, ry: barH / 2, fill: color, opacity: 0.5,
+				}, svg);
+				// Bar label (centered)
+				const barCx = (b.x1 + b.x2) / 2;
+				const barLabelY = below ? msY + barH / 2 + 16 : msY - barH / 2 - 6;
+				svgEl('text', {
+					x: barCx, y: barLabelY,
+					'font-size': '10', 'text-anchor': 'middle',
+					'font-weight': '300',
+					style: 'fill: #C4A8D8',
+				}, svg).textContent = _currentLang === 'RU' ? b.ru : b.en;
+			}
+			for (const mi of msItems) {
+				if (mi.isBirth) {
+					svgEl('circle', { cx: mi.mx, cy: msY, r: 6, fill: color }, svg);
+					// Draw head silhouette to the left of birth dot
+					const g = document.createElementNS(SVG_NS, 'g');
+					g.setAttribute('transform', `translate(${mi.mx - 28},${msY}) scale(0.9)`);
+					const sp = (d, filled) => {
+						const p = document.createElementNS(SVG_NS, 'path');
+						p.setAttribute('d', d);
+						p.setAttribute('fill', filled ? iconColor : 'none');
+						p.setAttribute('stroke', iconColor);
+						p.setAttribute('stroke-width', '2');
+						p.setAttribute('stroke-linecap', 'round');
+						p.setAttribute('stroke-linejoin', 'round');
+						g.appendChild(p);
+					};
+					if (gender === 'f') {
+						// Woman head: round face + long hair flowing
+						const el = document.createElementNS(SVG_NS, 'circle');
+						el.setAttribute('cx', 0); el.setAttribute('cy', -4); el.setAttribute('r', 8);
+						el.setAttribute('fill', 'none'); el.setAttribute('stroke', iconColor); el.setAttribute('stroke-width', '2');
+						g.appendChild(el);
+						// Hair
+						sp('M-8 -6 C-10 -14 -4 -18 0 -16 C4 -18 10 -14 8 -6');
+						sp('M-8 -4 C-12 0 -12 8 -8 12');
+					} else {
+						// Man head: round face + short flat hair
+						const el = document.createElementNS(SVG_NS, 'circle');
+						el.setAttribute('cx', 0); el.setAttribute('cy', -2); el.setAttribute('r', 8);
+						el.setAttribute('fill', 'none'); el.setAttribute('stroke', iconColor); el.setAttribute('stroke-width', '2');
+						g.appendChild(el);
+						// Short hair
+						sp('M-8 -4 C-8 -14 8 -14 8 -4');
+					}
+					svg.appendChild(g);
+				} else {
+					svgEl('circle', { cx: mi.mx, cy: msY, r: 10, fill: color }, svg);
+				}
+			}
+			const iconY = below ? msY + 30 : msY - 35;
+			const labelY = below ? msY + 78 : msY + 28;
+			// SVG icon paths (centered at 0,0, scale ~24px)
+			const drawIcon = (cx, cy, iconKey, iconColor) => {
+				const g = document.createElementNS(SVG_NS, 'g');
+				g.setAttribute('transform', `translate(${cx},${cy}) scale(1.2)`);
+				const s = (d, extra) => {
+					const p = document.createElementNS(SVG_NS, 'path');
+					p.setAttribute('d', d);
+					p.setAttribute('fill', 'none');
+					p.setAttribute('stroke', iconColor);
+					p.setAttribute('stroke-width', '2');
+					p.setAttribute('stroke-linecap', 'round');
+					p.setAttribute('stroke-linejoin', 'round');
+					if (extra) Object.entries(extra).forEach(([k, v]) => p.setAttribute(k, v));
+					g.appendChild(p);
+				};
+				const c = (cx2, cy2, r) => {
+					const el = document.createElementNS(SVG_NS, 'circle');
+					el.setAttribute('cx', cx2); el.setAttribute('cy', cy2); el.setAttribute('r', r);
+					el.setAttribute('fill', 'none'); el.setAttribute('stroke', iconColor); el.setAttribute('stroke-width', '2');
+					g.appendChild(el);
+				};
+				switch (iconKey) {
+					case 'school': // graduation cap
+						s('M-12 2 L0 -6 L12 2 L0 10 Z');
+						s('M0 10 L0 16');
+						s('M8 5 L8 12');
+						break;
+					case 'job': // briefcase
+						s('M-12 -2 L12 -2 L12 12 L-12 12 Z');
+						s('M-4 -2 L-4 -6 L4 -6 L4 -2');
+						s('M-12 4 L12 4');
+						break;
+					case 'home': // house
+						s('M-12 4 L0 -8 L12 4');
+						s('M-8 4 L-8 14 L8 14 L8 4');
+						s('M-2 14 L-2 8 L2 8 L2 14');
+						break;
+					case 'child': // baby figure
+						c(0, -6, 5);
+						s('M0 -1 L0 8');
+						s('M-6 3 L6 3');
+						s('M0 8 L-5 14');
+						s('M0 8 L5 14');
+						break;
+					case 'retire': // sun
+						c(0, 2, 6);
+						s('M0 -8 L0 -10'); s('M0 12 L0 14');
+						s('M-8 -4 L-10 -6'); s('M8 8 L10 10');
+						s('M-8 8 L-10 10'); s('M8 -4 L10 -6');
+						s('M-10 2 L-12 2'); s('M10 2 L12 2');
+						break;
+				}
+				svg.appendChild(g);
+			};
+			for (const mi of msItems) {
+				if (mi.isBirth) continue;
+				drawIcon(mi.mx, iconY, mi.svgKey, iconColor);
+				if (!below) {
+					const label = _currentLang === 'RU' ? mi.ru : mi.en;
+					const anchor = mi.labelAlign || 'middle';
+					const lines = label.split('\n');
+					const txt = svgEl('text', {
+						x: mi.mx, y: labelY,
+						'font-size': '12', 'text-anchor': anchor,
+						'font-weight': '300',
+						style: 'fill: #C4A8D8',
+					}, svg);
+					lines.forEach((line, i) => {
+						const ts = document.createElementNS(SVG_NS, 'tspan');
+						ts.setAttribute('x', mi.mx);
+						ts.setAttribute('dy', i === 0 ? '0' : '14');
+						ts.setAttribute('style', 'fill: #C4A8D8');
+						ts.textContent = line;
+						txt.appendChild(ts);
+					});
+				}
+			}
+		};
+
+		// ♀ Female (tiffany, above — icons below line)
+		renderLine(MILESTONES_F, msYF, '#81D8D0', '#B5EBE7', '#5FBFB7', true, 'f');
+		// ♂ Male (purple, below — icons above line)
+		renderLine(MILESTONES_M, msYM, '#C4A8D8', '#DBC8EB', '#9B7DB8', false, 'm');
+	}
+
 	// ── Custom entry labels ──
 	for (const e of customEntries) {
 		if (e.row < 1 || e.row > emptyRows) continue;
@@ -319,6 +535,7 @@ function buildPages() {
 	const currentYear = new Date().getFullYear();
 	const startYear = currentYear - past;
 	const endYear = currentYear + future;
+	_globalBirthYear = startYear;
 
 	const MARGIN_MM = 7;
 	const MM = 96 / 25.4;
@@ -583,6 +800,7 @@ function init() {
 	const past = parseInt(params.get('p')) || 35;
 	const future = parseInt(params.get('f')) || 25;
 	let emptyRows = parseInt(params.get('g')) || 10;
+	_showMilestones = params.get('m') === '1';
 
 	if (emptyRows < 5 || emptyRows > 15) emptyRows = 10;
 
@@ -608,6 +826,10 @@ function init() {
 		b.classList.toggle('active', b.dataset.size === currentPaperKey);
 	});
 	_syncMobileUI();
+	const _mbtn = document.getElementById('milestone-btn');
+	if (_mbtn) _mbtn.classList.toggle('active', _showMilestones);
+	const _mmbtn = document.getElementById('mob-milestone-btn');
+	if (_mmbtn) _mmbtn.classList.toggle('active', _showMilestones);
 }
 
 function updateCalendar() {
@@ -620,8 +842,18 @@ function updateCalendar() {
 	url.searchParams.set('p', past);
 	url.searchParams.set('f', future);
 	url.searchParams.set('g', parseInt(document.getElementById('rows-slider').value) || 10);
+	if (_showMilestones) url.searchParams.set('m', '1'); else url.searchParams.delete('m');
 	window.history.replaceState({}, '', url);
 	buildPages();
+}
+
+function toggleMilestones() {
+	_showMilestones = !_showMilestones;
+	const btn = document.getElementById('milestone-btn');
+	if (btn) btn.classList.toggle('active', _showMilestones);
+	const mobBtn = document.getElementById('mob-milestone-btn');
+	if (mobBtn) mobBtn.classList.toggle('active', _showMilestones);
+	updateCalendar();
 }
 
 function toggleRowsSlider() {

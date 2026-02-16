@@ -102,6 +102,13 @@
         <div class="tb-btn tb-btn-sm" id="col-w-toggle" data-tooltip="Ширина колонки" onclick="cycleColWidth()">1</div>
         <div class="tb-sep"></div>
         <div class="tb-btn tb-btn-sm" id="rows-toggle" data-tooltip="Строки Ганта" onclick="toggleRows()">10</div>
+        <div class="tb-btn tb-btn-sm" id="milestone-btn" data-tooltip="Вехи жизни" onclick="toggleMilestones()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+        </div>
         <div class="tb-btn" id="entry-btn" data-tooltip="Добавить запись" onclick="openEntryModal()">
             <img src="favicon.png" alt="LIF" style="width:40px; height:40px;">
         </div>
@@ -177,6 +184,13 @@
             </button>
         </div>
         <div class="mob-bar-right">
+            <button class="mob-icon" id="mob-milestone-btn" onclick="toggleMilestones()" title="Вехи жизни">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </button>
             <div class="mob-dl-group">
                 <button class="mob-icon" onclick="toggleMobDL()" title="Скачать">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

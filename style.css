@@ -166,6 +166,17 @@ body {
 	font-weight: 600;
 }
 
+#milestone-btn.active,
+#mob-milestone-btn.active {
+	background: rgba(196, 168, 216, 0.2);
+	color: #9B7DB8;
+}
+
+#milestone-btn.active svg,
+#mob-milestone-btn.active svg {
+	stroke: #9B7DB8;
+}
+
 .tb-btn-sm {
 	font-size: 14px;
 }
