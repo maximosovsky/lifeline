@@ -19,9 +19,7 @@ LifeLine is a **client-side only** life timeline visualization tool. It renders 
 
 ```
 lifeline/
-├── index.html          # Single page: toolbar, modals, canvas, mobile UI (EN)
-├── ru/
-│   └── index.html      # Russian version (RU) — uses <base href="../"> for shared assets
+├── index.html          # Single page: toolbar, modals, canvas, mobile UI
 ├── calendar.js         # Core engine (~1870 lines): SVG renderer, viewport, i18n
 ├── style.css           # All styling: toolbar, modals, rulers, responsive, mobile
 ├── fonts/
@@ -91,13 +89,8 @@ Manages pan/zoom of the multi-page canvas:
 
 ### 5. i18n System
 
-```javascript
-I18N.RU / I18N.EN → t('key') → localized string
-```
-
-- **URL-based language detection**: `/ru/` path → RU, everything else → EN
-- Separate `ru/index.html` with `<base href="../">` — shares all assets with EN version
-- No toggle button — language is determined entirely by URL
+- Built-in i18n system with `I18N.RU` / `I18N.EN` dictionaries
+- `t('key')` returns localized string
 - Decade names, tooltips, modal text, sticky note, mobile UI — all localized
 - Language state stored in `_currentLang`, auto-detected on load
 

@@ -33,7 +33,7 @@ Download as vector SVG or PDF with embedded IBM Plex Sans fonts. Free, no login 
 Draggable sticky note with color-coded life categories: Happiness, Relationships, Children, Education, Career, Income, Travel, Hobbies, Sport, Health, Loss, Conflicts.
 
 ### i18n
-Full English and Russian versions. URL-based language detection: `/` for English, `/ru/` for Russian. All labels, tooltips, modals, and the sticky note translate.
+Built-in i18n system with localized labels, tooltips, modals, and sticky note.
 
 ## Mobile
 
@@ -58,8 +58,7 @@ Life timelines can be printed at copy centers on engineering paper up to 1 meter
 |------|---------|
 | calendar.js | SVG renderer, viewport, pan/zoom, export, i18n |
 | style.css | UI styling, Tiffany mobile theme, responsive layout |
-| index.html | Main app shell (English) + GA4 tracking |
-| ru/index.html | Russian version (shared CSS/JS via base href) |
+| index.html | App shell + GA4 tracking |
 | fonts/ | IBM Plex Sans (Light, Regular, Bold) |
 | favicon.png | LIF cube icon |
 | og-image.png | Social preview image (1200×630) |
