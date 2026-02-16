@@ -1,7 +1,7 @@
 // ─── Lifeline Calendar — SVG Renderer ───
 
 // ─── i18n ───
-let _currentLang = 'RU';
+let _currentLang = /\/ru(\/|$)/i.test(location.pathname) ? 'RU' : 'EN';
 
 const I18N = {
 	RU: {
@@ -57,7 +57,7 @@ const MONTHS = [
 // (Week days removed — not used in LifeLine)
 
 // (Holidays removed — not used in LifeLine)
-const customEntries = JSON.parse(localStorage.getItem('lifeline-entries') || '[]'); // {row, text, year, yearly}
+let customEntries = JSON.parse(localStorage.getItem('lifeline-entries') || '[]'); // {row, text, year, yearly}
 
 function getCustomEntries(year) {
 	const h = {};
@@ -179,7 +179,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 	styleEl.textContent = `
 		text { font-family: ${L.fontFamily}; fill: ${COLORS.ink}; }
 		.year-num { fill: #999999; }
-		.decade-label { fill: #cccccc; font-family: 'IBM Plex Sans', sans-serif; font-weight: 200; letter-spacing: 6px; }
+		.decade-label { fill: #81D8D0; font-family: 'IBM Plex Sans', sans-serif; font-weight: 200; letter-spacing: 6px; }
 	`;
 
 	let pathGray = '';
@@ -205,7 +205,7 @@ function generateCalendarSVG(startYear, endYear, emptyRows, pageW, totalH, align
 
 		let bw = L.monthBorderW;
 		let bc = COLORS.cellLine;
-		if (isDecade) { bw = L.yearBorderW; bc = COLORS.ink; }
+		if (isDecade) { bw = L.yearBorderW; bc = '#81D8D0'; }
 
 		svgEl('line', {
 			x1: xCursor, y1: 0, x2: xCursor, y2: totalH,
@@ -464,11 +464,11 @@ function _ensureStickyNote() {
 		Object.assign(note.style, {
 			position: 'fixed', zIndex: '1001',
 			width: '189px', minHeight: '189px',
-			background: '#fff9b1', padding: '12px 10px 8px',
-			boxShadow: '2px 3px 8px rgba(0,0,0,0.18)',
+			background: '#c6e8e5', padding: '12px 10px 8px',
+			boxShadow: '2px 3px 8px rgba(0,0,0,0.12)',
 			fontFamily: "'IBM Plex Sans', sans-serif", fontSize: '11px',
 			lineHeight: '1.45', color: '#37352f',
-			borderBottom: '3px solid #f0e68c',
+			borderBottom: '3px solid #a8d8d3',
 			cursor: 'grab', userSelect: 'none',
 			transformOrigin: 'top left',
 		});
@@ -539,11 +539,11 @@ function _applyTranslations() {
 	if (entryBtn) entryBtn.setAttribute('data-tooltip', t('addEntryTip'));
 	if (langBtn) langBtn.setAttribute('data-tooltip', t('language'));
 
-	// Year inputs
-	const yrInput = document.getElementById('tb-val-yr');
-	const moInput = document.getElementById('tb-val-mo');
-	if (yrInput) yrInput.setAttribute('data-tooltip', t('hindsight'));
-	if (moInput) moInput.setAttribute('data-tooltip', t('foresight'));
+	// Year inputs (wrapper divs for ::after tooltip)
+	const wrapYr = document.getElementById('wrap-yr');
+	const wrapMo = document.getElementById('wrap-mo');
+	if (wrapYr) wrapYr.setAttribute('data-tooltip', t('hindsight'));
+	if (wrapMo) wrapMo.setAttribute('data-tooltip', t('foresight'));
 
 	// Toggles
 	const paperToggle = document.getElementById('paper-toggle');
@@ -561,13 +561,7 @@ function _applyTranslations() {
 	if (addBtn) addBtn.textContent = t('add');
 	cancelBtns.forEach(b => b.textContent = t('cancel'));
 
-	// Yearly checkbox label
-	const yearlyEl = document.getElementById('entry-yearly');
-	if (yearlyEl && yearlyEl.parentElement) {
-		yearlyEl.parentElement.childNodes.forEach(n => {
-			if (n.nodeType === 3 && n.textContent.trim()) n.textContent = ' ' + t('repeatYearly');
-		});
-	}
+
 
 	// Confirm modal
 	const confirmYes = document.getElementById('confirm-yes');
@@ -759,6 +753,20 @@ function updatePageInfo() {
 		}
 		b.setAttribute('data-tooltip', tip);
 	});
+
+	// Update paper-toggle tooltip with current paper info
+	const paperToggle = document.getElementById('paper-toggle');
+	if (paperToggle) {
+		const paper = PAPER_SIZES[currentPaperKey];
+		if (paper) {
+			if (paper.w !== null) {
+				const p = _pagesFor(paper);
+				paperToggle.setAttribute('data-tooltip', p + ' ' + t('pages'));
+			} else {
+				paperToggle.setAttribute('data-tooltip', _rollLen(paper));
+			}
+		}
+	}
 
 	if (el) el.textContent = '';
 }
@@ -977,24 +985,51 @@ function applyViewport() {
 		}
 	}
 
-	// Guides
-	document.getElementById('guide-h').style.top = (paperBottomY - marginPx) + 'px';
-	document.getElementById('guide-v').style.left = originScreenX + 'px';
-	const guideH = document.getElementById('guide-h-a4');
-	guideH.style.top = (paperTopY + marginPx) + 'px';
+	// Guides — per-page printable area rectangles (no tails)
+	document.getElementById('guide-h').style.display = 'none';
+	document.getElementById('guide-v').style.display = 'none';
+	document.getElementById('guide-h-a4').style.display = 'none';
+	document.getElementById('guide-v-a4').style.display = 'none';
 
-	const guideVA4 = document.getElementById('guide-v-a4');
-	guideVA4.style.display = 'none';
+	const guideTopY = paperTopY + marginPx;
+	const guideBotY = paperBottomY - marginPx;
+	const guideH = guideBotY - guideTopY;
 
 	let guideIdx = 0;
 	for (let p = 0; p < totalPages; p++) {
 		const pageLeft = originScreenX + p * (paperW + pageGap);
-		const gL = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-v guide-page-v', document.body);
-		gL.style.left = (pageLeft + marginPx) + 'px';
+		const gLeft = pageLeft + marginPx;
+		const gRight = currentPaper.w !== null ? pageLeft + paperW - marginPx : pageLeft + paperW;
+		const gWidth = gRight - gLeft;
 
+		// Top edge
+		const gT = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-h guide-page-rect', document.body);
+		gT.style.top = guideTopY + 'px';
+		gT.style.left = gLeft + 'px';
+		gT.style.width = gWidth + 'px';
+		gT.style.height = '0';
+
+		// Bottom edge
+		const gB = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-h guide-page-rect', document.body);
+		gB.style.top = guideBotY + 'px';
+		gB.style.left = gLeft + 'px';
+		gB.style.width = gWidth + 'px';
+		gB.style.height = '0';
+
+		// Left edge
+		const gL = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-v guide-page-rect', document.body);
+		gL.style.left = gLeft + 'px';
+		gL.style.top = guideTopY + 'px';
+		gL.style.height = guideH + 'px';
+		gL.style.width = '0';
+
+		// Right edge (only for fixed-width paper)
 		if (currentPaper.w !== null) {
-			const gR = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-v guide-page-v', document.body);
-			gR.style.left = (pageLeft + paperW - marginPx) + 'px';
+			const gR = _getPooledDiv(_guidePool, guideIdx++, 'guide guide-v guide-page-rect', document.body);
+			gR.style.left = gRight + 'px';
+			gR.style.top = guideTopY + 'px';
+			gR.style.height = guideH + 'px';
+			gR.style.width = '0';
 		}
 	}
 	_hidePoolFrom(_guidePool, guideIdx);
@@ -1028,9 +1063,9 @@ function applyViewport() {
 // ─── Rulers ───
 let _rulerLeft, _rulerBottom;
 function drawRulers() {
-	const tickColor = '#8B7D6B';
-	const textColor = '#6B5D4B';
-	const bgColor = '#F5ECD7';
+	const tickColor = '#d1d1cf';
+	const textColor = '#9b9a97';
+	const bgColor = '#ffffff';
 	const step = viewport.zoom * MM_PX;
 
 	if (!_rulerLeft) _rulerLeft = document.getElementById('ruler-left');
@@ -1152,41 +1187,41 @@ function toggleHideDays() {
 
 // ─── Custom entries ───
 function openEntryModal() {
-	document.getElementById('entry-text').value = '';
-	document.getElementById('entry-year').value = '';
-	document.getElementById('entry-yearly').checked = false;
+	const ta = document.getElementById('entry-text');
+	// Pre-fill with existing entries
+	ta.value = customEntries.map(e => `${e.row}, ${e.text}, ${e.year}`).join('\n');
 	document.getElementById('entry-overlay').style.display = 'flex';
-	setTimeout(() => document.getElementById('entry-text').focus(), 50);
-
-	document.getElementById('entry-text').onkeydown = (e) => {
-		if (e.key === 'Enter') { e.preventDefault(); document.getElementById('entry-year').focus(); }
-	};
-	document.getElementById('entry-year').onkeydown = (e) => {
-		if (e.key === 'Enter') { e.preventDefault(); addCustomEntry(); }
-	};
+	setTimeout(() => ta.focus(), 50);
 }
 
 function closeEntryModal() {
 	document.getElementById('entry-overlay').style.display = 'none';
 }
 
+function clearEntries() {
+	customEntries = [];
+	localStorage.removeItem('lifeline-entries');
+	closeEntryModal();
+	updateCalendar();
+}
+
 function addCustomEntry() {
-	const raw = document.getElementById('entry-text').value.trim();
-	const yearStr = document.getElementById('entry-year').value.trim();
-	const year = parseInt(yearStr);
+	const ta = document.getElementById('entry-text');
+	const lines = ta.value.split('\n').map(l => l.trim()).filter(Boolean);
+	const parsed = [];
 
-	// Parse "N, text" — first chars before comma = row number
-	const commaIdx = raw.indexOf(',');
-	if (commaIdx < 1) { document.getElementById('entry-text').focus(); return; }
-	const row = parseInt(raw.substring(0, commaIdx).trim());
-	const text = raw.substring(commaIdx + 1).trim();
+	for (const line of lines) {
+		// Format: row, text, year
+		const parts = line.split(',');
+		if (parts.length < 3) continue;
+		const row = parseInt(parts[0].trim());
+		const year = parseInt(parts[parts.length - 1].trim());
+		const text = parts.slice(1, -1).join(',').trim();
+		if (!row || row < 1 || row > 14 || !text || !year) continue;
+		parsed.push({ row, text, year, yearly: false });
+	}
 
-	if (!row || row < 1 || row > 14) { document.getElementById('entry-text').focus(); return; }
-	if (!text) { document.getElementById('entry-text').focus(); return; }
-	if (!year || yearStr.length !== 4) { document.getElementById('entry-year').focus(); return; }
-
-	const yearly = document.getElementById('entry-yearly').checked;
-	customEntries.push({ row, text, year, yearly });
+	customEntries = parsed;
 	localStorage.setItem('lifeline-entries', JSON.stringify(customEntries));
 	closeEntryModal();
 	updateCalendar();

@@ -30,9 +30,8 @@
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website">
-	<meta property="og:title" content="LifeLine — Life Timeline Visualization">
-	<meta property="og:description"
-		content="See your entire life on paper. Multi-decade timeline with Gantt grid, SVG & PDF export.">
+	<meta property="og:title" content="LifeLine — Your Life Visualization">
+	<meta property="og:description" content="See your entire life as a line...">
 	<meta property="og:image" content="https://lifeline.osovsky.com/og-image.png">
 	<meta property="og:image:width" content="1200">
 	<meta property="og:image:height" content="630">
@@ -41,15 +40,14 @@
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="LifeLine — Life Timeline Visualization">
-	<meta name="twitter:description"
-		content="See your entire life on paper. Decades at a glance, Gantt grid, SVG & PDF export.">
+	<meta name="twitter:title" content="LifeLine — Your Life Visualization">
+	<meta name="twitter:description" content="See your entire life as a line...">
 	<meta name="twitter:image" content="https://lifeline.osovsky.com/og-image.png">
 
 	<!-- SEO -->
 	<link rel="canonical" href="https://lifeline.osovsky.com/">
 	<link rel="alternate" hreflang="en" href="https://lifeline.osovsky.com/">
-	<link rel="alternate" hreflang="ru" href="https://lifeline.osovsky.com/?lang=ru">
+	<link rel="alternate" hreflang="ru" href="https://lifeline.osovsky.com/ru/">
 	<link rel="alternate" hreflang="x-default" href="https://lifeline.osovsky.com/">
 	<link rel="icon" type="image/svg+xml"
 		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
@@ -123,16 +121,18 @@
 			International License CC BY-SA 4.0.</p>
 	</div>
 	<div class="controls top-bar" id="top-bar">
-		<input type="number" class="tb-year-input" id="tb-val-yr" value="1996" min="1900" max="2099"
-			data-tooltip="Hindsight">
-		<input type="number" class="tb-year-input" id="tb-val-mo" value="2036" min="1900" max="2099"
-			data-tooltip="Foresight">
+		<div class="tb-input-wrap" data-tooltip="Hindsight" id="wrap-yr">
+			<input type="number" class="tb-year-input" id="tb-val-yr" value="1996" min="1900" max="2099">
+		</div>
+		<div class="tb-input-wrap" data-tooltip="Foresight" id="wrap-mo">
+			<input type="number" class="tb-year-input" id="tb-val-mo" value="2036" min="1900" max="2099">
+		</div>
 		<input type="hidden" id="months-input" value="40">
 		<div class="tb-btn tb-btn-sm" id="col-w-toggle" data-tooltip="Column width" onclick="cycleColWidth()">1</div>
 		<div class="tb-sep"></div>
 		<div class="tb-btn tb-btn-sm" id="rows-toggle" data-tooltip="Gantt rows" onclick="toggleRows()">10</div>
 		<div class="tb-btn" id="entry-btn" data-tooltip="Add entry" onclick="openEntryModal()">
-			<span style="font-family:'Copper Penny DTP',serif; font-size:20px; line-height:1;">T</span>
+			<img src="favicon.png" alt="LIF" style="width:40px; height:40px;">
 		</div>
 		<div class="tb-btn tb-btn-sm" id="paper-toggle" data-tooltip="Paper format" onclick="togglePaper()">A4</div>
 		<span id="page-info"></span>
@@ -153,8 +153,6 @@
 				<rect x="6" y="14" width="12" height="8" />
 			</svg>
 		</div>
-		<div class="tb-btn" id="lang-toggle" onclick="toggleLang()" data-tooltip="Language"
-			style="font-size:12px; font-weight:600; letter-spacing:1px;">RU</div>
 	</div>
 	<!-- Custom confirm modal -->
 	<div id="confirm-overlay" class="confirm-overlay" style="display:none">
@@ -171,20 +169,8 @@
 		<div class="confirm-box entry-box">
 			<div class="confirm-msg">Add Entry</div>
 			<div class="entry-form">
-				<div class="entry-row entry-inline">
-					<input type="text" id="entry-text" placeholder="3, Product launch" maxlength="44" autocomplete="off"
-						style="flex:1;">
-					<input type="text" id="entry-year" placeholder="2018" maxlength="4" autocomplete="off"
-						style="width:60px; text-align:center;">
-				</div>
-			</div>
-			<div class="entry-form">
-				<div class="entry-row entry-check-row">
-					<label>
-						<input type="checkbox" id="entry-yearly">
-						Repeat every year
-					</label>
-				</div>
+				<textarea id="entry-text" rows="6" placeholder="3, Product launch, 2018" autocomplete="off"
+					style="width:100%; box-sizing:border-box; resize:vertical; font-family:inherit; font-size:inherit; border:none; outline:none; background:transparent; box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); border-radius:4px; padding:8px 10px;"></textarea>
 			</div>
 			<div class="confirm-btns">
 				<button class="confirm-btn confirm-yes" onclick="addCustomEntry()">Add</button>
@@ -233,8 +219,7 @@
 					<button class="mob-dl-opt" onclick="printPDF(); toggleMobDL()">PDF</button>
 				</div>
 			</div>
-			<button class="mob-icon" id="mob-lang-btn" onclick="toggleLang()" title="Language"
-				style="font-size:13px; font-weight:600;">RU</button>
+
 			<button class="mob-icon" onclick="toggleMobSheet()" title="Settings">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 					stroke-linecap="round" stroke-linejoin="round">

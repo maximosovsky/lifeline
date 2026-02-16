@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <base href="../">
+    <link rel="icon" type="image/png" href="favicon.png?v=2">
+    <link rel="apple-touch-icon" href="favicon.png?v=2">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NW8NPGK3DY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-NW8NPGK3DY');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Light.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/IBMPlexSans/IBMPlexSans-Bold.ttf" as="font" type="font/ttf" crossorigin>
+    <title>LifeLine — Визуализация линии жизни</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,700&display=swap"
+        rel="stylesheet">
+    <meta name="description"
+        content="LifeLine — бесплатный онлайн-инструмент визуализации линии жизни. Увидьте всю свою жизнь на бумаге — от рождения до горизонта. Gantt-сетка для личных событий, экспорт в SVG и PDF, печать на A4 или рулон 914мм.">
+    <meta name="keywords"
+        content="линии жизни, визуализация жизни, лайфлайн, календарь жизни, планировщик жизни, временная шкала, личная хронология, lifeline, life timeline, Maxim Osovsky">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LifeLine — Визуализация жизни">
+    <meta property="og:description" content="Вся жизнь на бумаге...">
+    <meta property="og:image" content="https://lifeline.osovsky.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://lifeline.osovsky.com/ru/">
+    <meta property="og:site_name" content="LifeLine">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LifeLine — Визуализация жизни">
+    <meta name="twitter:description" content="Вся жизнь на бумаге...">
+    <meta name="twitter:image" content="https://lifeline.osovsky.com/og-image.png">
+
+    <!-- SEO -->
+    <link rel="canonical" href="https://lifeline.osovsky.com/ru/">
+    <link rel="alternate" hreflang="en" href="https://lifeline.osovsky.com/">
+    <link rel="alternate" hreflang="ru" href="https://lifeline.osovsky.com/ru/">
+    <link rel="alternate" hreflang="x-default" href="https://lifeline.osovsky.com/">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
+    <link rel="apple-touch-icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏳</text></svg>">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareApplication",
+		"name": "LifeLine",
+		"alternateName": "Визуализация линии жизни",
+		"description": "Бесплатный онлайн-инструмент визуализации линии жизни. Увидьте всю свою жизнь на бумаге — прошлое и будущее, Gantt-сетка для личных событий. Экспорт в SVG и PDF.",
+		"url": "https://lifeline.osovsky.com/ru/",
+		"applicationCategory": "Productivity",
+		"operatingSystem": "Web",
+		"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+		"image": "https://lifeline.osovsky.com/og-image.png",
+		"author": {
+			"@type": "Person",
+			"name": "Maxim Osovsky",
+			"sameAs": "https://www.wikidata.org/wiki/Q107189449"
+		},
+		"license": "https://creativecommons.org/licenses/by-sa/4.0/"
+	}
+	</script>
+
+    <meta name="theme-color" content="#f7f6f3">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <noscript>
+        <h1>LifeLine — Визуализация линии жизни</h1>
+        <p>LifeLine требует JavaScript для генерации временных шкал. Пожалуйста, включите JavaScript в настройках
+            браузера.</p>
+    </noscript>
+    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+        <h1>LifeLine — Визуализация линии жизни</h1>
+        <p>Линии и структуры — это язык осмысления жизни, так же как чертёж — язык инженера,
+            карта — язык географа, диаграмма Ганта — язык менеджера, а хронология — язык историка.</p>
+        <p>LifeLine — бесплатный браузерный инструмент для создания многолетних временных шкал жизни
+            с Gantt-сеткой для личных событий. Увидьте всю свою жизнь на бумаге.</p>
+    </div>
+    <div class="controls top-bar" id="top-bar">
+        <div class="tb-input-wrap" data-tooltip="Прошлое" id="wrap-yr">
+            <input type="number" class="tb-year-input" id="tb-val-yr" value="1996" min="1900" max="2099">
+        </div>
+        <div class="tb-input-wrap" data-tooltip="Будущее" id="wrap-mo">
+            <input type="number" class="tb-year-input" id="tb-val-mo" value="2036" min="1900" max="2099">
+        </div>
+        <input type="hidden" id="months-input" value="40">
+        <div class="tb-btn tb-btn-sm" id="col-w-toggle" data-tooltip="Ширина колонки" onclick="cycleColWidth()">1</div>
+        <div class="tb-sep"></div>
+        <div class="tb-btn tb-btn-sm" id="rows-toggle" data-tooltip="Строки Ганта" onclick="toggleRows()">10</div>
+        <div class="tb-btn" id="entry-btn" data-tooltip="Добавить запись" onclick="openEntryModal()">
+            <img src="favicon.png" alt="LIF" style="width:40px; height:40px;">
+        </div>
+        <div class="tb-btn tb-btn-sm" id="paper-toggle" data-tooltip="Формат бумаги" onclick="togglePaper()">A4</div>
+        <span id="page-info"></span>
+        <div class="tb-sep"></div>
+        <div class="tb-btn" onclick="confirmAction('Скачать SVG?', downloadSVG)" data-tooltip="Скачать SVG">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+        </div>
+        <div class="tb-btn" onclick="confirmAction('Скачать PDF?', printPDF)" data-tooltip="Скачать PDF">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9V2h12v7" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect x="6" y="14" width="12" height="8" />
+            </svg>
+        </div>
+    </div>
+    <!-- Custom confirm modal -->
+    <div id="confirm-overlay" class="confirm-overlay" style="display:none">
+        <div class="confirm-box">
+            <div class="confirm-msg" id="confirm-msg">Скачать?</div>
+            <div class="confirm-btns">
+                <button class="confirm-btn confirm-yes" id="confirm-yes">Да</button>
+                <button class="confirm-btn confirm-cancel" id="confirm-cancel">Отмена</button>
+            </div>
+        </div>
+    </div>
+    <!-- Entry modal -->
+    <div id="entry-overlay" class="confirm-overlay" style="display:none">
+        <div class="confirm-box entry-box">
+            <div class="confirm-msg">Добавить запись</div>
+            <div class="entry-form">
+                <textarea id="entry-text" rows="6" placeholder="3, Запуск продукта, 2018" autocomplete="off"
+                    style="width:100%; box-sizing:border-box; resize:vertical; font-family:inherit; font-size:inherit; border:none; outline:none; background:transparent; box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04); border-radius:4px; padding:8px 10px;"></textarea>
+            </div>
+            <div class="confirm-btns">
+                <button class="confirm-btn confirm-yes" onclick="addCustomEntry()">Добавить</button>
+                <button class="confirm-btn confirm-cancel" onclick="closeEntryModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="rows-slider" value="10">
+    <span id="rows-value" style="display:none">10</span>
+    <canvas id="ruler-left" class="ruler ruler-left"></canvas>
+    <canvas id="ruler-bottom" class="ruler ruler-bottom"></canvas>
+    <div class="ruler-corner"></div>
+    <div id="paper-sheet"></div>
+    <div id="guide-h" class="guide guide-h"></div>
+    <div id="guide-v" class="guide guide-v"></div>
+    <div id="guide-h-a4" class="guide guide-h"></div>
+    <div id="guide-v-a4" class="guide guide-v"></div>
+    <div id="guide-margin-bottom" class="guide guide-h guide-margin"></div>
+    <div id="guide-margin-top" class="guide guide-h guide-margin"></div>
+    <div id="guide-margin-left" class="guide guide-v guide-margin"></div>
+    <div id="guide-margin-right" class="guide guide-v guide-margin"></div>
+    <div id="calendar"></div>
+
+    <!-- Mobile bottom toolbar -->
+    <div id="mob-bar" class="mob-bar">
+        <div class="mob-bar-left">
+            <span id="mob-year-range" class="mob-year-range">1991–2051</span>
+        </div>
+        <button class="mob-chip" id="mob-format" onclick="toggleMobPaper()">A4</button>
+        <div class="mob-bar-right">
+            <button class="mob-icon" onclick="openEntryModal()" title="Добавить запись">
+                <span style="font-family:'Copper Penny DTP',serif; font-size:18px; line-height:1;">T</span>
+            </button>
+
+            <div class="mob-dl-group">
+                <button class="mob-icon" onclick="toggleMobDL()" title="Скачать">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                </button>
+                <div id="mob-dl-popup" class="mob-dl-popup" style="display:none">
+                    <button class="mob-dl-opt" onclick="downloadSVG(); toggleMobDL()">SVG</button>
+                    <button class="mob-dl-opt" onclick="printPDF(); toggleMobDL()">PDF</button>
+                </div>
+            </div>
+            <button class="mob-icon" onclick="toggleMobSheet()" title="Настройки">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile bottom sheet -->
+    <div id="mob-overlay" class="mob-overlay" onclick="toggleMobSheet()"></div>
+    <div id="mob-sheet" class="mob-sheet">
+        <div class="mob-sheet-handle"></div>
+        <div class="mob-sheet-section">
+            <div style="display:flex; gap:16px;">
+                <div style="flex:1;">
+                    <div class="mob-sheet-label" id="mob-label-hindsight" style="text-align:center; margin-bottom:4px;">
+                        Прошлое</div>
+                    <input type="number" class="mob-year-input mob-year-input-sheet" id="mob-sheet-yr" value="1991"
+                        min="1900" max="2099">
+                </div>
+                <div style="flex:1;">
+                    <div class="mob-sheet-label" id="mob-label-foresight" style="text-align:center; margin-bottom:4px;">
+                        Будущее</div>
+                    <input type="number" class="mob-year-input mob-year-input-sheet" id="mob-sheet-mo" value="2051"
+                        min="1900" max="2099">
+                </div>
+            </div>
+        </div>
+        <div class="mob-sheet-section">
+            <div class="mob-sheet-label">Формат бумаги</div>
+            <div class="mob-chips" id="mob-paper-chips">
+                <button class="mob-chip-opt active" data-size="a4" onclick="mobSetPaper('a4')">A4</button>
+                <button class="mob-chip-opt" data-size="914x4" onclick="mobSetPaper('914x4')">×4</button>
+            </div>
+        </div>
+        <div class="mob-sheet-section">
+            <div class="mob-sheet-label">Строки Ганта</div>
+            <div class="mob-chips">
+                <button class="mob-chip-opt active" data-rows="10" onclick="mobSetRows(10)">10</button>
+                <button class="mob-chip-opt" data-rows="14" onclick="mobSetRows(14)">14</button>
+            </div>
+        </div>
+        <div class="mob-sheet-section">
+            <div class="mob-sheet-label">Ширина колонки</div>
+            <div class="mob-chips">
+                <button class="mob-chip-opt col-w-btn active" data-colw="10" onclick="setColWidth(10)">1 cm</button>
+                <button class="mob-chip-opt col-w-btn" data-colw="15" onclick="setColWidth(15)">1.5 cm</button>
+                <button class="mob-chip-opt col-w-btn" data-colw="20" onclick="setColWidth(20)">2 cm</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="calendar.js"></script>
+</body>
+
+</html>
