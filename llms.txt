@@ -1,0 +1,15 @@
+# LifeLine
+
+> Free online life timeline visualization tool. See your entire life on paper — from birth to horizon. Gantt-style grid for personal events. SVG & PDF export.
+
+## About
+
+LifeLine generates multi-decade life timelines with a Gantt-style grid for personal events. Customizable hindsight (past years) and foresight (future years). Paper sizes: A4, 914mm×4 roll. Export to vector SVG or PDF. Free, no login required.
+
+- Author: [Maxim Osovsky](https://www.wikidata.org/wiki/Q107189449)
+- URL: https://lifeline.osovsky.com/
+- License: CC BY-SA 4.0
+
+## Docs
+
+- [Full documentation](https://lifeline.osovsky.com/llms-full.txt): Complete feature list, architecture, and usage details

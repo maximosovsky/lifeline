@@ -24,3 +24,7 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://lifeline.osovsky.com/sitemap.xml
+
+# LLM documentation
+# https://lifeline.osovsky.com/llms.txt
+# https://lifeline.osovsky.com/llms-full.txt

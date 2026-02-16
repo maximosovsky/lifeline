@@ -1,0 +1,81 @@
+# LifeLine — Life Timeline Visualization
+
+## Overview
+
+LifeLine is a free online tool that visualizes your entire life as a continuous timeline — from birth to the horizon of your future. Lines and structures are a language for making sense of your life — just as a blueprint is the language of an engineer, a map is the language of a geographer, a Gantt chart is the language of a manager, and a timeline is the language of a historian.
+
+- **URL**: https://lifeline.osovsky.com/
+- **Author**: Maxim Osovsky (https://www.wikidata.org/wiki/Q107189449)
+- **License**: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+- **Technology**: Pure vanilla JavaScript, SVG, CSS. Zero npm dependencies.
+
+## Features
+
+### SVG Renderer
+Pure SVG output with decade columns, year labels, and configurable Gantt rows (10 or 14). Past years use 10mm columns, future years use 20mm for more annotation space.
+
+### Duration
+Customizable hindsight (past years) and foresight (future years), from 1 to 99 years each. Desktop number input and mobile scroll-wheel pickers.
+
+### Paper Sizes
+- A4 multi-page (automatic page fitting)
+- 914mm×4 roll paper (4 copies on one continuous page)
+
+Roll paper renders as one continuous page without breaks — ideal for large-format wall printing at copy centers.
+
+### Custom Entries
+Add personal events at specific years and Gantt rows via textarea with batch editing. Format: `row, text, year`. Support for yearly repeating events. Stored in browser localStorage — completely private, never sent to any server.
+
+### Export
+Download as vector SVG or PDF with embedded IBM Plex Sans fonts. Free, no login required.
+
+### Sticky Note Legend
+Draggable sticky note with color-coded life categories: Happiness, Relationships, Children, Education, Career, Income, Travel, Hobbies, Sport, Health, Loss, Conflicts.
+
+### i18n
+Full English and Russian versions. URL-based language detection: `/` for English, `/ru/` for Russian. All labels, tooltips, modals, and the sticky note translate.
+
+## Mobile
+
+Touch pan and pinch-to-zoom. Tiffany blue bottom toolbar with:
+- Year range display (e.g. 1991–2051)
+- Square A4/×4 paper format button
+- Centered favicon entry button (LIF cube icon)
+- Download popup (SVG/PDF)
+- Settings gear
+
+Settings bottom sheet with side-by-side scroll-wheel pickers for hindsight/foresight years, paper format chips, Gantt rows chips (10/14), and column width selector (1cm/1.5cm/2cm).
+
+Initial mobile viewport zooms to fit the sticky note and calendar content on screen.
+
+## Printing
+
+Life timelines can be printed at copy centers on engineering paper up to 1 meter wide with virtually infinite length. The 914mm×4 format produces 4 copies on one roll — ideal for life planning workshops and coaching sessions.
+
+## Architecture
+
+| File | Purpose |
+|------|---------|
+| calendar.js | SVG renderer, viewport, pan/zoom, export, i18n |
+| style.css | UI styling, Tiffany mobile theme, responsive layout |
+| index.html | Main app shell (English) + GA4 tracking |
+| ru/index.html | Russian version (shared CSS/JS via base href) |
+| fonts/ | IBM Plex Sans (Light, Regular, Bold) |
+| favicon.png | LIF cube icon |
+| og-image.png | Social preview image (1200×630) |
+
+## Technical Details
+
+- Pure SVG rendering via `createElementNS()` + `setAttribute()` (no innerHTML with user data)
+- Batch SVG path rendering for performance
+- requestAnimationFrame-based viewport updates
+- Rulers and guides with cm/m labels
+- Vertical guides marking printable area
+- Font preloading for instant rendering
+- Zero external dependencies — no npm, no frameworks
+- Google Analytics GA4 tracking
+- Security headers: X-Content-Type-Options, X-Frame-Options, Referrer-Policy
+
+## Credits
+
+© 2014–2026 Maxim Osovsky. Licensed under Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
