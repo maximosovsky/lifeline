@@ -173,6 +173,48 @@
     <div id="guide-margin-right" class="guide guide-v guide-margin"></div>
     <div id="calendar"></div>
 
+    <!-- Welcome carousel (mobile only, first visit) -->
+    <div id="welcome-overlay" class="welcome-overlay" style="display:none">
+        <button class="welcome-skip" onclick="closeWelcome()">Skip</button>
+        <div class="welcome-carousel" id="welcome-carousel">
+            <div class="welcome-slide">
+                <img src="favicon.png" alt="LifeLine" class="welcome-icon">
+                <h2>Your entire life on a single sheet of paper</h2>
+                <p>From birth to the horizon of your future — on one timeline.</p>
+                <p>See decades at a glance. Mark what matters.</p>
+                <p class="welcome-hint">Swipe to learn more →</p>
+            </div>
+            <div class="welcome-slide">
+                <div class="welcome-emoji">✏️</div>
+                <h2>Add your events</h2>
+                <p>Tap the Life-button and type one entry per line:</p>
+                <p><code>3, Career start, 2018</code></p>
+                <p><code>4, 1979-1990, School, lightblue</code></p>
+                <p>Points, bars, any color you want.</p>
+            </div>
+            <div class="welcome-slide">
+                <div class="welcome-emoji">🖨️</div>
+                <h2>Print it on your wall</h2>
+                <p>Export as SVG or PDF. Print at home on A4 or at a copy center on 1-meter-wide roll paper.</p>
+                <p>4 copies on one roll — for workshops and coaching sessions.</p>
+            </div>
+            <div class="welcome-slide">
+                <img src="favicon.png" alt="LifeLine" class="welcome-icon">
+                <h2>Start exploring</h2>
+                <p>Free forever. No signup. Your data never leaves your device.</p>
+            </div>
+        </div>
+        <div class="welcome-bottom">
+            <div class="welcome-dots" id="welcome-dots">
+                <div class="welcome-dot active"></div>
+                <div class="welcome-dot"></div>
+                <div class="welcome-dot"></div>
+                <div class="welcome-dot"></div>
+            </div>
+            <button class="welcome-start" id="welcome-start-btn" onclick="closeWelcome()">Start exploring</button>
+        </div>
+    </div>
+
     <!-- Mobile bottom toolbar -->
     <div id="mob-bar" class="mob-bar">
         <div class="mob-bar-left">

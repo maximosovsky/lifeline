@@ -23,6 +23,20 @@ const I18N = {
 		paperFormat: 'Формат бумаги',
 		ganttRows: 'Строки',
 		columnWidth: 'Ширина колонки',
+		welcomeSkip: 'Пропустить',
+		welcome1title: 'Вся жизнь на одном листе бумаги',
+		welcome1a: 'От рождения до горизонта будущего — на одной шкале.',
+		welcome1b: 'Десятилетия видны с первого взгляда.',
+		welcome1hint: 'Свайпни, чтобы узнать больше →',
+		welcome2title: 'Добавляй события',
+		welcome2a: 'Нажми Life-кнопку и пиши по одному событию на строку:',
+		welcome2b: 'Точки, полоски, любой цвет.',
+		welcome3title: 'Распечатай и повесь на стену',
+		welcome3a: 'Экспортируй SVG или PDF. Печатай дома на A4 или в копи-центре на метровом рулоне.',
+		welcome3b: '4 копии на одном рулоне — для мастерских и коучинг-сессий.',
+		welcome4title: 'Начать',
+		welcome4a: 'Бесплатно навсегда. Без регистрации. Данные только у тебя.',
+		welcomeStart: 'Начать',
 	},
 	EN: {
 		decades: { 1900: '1900S', 1910: 'TENS', 1920: 'TWENTIES', 1930: 'THIRTIES', 1940: 'FORTIES', 1950: 'FIFTIES', 1960: 'SIXTIES', 1970: 'SEVENTIES', 1980: 'EIGHTIES', 1990: 'NINETIES', 2000: '2000S', 2010: '2010S', 2020: '2020S', 2030: '2030S', 2040: '2040S', 2050: '2050S', 2060: '2060S', 2070: '2070S', 2080: '2080S', 2090: '2090S' },
@@ -43,6 +57,20 @@ const I18N = {
 		paperFormat: 'Paper format',
 		ganttRows: 'Gantt rows',
 		columnWidth: 'Column width',
+		welcomeSkip: 'Skip',
+		welcome1title: 'Your entire life on a single sheet of paper',
+		welcome1a: 'From birth to the horizon of your future — on one timeline.',
+		welcome1b: 'See decades at a glance. Mark what matters.',
+		welcome1hint: 'Swipe to learn more →',
+		welcome2title: 'Add your events',
+		welcome2a: 'Tap the Life-button and type one entry per line:',
+		welcome2b: 'Points, bars, any color you want.',
+		welcome3title: 'Print it on your wall',
+		welcome3a: 'Export as SVG or PDF. Print at home on A4 or at a copy center on 1-meter-wide roll paper.',
+		welcome3b: '4 copies on one roll — for workshops and coaching sessions.',
+		welcome4title: 'Start exploring',
+		welcome4a: 'Free forever. No signup. Your data never leaves your device.',
+		welcomeStart: 'Start exploring',
 	},
 };
 
@@ -1569,6 +1597,12 @@ function toggleMobDL() {
 	popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
 }
 
+function closeWelcome() {
+	localStorage.setItem('lifeline-welcome-seen', 'true');
+	const overlay = document.getElementById('welcome-overlay');
+	if (overlay) overlay.style.display = 'none';
+}
+
 function mobSetPaper(key) {
 	setPaperSize(key);
 	setTimeout(_updateMobRollLen, 200);
@@ -2085,7 +2119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	window.addEventListener('touchstart', (e) => {
-		if (e.target.closest('.controls') || e.target.closest('.ruler') || e.target.closest('.ruler-corner') || e.target.closest('.print-menu') || e.target.closest('.mob-bar') || e.target.closest('.mob-sheet') || e.target.closest('.mob-overlay') || e.target.closest('.mob-dl-popup') || e.target.closest('.confirm-overlay')) return;
+		if (e.target.closest('.controls') || e.target.closest('.ruler') || e.target.closest('.ruler-corner') || e.target.closest('.print-menu') || e.target.closest('.mob-bar') || e.target.closest('.mob-sheet') || e.target.closest('.mob-overlay') || e.target.closest('.mob-dl-popup') || e.target.closest('.confirm-overlay') || e.target.closest('.welcome-overlay')) return;
 		if (e.touches.length === 1) {
 			touchPanning = true;
 			pinching = false;
@@ -2181,4 +2215,87 @@ document.addEventListener('DOMContentLoaded', () => {
 			isDraggingPanel = false;
 		});
 	});
+
+	// ─── Welcome carousel (mobile only) ───
+	if (window.innerWidth <= 768 && !localStorage.getItem('lifeline-welcome-seen')) {
+		const overlay = document.getElementById('welcome-overlay');
+		if (overlay) {
+			overlay.style.display = 'flex';
+
+			// i18n: replace text
+			const s = slides => overlay.querySelectorAll('.welcome-slide');
+			const h2s = overlay.querySelectorAll('.welcome-slide h2');
+			const ps = overlay.querySelectorAll('.welcome-slide p');
+			h2s[0].textContent = t('welcome1title');
+			h2s[1].textContent = t('welcome2title');
+			h2s[2].textContent = t('welcome3title');
+			h2s[3].textContent = t('welcome4title');
+			// Slide 1
+			ps[0].textContent = t('welcome1a');
+			ps[1].textContent = t('welcome1b');
+			ps[2].textContent = t('welcome1hint');
+			// Slide 2
+			ps[3].textContent = t('welcome2a');
+			// code elements stay as-is (examples)
+			ps[6].textContent = t('welcome2b');
+			// Slide 3
+			ps[7].textContent = t('welcome3a');
+			ps[8].textContent = t('welcome3b');
+			// Slide 4
+			ps[9].textContent = t('welcome4a');
+			// Buttons
+			overlay.querySelector('.welcome-skip').textContent = t('welcomeSkip');
+			overlay.querySelector('.welcome-start').textContent = t('welcomeStart');
+
+			const carousel = document.getElementById('welcome-carousel');
+			const dots = document.querySelectorAll('#welcome-dots .welcome-dot');
+			const startBtn = document.getElementById('welcome-start-btn');
+			const slides2 = carousel.querySelectorAll('.welcome-slide');
+
+			// IntersectionObserver for dot indicators
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const idx = Array.from(slides2).indexOf(entry.target);
+						dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+						// Show Start button on last slide
+						if (idx === slides2.length - 1) {
+							startBtn.classList.add('visible');
+						} else {
+							startBtn.classList.remove('visible');
+						}
+					}
+				});
+			}, { root: carousel, threshold: 0.6 });
+
+			slides2.forEach(s => observer.observe(s));
+
+			// Mouse drag for desktop/emulator
+			let _wDrag = false, _wStartX = 0, _wScrollL = 0;
+			carousel.addEventListener('mousedown', (e) => {
+				_wDrag = true;
+				_wStartX = e.pageX;
+				_wScrollL = carousel.scrollLeft;
+				carousel.style.cursor = 'grabbing';
+				carousel.style.scrollSnapType = 'none';
+			});
+			carousel.addEventListener('mousemove', (e) => {
+				if (!_wDrag) return;
+				e.preventDefault();
+				carousel.scrollLeft = _wScrollL - (e.pageX - _wStartX);
+			});
+			const _wEnd = () => {
+				if (!_wDrag) return;
+				_wDrag = false;
+				carousel.style.cursor = 'grab';
+				carousel.style.scrollSnapType = 'x mandatory';
+				// Snap to nearest slide
+				const slideW = carousel.offsetWidth;
+				const idx = Math.round(carousel.scrollLeft / slideW);
+				carousel.scrollTo({ left: idx * slideW, behavior: 'smooth' });
+			};
+			carousel.addEventListener('mouseup', _wEnd);
+			carousel.addEventListener('mouseleave', _wEnd);
+		}
+	}
 });
