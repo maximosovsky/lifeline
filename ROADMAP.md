@@ -63,8 +63,12 @@
 | **Product Hunt** | Launch "LifeLine — See your entire life on paper" |
 | **Hacker News** | Show HN: LifeLine – life timeline visualization, zero dependencies |
 | **Reddit** | r/sideproject, r/webdev, r/productivity |
-| **Twitter/X** | GIF/видео с планшета — зум от стикера до полной жизни |
-| **Telegram** | Русскоязычные каналы про продуктивность |
+| **Twitter/X** | GIF/video — zoom from sticky note to full life |
+| **Telegram** | Productivity channels |
+
+### Assets
+- [x] `CAROUSEL.md` — 4-slide text carousel (Hook → How → Print → CTA)
+- [x] `MANUAL.md` — full user manual
 
 ---
 

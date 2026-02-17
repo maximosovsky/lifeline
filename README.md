@@ -116,7 +116,7 @@ Entries persist in `localStorage` across sessions.
 | `index.html` | App shell + GA4 events (`export_svg`, `export_pdf`, `add_entry`, `toggle_milestones`) |
 | `fonts/` | IBM Plex Sans (Light, Regular, Bold) |
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details and [MANUAL.md](MANUAL.md) for the user guide.
 
 ## 📚 Publications & Lectures
 

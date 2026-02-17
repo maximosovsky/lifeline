@@ -27,7 +27,13 @@ lifeline/
 ├── favicon.png         # LIF cube favicon
 ├── ARCHITECTURE.md     # This file
 ├── README.md           # User-facing documentation
+├── MANUAL.md           # User manual — full feature guide
+├── CAROUSEL.md         # Social media carousel copy (4 slides)
+├── ROADMAP.md          # SEO & growth roadmap
 ├── PERFORMANCE.md      # Performance review and optimization notes
+├── keywords.md         # SEO keyword strategy
+├── llms-full.txt       # AI crawler documentation
+├── llms.txt            # AI crawler summary
 ├── vercel.json         # Vercel deployment config
 ├── manifest.json       # PWA manifest
 ├── robots.txt          # Search engine directives
