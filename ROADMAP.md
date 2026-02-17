@@ -30,7 +30,7 @@
 ### SEO Content
 - [ ] Создать `keywords.md` — стратегия ключевых слов (primary, feature, long-tail, RU)
 - [ ] Hidden `<h1>` + SEO текст — скрытый блок с ключевыми словами
-- [ ] Обновить `llms-full.txt` — добавить milestones, bar entries, education bars
+- [x] Обновить `llms-full.txt` — добавить milestones, bar entries, education bars
 
 ---
 
@@ -51,8 +51,8 @@
 - [ ] В footer или скрытом блоке — `<a>` ссылка на wallplan
 
 ### GitHub Repository
-- [ ] Topics: `lifeline`, `life-timeline`, `life-visualization`, `life-calendar`, `gantt-chart`, `svg-export`, `pdf-export`, `personal-timeline`, `life-planning`, `planner`
-- [ ] Описание = SEO keywords
+- [x] Topics: `lifeline`, `life-timeline`, `life-visualization`, `life-calendar`, `gantt-chart`, `svg-export`, `pdf-export`, `personal-timeline`, `life-planning`, `planner`
+- [x] Описание = SEO keywords
 
 ---
 
@@ -89,10 +89,10 @@
 | Export events (SVG/PDF) | не трекаем | Добавить GA4 event |
 
 ### GA4 Events (to add)
-- [ ] `export_svg` — скачивание SVG
-- [ ] `export_pdf` — скачивание PDF
-- [ ] `add_entry` — добавление записи
-- [ ] `toggle_milestones` — включение milestones
+- [x] `export_svg` — скачивание SVG
+- [x] `export_pdf` — скачивание PDF
+- [x] `add_entry` — добавление записи
+- [x] `toggle_milestones` — включение milestones
 - [ ] `share_link` — шеринг (когда реализуем)
 
 ---

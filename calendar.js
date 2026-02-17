@@ -880,6 +880,7 @@ function updateCalendar() {
 
 function toggleMilestones() {
 	_showMilestones = !_showMilestones;
+	if (typeof gtag === 'function') gtag('event', 'toggle_milestones', { on: _showMilestones });
 	const btn = document.getElementById('milestone-btn');
 	if (btn) btn.classList.toggle('active', _showMilestones);
 	const mobBtn = document.getElementById('mob-milestone-btn');
@@ -1528,6 +1529,7 @@ function addCustomEntry() {
 
 	customEntries = parsed;
 	localStorage.setItem('lifeline-entries', JSON.stringify(customEntries));
+	if (typeof gtag === 'function') gtag('event', 'add_entry', { count: parsed.length });
 	closeEntryModal();
 	updateCalendar();
 }
@@ -1826,6 +1828,7 @@ async function printPDF() {
 	}
 
 	doc.save(fileName);
+	if (typeof gtag === 'function') gtag('event', 'export_pdf', { paper: currentPaperKey });
 }
 
 // ─── SVG Download ───
@@ -1852,6 +1855,7 @@ function _downloadBlob(svgNode, filename) {
 }
 
 function downloadSVG() {
+	if (typeof gtag === 'function') gtag('event', 'export_svg', { paper: currentPaperKey });
 	const copies = currentPaper.copies || 1;
 	const _cy = new Date().getFullYear();
 	const past = _cy - (parseInt(document.getElementById('tb-val-yr').value) || (_cy - 30));

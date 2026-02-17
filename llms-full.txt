@@ -24,7 +24,21 @@ Customizable hindsight (past years) and foresight (future years), from 1 to 99 y
 Roll paper renders as one continuous page without breaks — ideal for large-format wall printing at copy centers.
 
 ### Custom Entries
-Add personal events at specific years and Gantt rows via textarea with batch editing. Format: `row, text, year`. Support for yearly repeating events. Stored in browser localStorage — completely private, never sent to any server.
+Add personal events at specific years and Gantt rows via textarea with batch editing.
+
+- **Point format**: `row, text, year` (e.g. `3, Product launch, 2018`)
+- **Bar format**: `row, YYYY-YYYY, text, color` (e.g. `4, 1979-1990, School, lightblue`)
+
+Bar entries render as colored horizontal bars spanning multiple years — ideal for education, career, relationships. Custom colors supported. Stored in browser localStorage — completely private, never sent to any server.
+
+### Life Milestones
+Dual gender timelines (♀ female / ♂ male) with Eurostat statistical averages:
+- Education bars: school (6–17), university (18–23)
+- Career start, leaving home, first child
+- Retirement, life expectancy
+- SVG path icons for PDF compatibility (no emoji — pure vector)
+
+Toggle on/off via person icon in toolbar.
 
 ### Export
 Download as vector SVG or PDF with embedded IBM Plex Sans fonts. Free, no login required.

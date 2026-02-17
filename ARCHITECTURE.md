@@ -181,6 +181,17 @@ svg2pdf(svg, doc)    → convert each SVG page to PDF page
 doc.save(filename)   → browser download
 ```
 
+## Analytics (GA4 Events)
+
+| Event | Trigger | Parameters |
+|-------|---------|------------|
+| `export_svg` | SVG download | `paper` (format key) |
+| `export_pdf` | PDF download | `paper` (format key) |
+| `add_entry` | Save entries | `count` (number of entries) |
+| `toggle_milestones` | Toggle milestones | `on` (boolean) |
+
+All events use `typeof gtag === 'function'` guard — no errors if GA4 fails to load.
+
 ## Performance
 
 - **Font preload**: 3 key weights (300/400/700) preloaded via `<link rel="preload">`

@@ -113,7 +113,7 @@ Entries persist in `localStorage` across sessions.
 |------|---------|
 | `calendar.js` | SVG renderer, viewport, pan/zoom, export, i18n |
 | `style.css` | Tiffany blue mobile theme, responsive layout |
-| `index.html` | App shell + GA4 |
+| `index.html` | App shell + GA4 events (`export_svg`, `export_pdf`, `add_entry`, `toggle_milestones`) |
 | `fonts/` | IBM Plex Sans (Light, Regular, Bold) |
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details.
