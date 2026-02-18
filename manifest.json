@@ -2,7 +2,7 @@
     "name": "LifeLine",
     "short_name": "LifeLine",
     "description": "Life Timeline Visualization — see your entire life on paper",
-    "start_url": "/",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#f7f6f3",
     "theme_color": "#f7f6f3",
