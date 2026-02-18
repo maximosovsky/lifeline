@@ -174,7 +174,7 @@ const MILESTONES_M = [
 	{ age: 59.4, svgKey: 'retire', en: 'Retirement', ru: 'Пенсия' },
 	{ age: 77.9, svgKey: 'life', en: 'Life\nexpectancy', ru: 'Ожидаемая\nпрод. жизни' },
 ];
-let _showMilestones = false;
+let _showMilestones = true;
 let _globalBirthYear = 1991;
 
 // ─── SVG Calendar Generator (year-based) ───
@@ -859,7 +859,7 @@ function init() {
 	const past = parseInt(params.get('p')) || 35;
 	const future = parseInt(params.get('f')) || 25;
 	let emptyRows = parseInt(params.get('g')) || 10;
-	_showMilestones = params.get('m') === '1';
+	_showMilestones = params.get('m') !== '0';
 
 	if (emptyRows < 5 || emptyRows > 15) emptyRows = 10;
 
@@ -901,7 +901,7 @@ function updateCalendar() {
 	url.searchParams.set('p', past);
 	url.searchParams.set('f', future);
 	url.searchParams.set('g', parseInt(document.getElementById('rows-slider').value) || 10);
-	if (_showMilestones) url.searchParams.set('m', '1'); else url.searchParams.delete('m');
+	if (!_showMilestones) url.searchParams.set('m', '0'); else url.searchParams.delete('m');
 	window.history.replaceState({}, '', url);
 	buildPages();
 }
