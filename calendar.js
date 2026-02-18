@@ -1,5 +1,3 @@
-❌ Error: Validation error: Expected string, received object at "key"
-
 // ─── Lifeline Calendar — SVG Renderer ───
 
 // ─── i18n ───
