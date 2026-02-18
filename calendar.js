@@ -1,3 +1,5 @@
+❌ Error: Validation error: Expected string, received object at "key"
+
 // ─── Lifeline Calendar — SVG Renderer ───
 
 // ─── i18n ───
@@ -966,7 +968,7 @@ let currentPaper = PAPER_SIZES.a4;
 let currentPaperKey = 'a4';
 let totalPages = 1;
 let calendarScale = 1;
-let currentColW_MM = 10; // 10mm = 1cm default column width
+let currentColW_MM = 20; // 20mm = 2cm default column width
 
 // ─── Cached UI element references (fix: avoid repeated querySelectorAll) ───
 const _ui = {
