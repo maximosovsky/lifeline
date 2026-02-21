@@ -5,7 +5,7 @@
 **See your entire life on paper — from birth to horizon**
 
 [![Live Demo](https://img.shields.io/badge/demo-lifeline.osovsky.com-81D8D0?style=for-the-badge)](https://lifeline.osovsky.com)
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey?style=for-the-badge)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)](LICENSE)
 
 A browser-based tool that generates multi-decade life timelines with a Gantt-style grid for personal events. Add milestones, export to PDF, print on large format paper.
 
@@ -145,4 +145,4 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for full technical details and [MANUAL.md
 
 ## 📄 License
 
-© 2014–2026 [Maxim Osovsky](https://www.wikidata.org/wiki/Q107189449). Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+[Maxim Osovsky](https://www.linkedin.com/in/osovsky/). Licensed under [MIT](LICENSE).
