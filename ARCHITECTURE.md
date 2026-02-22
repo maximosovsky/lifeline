@@ -38,7 +38,7 @@ lifeline/
 ├── manifest.json       # PWA manifest
 ├── robots.txt          # Search engine directives
 ├── sitemap.xml         # Sitemap
-└── og-image.png        # Open Graph preview image
+└── og-image.jpg        # Open Graph preview image
 ```
 
 ## Core Components

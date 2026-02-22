@@ -3,7 +3,7 @@ title: I Built a Life Timeline Tool That Coaches Say You Shouldn't Use
 published: false
 description: A zero-dependency browser tool that turns your entire life into a printable Gantt chart — born from real strategic sessions, not a tutorial.
 tags: javascript, opensource, webdev, productivity
-cover_image: https://raw.githubusercontent.com/maximosovsky/lifeline/main/cover.jpg
+cover_image: https://raw.githubusercontent.com/maximosovsky/lifeline/main/lifeline-cover.jpg
 ---
 
 In coaching, drawing lifelines is considered taboo. They say it frustrates people — forces them to confront gaps, failures, missed decades.
@@ -45,6 +45,8 @@ Yes, I actually print these on a plotter. A 40-year life on a single continuous 
 ## From Paper to Code
 
 The first lifelines were hand-drawn on large paper with colored markers. Participants in strategic sessions would fill in their decades while I facilitated.
+
+![Strategic session — Dushanbe, January 2026](https://raw.githubusercontent.com/maximosovsky/lifeline/main/session-dushanbe.jpg)
 
 The problem: every session needed a fresh template. Drawing the grid by hand takes 30 minutes. Printing a pre-made template means fixed year ranges.
 

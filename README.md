@@ -11,7 +11,7 @@ A browser-based tool that generates multi-decade life timelines with a Gantt-sty
 
 **Zero dependencies · No login · 100% private**
 
-<img src="og-image.png" alt="LifeLine Preview" width="600">
+<img src="og-image.jpg" alt="LifeLine Preview" width="600">
 
 </div>
 

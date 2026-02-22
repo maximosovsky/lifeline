@@ -14,7 +14,7 @@
 - [x] `sitemap.xml`
 - [x] `manifest.json` (PWA)
 - [x] `llms.txt` + `llms-full.txt`
-- [x] `og-image.png` (1200×630)
+- [x] `og-image.jpg` (1200×630)
 - [x] Font preload (IBM Plex Sans 300/400/700)
 - [x] GA4 analytics
 
@@ -37,7 +37,7 @@
 ## 🟡 2. На этой неделе — контент
 
 ### OG-image
-- [ ] Проверить что `og-image.png` актуальный (с Tiffany-стилем) — первое впечатление в Telegram/Twitter/Facebook
+- [ ] Проверить что `og-image.jpg` актуальный (с Tiffany-стилем) — первое впечатление в Telegram/Twitter/Facebook
 - [ ] Тест через Facebook Sharing Debugger, Twitter Card Validator
 
 ### Welcome-модал

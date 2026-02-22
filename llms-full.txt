@@ -75,7 +75,7 @@ Life timelines can be printed at copy centers on engineering paper up to 1 meter
 | index.html | App shell + GA4 tracking |
 | fonts/ | IBM Plex Sans (Light, Regular, Bold) |
 | favicon.png | LIF cube icon |
-| og-image.png | Social preview image (1200×630) |
+| og-image.jpg | Social preview image (1200×630) |
 
 ## Technical Details
 
